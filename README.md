@@ -49,7 +49,7 @@ The home page has an option to take a quiz and if you scroll down you will see w
 
 ![Home page](/readMeimages/home3.jpg)
 
-The user can take a quiz and it will reccommend products based on that. The user does not need to be logged in to use this feature, but if you are logged in, it will save your preferences.
+The user can take a quiz and it will recommend products based on that. The user does not need to be logged in to use this feature, but if you are logged in, it will save your preferences.
 The user will also be able to modify their quiz selections when they return to this page if logged in.  
 
 ![Quiz page](/readMeimages/quiz.jpg)
