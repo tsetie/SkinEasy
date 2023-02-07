@@ -5,13 +5,15 @@ CSCI 5117, Spring 2023, [assignment description](https://canvas.umn.edu/courses/
 ## App Info:
 
 * Team Name: Skins
-* App Name: TODO
+* App Name: SKINEASY
 * App Link: <https://TODO.com/>
 
 ### Students
 
 * Tenzin Tseten, tsete003@umn.edu
-* ...
+* Joshua Yang, yang7182@umn.edu
+* Ishika Nimmagadda, nimma013@umn.edu
+* Rijul Mahajan, mahaj068@umn.edu 
 
 
 ## Key Features
@@ -38,13 +40,35 @@ along with a very brief caption:**
 
 ## Mock-up 
 
-There are a few tools for mock-ups. Paper prototypes (low-tech, but effective and cheap), Digital picture edition software (gimp / photoshop / etc.), or dedicated tools like moqups.com (I'm calling out moqups here in particular since it seems to strike the best balance between "easy-to-use" and "wants your money" -- the free teir isn't perfect, but it should be sufficient for our needs with a little "creative layout" to get around the page-limit)
 
-In this space please either provide images (around 4) showing your prototypes, OR, a link to an online hosted mock-up tool like moqups.com
+![Home page](images/home1.jpg)
 
-**[Add images/photos that show your paper prototype (around 4)](https://stackoverflow.com/questions/10189356/how-to-add-screenshot-to-readmes-in-github-repository) along with a very brief caption:**
+The home page has an option to take a quiz and if you scroll down you will see what each product does and a contact us section. 
 
-![](https://media.giphy.com/media/26ufnwz3wDUli7GU0/giphy.gif)
+![Home page](images/home2.jpg)
+
+![Home page](images/home3.jpg)
+
+The user can take a quiz and it will reccommend products based on that. The user does not need to be logged in to use this feature, but if you are logged in, it will save your preferences.
+The user will also be able to modify their quiz selections when they return to this page if logged in.  
+
+![Home page](images/quiz.jpg)
+
+
+
+After a user takes a quiz, this page will show all the reccommended products based on their quiz results. 
+
+![Home page](images/recProducts.jpg)
+
+
+If the user is logged in they are able to add and remove stuff from their wishlist. 
+
+![Home page](images/wishlist.jpg)
+
+This page will show all the products, not just the recommended products from the quiz and the user will be able to filter the products. From this page the user can add to their wishlist as well if they are logged in. 
+
+![Home page](images/products.jpg)
+
 
 
 ## External Dependencies
