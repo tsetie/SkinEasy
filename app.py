@@ -58,3 +58,18 @@ def routine():
   return render_template('routine.html')
 
 
+#########################################################
+# APIs
+#########################################################
+
+
+#########################################################
+# Authorization
+#########################################################
+@app.route("/signin")
+def login():
+    return render_template('signin.html')
+
+#   return oauth.autho.authorize_redirect (
+#     redirect_url=url_for("callback", external=True)
+#   )
