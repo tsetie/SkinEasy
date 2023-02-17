@@ -1,4 +1,4 @@
-{box-sizing: border-box;}
+
 
 /* Button used to open the contact form - fixed at the bottom of the page */
 .open-button {
@@ -66,4 +66,11 @@
 /* Add some hover effects to buttons */
 .form-container .btn:hover, .open-button:hover {
   opacity: 1;
+}
+
+
+/* Take quiz button */
+#quiz-form-btn {
+  color: white;
+  
 }
