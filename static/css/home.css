@@ -4,15 +4,22 @@
   box-sizing: border-box;
 }
 
+/* Fonts */
+@font-face {
+  font-family: myFirstFont;
+  src: url(/static/fonts/Montserrat/static/Montserrat-Light.ttf);
+}
+
 /*
 * -- BASE STYLES --
 * Most of these are inherited from Base, but I want to change a few.
 */
 body {
+  
   line-height: 1.7em;
   color: #7f8c8d;
   font-size: 13px;
-  font-style: 
+  font-family: myFirstFont;
 }
 
 h1,
