@@ -40,9 +40,9 @@ This is the parent `<div>` that contains the menu and the content area.
 The content `<div>` is where all your content goes.
 */
 .content {
-    margin: 0 auto;
-    padding: 0 2em;
-    max-width: 800px;
+    margin: 0px auto;
+    padding: 0px;
+    max-width: 1000px;
     margin-bottom: 50px;
     line-height: 1.6em;
 }
@@ -255,6 +255,11 @@ Hides the menu at `48em`, but modify this based on your app's needs.
     
 }
 
+
+#step-1 {
+
+}
+
 .facetedEntry {
     color: white;
     margin: 10%;
@@ -264,8 +269,7 @@ Hides the menu at `48em`, but modify this based on your app's needs.
     background-color: rgb(179, 179, 179);
 }
 
-
 /* Product cards */
-product-card {
-    padding: 3%;
+.product-card {
+    padding: 1%;
 }
