@@ -10,10 +10,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="A layout example that shows off a responsive product landing page.">
     
-        <!-- CSS -->
+        <!-- Pure CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
-        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+
+        <!-- Custom CSS -->
         <link rel="stylesheet" href="/static/css/home.css">
         <link rel="stylesheet" href="/static/css/quiz.css">
 
@@ -35,8 +36,8 @@
             </div>
         </div>
 
-        <div>
-        
+        <!-- Landing page immediate content -->
+        <div id="immediate-content">
             <div class="splash-container">
                 <div class="splash">
                     <h1 class="splash-head">Skin care products just for you.</h1>
@@ -44,40 +45,44 @@
                         take our skin care quiz to find products that works for you.
                     </p>
                     <p>
-
                         <!-- Pop-up skin-care quiz -->
                         <button id="take-quiz-btn" class="pure-button pure-button-primary">TAKE QUIZ</button>
-
-                        <!-- Quiz FORM -->
-                        <div class="form-popup" id="myForm">
-                            <form action="/action_page.php" class="form-container">
-                                <h1>Quiz</h1>
-
-                                <label for="skin-type"><b>What is your skin type?</b>
-                                    <div class="pure-g">
-                                        <input type="radio" class="pure-u-1-3 pure-button pure-button-active quiz-btn" name="skin-type">Normal
-                                        <input type="radio" class="pure-u-1-3 pure-button pure-button-active quiz-btn" name="skin-type">Dry
-                                        <input type="radio" class="pure-u-1-3 pure-button pure-button-active quiz-btn" name="skin-type">Oily
-                                    </div>
-                                </label>
-                                
-                                <br>
-
-                                <label for="target"><b>Are you targeting any of these?</b></label>
-
-                                <button type="submit" class="btn">Login</button>
-                                <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-                            </form>
-                        </div>
-
                     </p>
                 </div>
             </div>
-
         </div>
 
-        <div>
+        <!-- Hidden quiz form -->
+        <div class="form-popup" id="myForm">
+            <form action="/api/quiz" class="form-container">
+                <h1>Quiz</h1>
 
+                <p>What is your skin type?</p>
+                <div class="radio-container">
+                    <input type="radio" id="normal-skin" class="" name="skin-type" checked="checked">
+                    <label for="skin-type">Normal</label>
+
+                    <input type="radio" id="dry-skin" class="" name="skin-type">
+                    <label for="skin-type">Dry</label>
+
+                    <input type="radio" id="oily-skin" class="" name="skin-type">
+                    <label for="skin-type">Oily</label>
+                </div>
+
+                <!-- <input type="radio" class="quiz-btn" name="skin-type">Dry
+                <input type="radio" class="quiz-btn" name="skin-type">Oily
+                 -->
+                <br>
+
+                
+                </label>
+                <button type="submit" class="btn">Login</button>
+                <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+            </form>
+        </div>
+
+        <!-- Bottom page contents -->
+        <div>
             <div class="content-wrapper">
                 <div class="content">
                     <h2 class="content-head is-center">What does the product do?</h2>
