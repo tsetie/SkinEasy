@@ -1,5 +1,4 @@
 <!-- products.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,10 +15,11 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
         <link rel="stylesheet" href="/static/css/home.css">
-        <link rel="stylesheet" href="/static/css/quiz.css">
+        <link rel="stylesheet" href="/static/css/routine.css">
 
         <!-- JS -->
         <!-- <script type="text/javascript" async defer src="/static/js/quiz.js"></script> -->
+        <script async defer src="/js/ui.js"></script>
     </head>
 
 
@@ -30,6 +30,15 @@
         <div class="header">
             <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
                 <a class="pure-menu-heading" href="/">SKINEASY</a>
+                
+                <!-- Search bar -->
+                <li class="pure-menu-item">
+                    <form action="/action_page.php">
+                      <input type="text" placeholder="Search.." name="search">
+                      <button type="submit">Submit</button>
+                    </form>
+                </li>
+
                 <ul class="pure-menu-list">
                     <li class="pure-menu-item"><a href="/products" class="pure-menu-link">Products</a></li>
                     <li class="pure-menu-item"><a href="/routine" class="pure-menu-link">Your Routine</a></li>
@@ -39,11 +48,169 @@
         </div>
 
 
-        <!--  -->
-        <div>
+        <!-- Faceted search bar -->
+        <div id="layout">
+            <!-- Menu toggle -->
+            <a href="#menu" id="menuLink" class="menu-link">
+                <!-- Hamburger icon -->
+                <span></span>
+            </a>
+        
+            <div id="menu">
+                <div id="#facetedSearchBar" class="pure-menu">
 
+                    <!-- Sign in button -->
+                    <div id="signin-btn">
+                        <a class="pure-menu-heading" href="#company">Hello, sign in</a>
+                    </div>
 
+                    <!-- Different side bar categories -->
+                    <ul class="pure-menu-list">
+                        
+                        <!-- Brands section -->
+                        <div id="brands">
+                            <li class="pure-menu-item">
+                                <p class="pure-menu-heading">Brands</p>
+                                
+                                <!-- List of brands -->
+                                <ul class="pure-menu-list">
+                                    <li class="pure-menu-item">
+                                        <label for="some-checkbox" class="pure-checkbox facetedEntry" >
+                                            <input type="checkbox" id="some-checkbox" /> Brand 1
+                                        </label>
+                                    </li>
+                                    <li class="rat pure-menu-item">
+                                        <label for="some-checkbox" class="facetedEntry" >
+                                            <input type="checkbox" id="some-checkbox" /> Brand 2
+                                        </label>
+                                    </li>
+                                    <li class="pure-menu-item">
+                                        <label for="some-checkbox" class="pure-checkbox facetedEntry" >
+                                            <input type="checkbox" id="some-checkbox" /> Brand 3
+                                        </label>
+                                    </li>
+                                </ul>
+                            </li>
+                        </div>
+        
 
+                        <!-- Categories section -->
+                        <div id="categories">
+                            <li class="pure-menu-item menu-item-divided">
+                                <p class="pure-menu-heading">Categories</p>
+                                
+                                <!-- List of categories -->
+                                <ul class="pure-menu-list">
+                                    <li class="pure-menu-item">
+                                        <label for="checkbox-1" class="pure-checkbox facetedEntry" >
+                                            <input type="checkbox" id="checkbox-1" /> Category 1
+                                        </label>
+                                    </li>
+                                    <li class="pure-menu-item">
+                                        <label for="checkbox-2" class="pure-checkbox facetedEntry" >
+                                            <input type="checkbox" id="checkbox-2" /> Category 2
+                                        </label>
+                                    </li>
+                                    <li class="pure-menu-item">
+                                        <label for="checkbox-3" class="pure-checkbox facetedEntry" >
+                                            <input type="checkbox" id="checkbox-3" /> Category 3
+                                        </label>
+                                    </li>
+                                </ul>
+
+                            </li>
+                        </div>
+        
+                        <!-- Prices section -->
+                        <div id="prices">
+                            <li class="pure-menu-item menu-item-divided">
+                                <p class="pure-menu-heading">Price</p>
+                                
+                                <!-- List of prices -->
+                                <ul class="pure-menu-list">
+                                    <li class="pure-menu-item">
+                                        <label for="radio-1" class="pure-radio facetedEntry" >
+                                            <input type="radio" id="radio-1" /> Price 1
+                                        </label>
+                                    </li>
+                                    <li class="pure-menu-item">
+                                        <label for="radio-2" class="pure-radio facetedEntry" >
+                                            <input type="radio" id="radio-2" /> Price 2
+                                        </label>
+                                    </li>
+                                    <li class="pure-menu-item">
+                                        <label for="radio-3" class="pure-radio facetedEntry" >
+                                            <input type="radio" id="radio-3" /> Price 3
+                                        </label>
+                                    </li>
+                                </ul>
+
+                            </li>
+                        </div>
+
+                    </ul>
+                    
+                </div>
+            </div>
+        
+            <div id="main">
+                <div class="header">
+                    <h1>Products</h1>
+                    <h3>Your recommended products:</h3>
+                </div>
+        
+                <div class="content">
+        
+                    <!-- Step 1 row -->
+                    <h2 class="content-subhead">Step 1: Moisturizer</h2>
+                    <p>
+                        Show some products here for step 1
+                    </p>
+                    <!-- Example row of productgs -->
+                    <div class="pure-g">
+                        <div class="pure-u-1-5 product-card">
+                            <img class="pure-img-responsive" src="http://farm3.staticflickr.com/2875/9069037713_1752f5daeb.jpg" alt="Peyto Lake">
+                        </div>
+                        <div class="pure-u-1-5 product-card">
+                            <img class="pure-img-responsive" src="http://farm3.staticflickr.com/2813/9069585985_80da8db54f.jpg" alt="Train">
+                        </div>
+                        <div class="pure-u-1-5 product-card">
+                            <img class="pure-img-responsive" src="http://farm6.staticflickr.com/5456/9121446012_c1640e42d0.jpg" alt="T-Shirt Store">
+                        </div>
+                        <div class="pure-u-1-5 product-card">
+                            <img class="pure-img-responsive" src="http://farm8.staticflickr.com/7357/9086701425_fda3024927.jpg" alt="Mountain">
+                        </div>
+                        <div class="pure-u-1-5 product-card">
+                            <img class="pure-img-responsive" src="http://farm3.staticflickr.com/2875/9069037713_1752f5daeb.jpg" alt="Peyto Lake">
+                        </div>
+                    </div>
+
+                    <!-- Step 2 row -->
+                    <h2 class="content-subhead">Step 2: ...</h2>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </p>
+        
+                    <!-- Step 3 row -->
+                    <h2 class="content-subhead">Step 3: ...</h2>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </p>
+
+                    <!-- Step 4 row -->
+                    <h2 class="content-subhead">Step 4: ...</h2>
+                    
+                    <!-- Step 5 row -->
+                    <h2 class="content-subhead">Step 5: ...</h2>
+                    
+                    <!-- Step 6 row -->
+                    <h2 class="content-subhead">Step 6: ...</h2>
+                    
+                    <!-- Step 7 row -->
+                    <h2 class="content-subhead">Step 7: ...</h2>
+                    
+                </div>
+            </div>
         </div>
 
     </body>
