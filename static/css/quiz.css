@@ -4,7 +4,7 @@
   position: fixed;
   margin-top: 5%;
   margin-left: 10%;
-  height: 75%;
+  height: 86%;
   width: 80%;
   border: 3px solid #f1f1f1;
   z-index: 9;
@@ -25,19 +25,22 @@
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  padding-left: 2%;
+  padding-right: 2%;
 }
 
+/* Quiz buttons */
 input[type="radio"] {
-  /* display: none; */
+    display: none;
 }
-label {
+label.quiz-btn-label {
   position: relative;
   color: green;
-  font-size: 30px;
+  font-size: 15px;
   border: 2px solid green;
   border-radius: 5px;
-  padding: 15px 50px;
-  margin: 10px;
+  padding: 10px 50px;
+  margin: 5px;
   display: flex;
   align-items: center;
 }
@@ -60,6 +63,10 @@ input[type="radio"]:checked + label:before {
   background-color: green;
 }
 
+.center-text {
+  text-align: center;
+}
+
 /* Set a style for the submit/login button */
 .form-container .btn {
   background-color: #04AA6D;
@@ -69,7 +76,7 @@ input[type="radio"]:checked + label:before {
   cursor: pointer;
   width: 100%;
   margin-bottom:10px;
-  opacity: 0.8;
+  opacity: 0.75;
 }
 
 /* Add a red background color to the cancel button */
@@ -103,4 +110,12 @@ input[type="radio"]:checked + label:before {
 
 .black-border {
   border: solid black 1px;
+}
+
+.y {
+  background-color: rgba(0, 0, 255, 0.05);
+}
+
+.x {
+  background-color: rgba(255, 0, 0, 0.05);
 }
