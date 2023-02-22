@@ -62,6 +62,10 @@ def routine():
 def reviews():
   return render_template('reviews.html')
 
+# Quiz results
+@app.route('/api/quiz', methods=["GET"])
+def quizresults():
+  return redirect('/products')
 
 #########################################################
 # APIs

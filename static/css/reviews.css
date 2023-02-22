@@ -1,0 +1,28 @@
+#reviewsContainer{
+   justify-content: center;
+   align-items: center;
+   flex-wrap: wrap;
+   width: 100%;
+}
+
+.singleReviewContainer{
+  width: 500px;
+  box-shadow: 2px 2px 30px rgba(187, 185, 171, 0.55);
+  background-color: rgb(254, 254, 254);
+  padding: 20px;
+  margin: 15px;
+}
+
+.user_first_name{
+  flex-direction: column;
+}
+
+h2{
+  color: rgb(74, 70, 70);
+  letter-spacing: .8px;
+  margin-bottom: 2px;
+}
+
+.written-review{
+  color:rgb(142, 138, 135);
+}

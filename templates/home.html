@@ -58,7 +58,7 @@
                 
                 <!-- Pure grid -->
                 <div class="pure-g">
-                    <div class="pure-u-1 pure-u-md-4-5 y">
+                    <div class="pure-u-1 pure-u-md-4-5 y" id="quizdiv">
                         <h1>Skin Quiz</h1>
 
                         <!-- Question 1) -->
@@ -88,19 +88,20 @@
                             <input type="radio" id="none-target" name="target-type" value="none-target">
                             <label class="quiz-btn-label" for="none-target">None</label>
                         </div>
+                        
 
                         <!-- Question 3 -->
                         <h4 class="">How many steps would you like in your routine?</h4>
                         <div class="radio-container">
                             <!-- Option 1) Redness -->
                             <input type="radio" id="two-steps" name="number-steps" value="two-steps">
-                            <label class="quiz-btn-label" for="two-steps">2</label><br>
+                            <label class="quiz-btn-label" for="two-steps">2 Steps</label><br>
                             <!-- Option 2) Acne -->
                             <input type="radio" id="three-steps" name="number-steps" value="three-steps">
-                            <label class="quiz-btn-label" for="three-steps">3</label><br>
+                            <label class="quiz-btn-label" for="three-steps">3 Steps</label><br>
                             <!-- Option 3) None -->
                             <input type="radio" id="three-plus-steps" name="number-steps" value="three-plus-steps">
-                            <label class="quiz-btn-label" for="three-plus-steps">4+</label>
+                            <label class="quiz-btn-label" for="three-plus-steps">4+ Steps</label>
                         </div>
 
                         <br>
@@ -115,22 +116,25 @@
                     </div>
                     
                     <!-- How to know skin type information section -->
-                    <div class="x pure-u-1 pure-u-md-1-5">
+                    <div class="x pure-u-1 pure-u-md-1-5" id="quizsideinfo">
                         <h2> How to know your skin type: </h2>
 
                         <!-- Normal skin type info -->
                         <div id="normal-if">
                             <h3>Normal if:</h3>
+                            <p>Your skin feels hydrated and comfortable, but not oily. </p>
                         </div>
 
                         <!-- Dry skin info -->
                         <div id="dry-if">
                             <h3>Dry if:</h3>
+                            <p>Your skin feels tight and flaky or scaly.</p>
                         </div>
                         
                         <!-- Oily skin info -->
                         <div id="oily-if">
                             <h3>Oily if:</h3>
+                            <p>Your skin appears shiny.</p>
                         </div>
 
                     </div>
