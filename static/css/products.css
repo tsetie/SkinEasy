@@ -1,0 +1,63 @@
+a{
+  text-decoration: none;
+  color: rgb(118, 118, 118);
+}
+h3{
+  font-weight: bold;
+  color:black;
+}
+
+#filterHeader{
+  background-color: rgb(255, 255, 255);
+  display: block;
+  text-align: center;
+}
+
+#filterform{
+  margin-left: 1vh;
+}
+/* filter submit button */
+.button-submit {
+  margin-top: 4vh;
+  background: rgb(163, 157, 139);
+}
+
+/* filter section */
+#menu{
+  margin-top: 3.55em;
+  background-color: rgba(181, 175, 166, 0.138);
+
+}
+/* Hamburger icon */
+.menu-link{
+  margin-top: 5em;
+  background-color: #eee8e0aa;
+} 
+
+/* all the products */
+.productContainer{
+  margin-left: 4vh;
+  margin-right: 4vh;
+}
+
+#searchBar{
+  border-style:none;
+  border-radius: .5em;
+  height: 1.8em;
+  width: 14em;
+}
+
+#searchBar:hover{
+  background-color: rgb(212, 206, 195);
+}
+
+#searchbarbtn{
+  border-radius: .5em;
+  border-style: none;
+  color: rgb(129, 127, 119);
+  height: 1.8em;
+  width: 5em;
+}
+#searchbarbtn:hover{
+  background-color: white;
+}

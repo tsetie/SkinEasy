@@ -57,6 +57,11 @@ def products():
 def routine():
   return render_template('routine.html')
 
+# Review Page
+@app.route('/reviews', methods=["GET"])
+def reviews():
+  return render_template('reviews.html')
+
 
 #########################################################
 # APIs
