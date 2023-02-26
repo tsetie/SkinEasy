@@ -1,4 +1,4 @@
-<!-- products.html -->
+<!-- test.html -->
 <!-- SkinEasy Products Page -->
 
 <!-- Inherits from: -->
@@ -62,75 +62,74 @@
             <!-- Hamburger icon -->
             <span></span>
         </a>
-
-        <!-- Filter menu -->
-        <!-- Keep a checkbox marked reference: https://stackoverflow.com/questions/63702099/how-to-make-a-checkbox-checked-in-jinja2 -->
+        
+        <!-- Filter menu  -->
         <div id="menu" class="pure-g filterContainer">
-            <form id="filterform" action="/products" method="GET">
+            <form id="filterform">
                 <h3>Category</h3>
                 <div>
-                    <input type="checkbox" id="cleanser" name="cleanser" value="1" {{ "checked" if query_dict['cleanser'] }}>           
+                    <input type="checkbox" id="cleanser" name="cleanser" value="1">                        
                     <label for="cleanser">Cleanser</label>
                 </div>
                 <div>
-                    <input type="checkbox" id="exfoliant" name="exfoliant" value="1" {{ "checked" if query_dict['exfoliant'] }}>
+                    <input type="checkbox" id="exfoliant" name="exfoliant" value="1">
                     <label for="exfoliant">Exfoliant</label>
                 </div>
                 <div>
-                    <input type="checkbox" id="toner" name="toner" value="1" {{ "checked" if query_dict['toner'] }}>                    
+                    <input type="checkbox" id="toner" name="toner" value="1">                    
                     <label for="toner">Toner</label>
                 </div>
                 <div>
-                    <input type="checkbox" id="serum" name="serum" value="1" {{ "checked" if query_dict['serum'] }}>                    
+                    <input type="checkbox" id="serum" name="serum" value="1">                    
                     <label for="serum">Serum</label>
                 </div>
                 <div>
-                    <input type="checkbox" id="moisturizer" name="moisturizer" value="1" {{ "checked" if query_dict['moisturizer'] }}>                    
+                    <input type="checkbox" id="moisturizer" name="moisturizer" value="1">                    
                     <label for="moisturizer">Moisturizer</label>
                 </div>
                 <div>
-                    <input type="checkbox" id="sunscreen" name="sunscreen" value="1" {{ "checked" if query_dict['sunscreen'] }}>                    
+                    <input type="checkbox" id="sunscreen" name="sunscreen" value="1">                    
                     <label for="sunscreen">Sunscreen</label>
                 </div>
 
                 <h3>Skin Type</h3>
                 <div>
-                    <input type="checkbox" id="normal" name="normal" value="1" {{ "checked" if query_dict['normal'] }}>
+                    <input type="checkbox" id="normal" name="normal" value="1">
                     <label for="normal">Normal</label>
                 </div>
                 <div>
-                    <input type="checkbox" id="dry" name="dry" value="1" {{ "checked" if query_dict['dry'] }}>
+                    <input type="checkbox" id="dry" name="dry" value="1">
                     <label for="dry">Dry</label>
                 </div>
                 <div>
-                    <input type="checkbox" id="oily" name="oily" value="1" {{ "checked" if query_dict['oily'] }}>
+                    <input type="checkbox" id="oily" name="oily" value="1">
                     <label for="oily">Oily</label>
                 </div>
                 <div>
-                    <input type="checkbox" id="all" name="all" value="1" {{ "checked" if query_dict['all'] }}>
+                    <input type="checkbox" id="all" name="all" value="1">
                     <label for="all">Show All</label>
                 </div>
 
                 <h3>Price</h3>
                 <div>
-                    <input type="radio" id="price-under-20" name="price" value="price-under-20" {{ "checked" if query_dict['price-under-20'] }}>
-                    <label for="price-under-20">Under $20</label>
+                    <input type="radio" id="under20" name="price" value="under20">
+                    <label for="under25">Under $20</label>
                 </div>
                 <div>
-                    <input type="radio" id="price-20-40" name="price" value="price-20-40" {{ "checked" if query_dict['price-20-40'] }}>
-                    <label for="price-20-40">$20 - $40 </label>
+                    <input type="radio" id="20to40" name="price" value="20-40">
+                    <label for="20to40">$20 - $40 </label>
                 </div>
                 <div>
-                    <input type="radio" id="price-40-60" name="price" value="price-40-60" {{ "checked" if query_dict['price-40-60'] }}>
-                    <label for="price-40-60">$40 - $60 </label>
+                    <input type="radio" id="40to60" name="price" value="40-60">
+                    <label for="40to60">$40 - $60 </label>
                 </div>
                 <div>
-                    <input type="radio" id="price-60-80" name="price" value="price-60-80" {{ "checked" if query_dict['price-60-80'] }}>
-                    <label for="price-60-80">$60 - $80 </label>
+                    <input type="radio" id="60to80" name="price" value="60-80">
+                    <label for="60to80">$60 - $80 </label>
                 </div>
                 <div>
-                    <input type="radio" id="price-above-80" name="price" value="price-above-80" {{ "checked" if query_dict['price-above-80'] }}>
-                    <label for="price-above-80">$80 & Above</label>
+                    <input type="radio" id="80andup" name="price" value="80andup">
+                    <label for="80andup">$80 & Above</label>
                 </div>
                 <button class="button-submit pure-button">Filter</button>    
             </form>
@@ -144,7 +143,6 @@
                 <h1>Products</h1>
                 <!--do templating and change below to empty string if all products pg, do below if user submited quiz(takes them to recc page) -->
                 <h3>Your recommended products</h3>
-                <h4>{{ query_dict }}</h4>     
             </div>
             <div class="productContainer">
     

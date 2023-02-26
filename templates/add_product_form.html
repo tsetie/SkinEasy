@@ -1,0 +1,270 @@
+<!-- add_product_form.html -->
+<!-- SkinEasy Your Routine Page -->
+
+<!-- Inherits from: -->
+{% extends "base.html" %}
+
+<!-- Title -->
+{% block title %}SkinEasy - Your Routine{% endblock %}
+
+<!-- Head -->
+{% block head %}
+    {{ super() }}
+
+    <!-- Meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SkinEasy Routine page showing users' skincare products by cleansing step.">
+
+    <!-- Pure CSS -->
+    <link rel="stylesheet" href="https://purecss.io/css/pure/pure-min.css">
+    <link rel="stylesheet" href="https://purecss.io/layouts/side-menu/styles.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/home.css">
+    <link rel="stylesheet" href="/static/css/quiz.css">
+
+    <!-- Javascipt -->
+    <script type="text/javascript" async defer src="https://purecss.io/js/ui.js"></script>
+    <script type="text/javascript" async defer src="/static/js/products.js"></script>
+{% endblock %}
+
+
+<!-- Page content -->
+{% block content %}
+
+    <!-- Content header -->
+    <div class="header">
+        <h1>Add product to database:</h1>
+    </div>
+
+    <!-- Main content -->
+    <div class="productContainer" style="margin: 1%;">
+        <h2>Add product form</h2>
+
+        <div id="add-product-form" style="margin: 1%;">
+            <!-- Product db setup -->
+            <form id="survey-form" class="pure-form pure-form-aligned" action="/admin/add-product-to-db" method="POST">
+                <fieldset>
+
+                    <hr>
+    
+                    <!---------------------------------->
+                    <!-- SKINCARE PRODUCT TEXT INPUTS -->
+                    <!---------------------------------->
+                    <div style="margin: 2%;">
+                        <h2 style="color: royalblue">Product text inputs</h2>
+                        <!-- Product name -->
+                        <label for="product-name">Product name:</label>
+                        <input type="text" id="product-name" placeholder="Type product name here." name="product-name" maxlength="255" required/>
+
+                        <!-- Product URL -->
+                        <label for="product-url">Product URL:</label>
+                        <input type="text" id="product-url" placeholder="Type product URL here." name="product-url" maxlength="255" required/>
+                        
+                        <!-- Product brand -->
+                        <label for="product-brand">Product brand:</label>
+                        <input type="text" id="product-brand" placeholder="Type product brand here." name="product-brand" maxlength="255" required/>
+                    
+                        <!-- Product image path -->
+                        <label for="product-img-path">Product server image path:</label>
+                        <input type="text" id="product-img-path" placeholder="Type product image path here. (/static/images/...)" name="product-img-path" maxlength="255"/>
+                    </div>
+
+                    <hr>
+
+                    <!--------------------------->
+                    <!-- SKINCARE PRODUCT TYPE -->
+                    <!--------------------------->
+                    <div style="margin: 2%;">
+                        <h2 style="color: royalblue">Product type</h2>
+                        
+                        <!-- Cleanser -->
+                        <div id="radio-container">
+                            <h3>Cleanser?</h3>
+                            <!-- Yes, is cleanser -->
+                            <input type="radio" id="is-cleanser" name="cleanser" value="True" required/>
+                            <label class="quiz-btn-label" for="is-cleanser">Yes</label>
+
+                            <!-- No, is not cleanser -->
+                            <input type="radio" id="is-not-cleanser" name="cleanser" value="False"/>
+                            <label class="quiz-btn-label" for="is-not-cleanser">No</label>
+                        </div>
+
+                        <!-- Exfoliant -->
+                        <div id="radio-container">
+                            <h3>Exfoliant?</h3>
+                            <!-- Yes, is exfoliant -->
+                            <input type="radio" id="is-exfoliant" name="exfoliant" value="True" required/>
+                            <label class="quiz-btn-label" for="is-exfoliant">Yes</label>
+
+                            <!-- No, is not exfoliant -->
+                            <input type="radio" id="is-not-exfoliant" name="exfoliant" value="False"/>
+                            <label class="quiz-btn-label" for="is-not-exfoliant">No</label>
+                        </div>
+
+                        <!-- Toner -->
+                        <div id="radio-container">
+                            <h3>Toner?</h3>
+                            <!-- Yes, is toner -->
+                            <input type="radio" id="is-toner" name="toner" value="True" required/>
+                            <label class="quiz-btn-label" for="is-toner">Yes</label>
+
+                            <!-- No, is not toner -->
+                            <input type="radio" id="is-not-toner" name="toner" value="False"/>
+                            <label class="quiz-btn-label" for="is-not-toner">No</label>
+                        </div>
+
+                        <!-- Serum -->
+                        <div id="radio-container">
+                            <h3>Serum?</h3>
+                            <!-- Yes, is serum -->
+                            <input type="radio" id="is-serum" name="serum" value="True" required/>
+                            <label class="quiz-btn-label" for="is-serum">Yes</label>
+
+                            <!-- No, is not serum -->
+                            <input type="radio" id="is-not-serum" name="serum" value="False"/>
+                            <label class="quiz-btn-label" for="is-not-serum">No</label>
+                        </div>
+
+                        <!-- Moisturizer -->
+                        <div id="radio-container">
+                            <h3>Moisturizer?</h3>
+                            <!-- Yes, is moisturizer -->
+                            <input type="radio" id="is-moisturizer" name="moisturizer" value="True" required/>
+                            <label class="quiz-btn-label" for="is-moisturizer">Yes</label>
+
+                            <!-- No, is not moisturizer -->
+                            <input type="radio" id="is-not-moisturizer" name="moisturizer" value="False"/>
+                            <label class="quiz-btn-label" for="is-not-moisturizer">No</label>
+                        </div>
+
+
+                        <!-- Sunscreen -->
+                        <div id="radio-container">
+                            <h3>Sunscreen?</h3>
+                            <!-- Yes, is sunscreen -->
+                            <input type="radio" id="is-sunscreen" name="sunscreen" value="True" required/>
+                            <label class="quiz-btn-label" for="is-sunscreen">Yes</label>
+
+                            <!-- No, is not serum -->
+                            <input type="radio" id="is-not-sunscreen" name="sunscreen" value="False" />
+                            <label class="quiz-btn-label" for="is-not-sunscreen">No</label>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!--------------------->
+                    <!-- SKINCARE TARGET -->
+                    <!--------------------->
+                    <div style="margin: 2%;">
+                        <h2 style="color: royalblue">Skincare targets</h2>
+                        <!-- Sensitive target -->
+                        <div id="radio-container">
+                            <h3>For sensitive skin?</h3>
+                            <!-- Yes, is for sensitive skin -->
+                            <input type="radio" id="is-sensitive" name="sensitive" value="True" required/>
+                            <label class="quiz-btn-label" for="is-sensitive">Yes</label>
+
+                            <!-- No, is not for sensitive skin -->
+                            <input type="radio" id="is-not-sensitive" name="sensitive" value="False" />
+                            <label class="quiz-btn-label" for="is-not-sensitive">No</label>
+                        </div>
+
+                        <!-- Mature target -->
+                        <div id="radio-container">
+                            <h3>For mature skin?</h3>
+                            <!-- Yes, is for sensitive skin -->
+                            <input type="radio" id="is-mature" name="mature" value="True" required/>
+                            <label class="quiz-btn-label" for="is-mature">Yes</label>
+
+                            <!-- No, is not for sensitive skin -->
+                            <input type="radio" id="is-not-mature" name="mature" value="False" />
+                            <label class="quiz-btn-label" for="is-not-mature">No</label>
+                        </div>
+
+                        <!-- No target -->
+                        <div id="radio-container">
+                            <h3>For neither? (If the above 2 are "no" please select <i>yes.</i>)</h3>
+                            <!-- Yes, product is not necessarily for sensitive nor mature skin -->
+                            <input type="radio" id="is-none" name="none" value="True" required/>
+                            <label class="quiz-btn-label" for="is-none">Yes</label>
+
+                            <!-- No, product has special skin type target such as sensitive/mature skin -->
+                            <input type="radio" id="is-not-none" name="none" value="False" />
+                            <label class="quiz-btn-label" for="is-not-none">No</label>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!----------------------->
+                    <!-- PRODUCT SKIN TYPE -->
+                    <!----------------------->
+                    <div style="margin: 2%;">
+                        <h2 style="color: royalblue">Skincare targets</h2>
+                        <!-- Normal skin -->
+                        <div id="radio-container">
+                            <h3>For normal skin?</h3>
+                            <!-- Yes, is for normal skin type -->
+                            <input type="radio" id="is-normal" name="normal" value="True" required/>
+                            <label class="quiz-btn-label" for="is-normal">Yes</label>
+
+                            <!-- No, is not for normal skin type -->
+                            <input type="radio" id="is-not-normal" name="normal" value="False" />
+                            <label class="quiz-btn-label" for="is-not-normal">No</label>
+                        </div>
+
+                        <!-- Oily skin -->
+                        <div id="radio-container">
+                            <h3>For oily skin?</h3>
+                            <!-- Yes, is for oily skin type -->
+                            <input type="radio" id="is-oily" name="oily" value="True" required/>
+                            <label class="quiz-btn-label" for="is-oily">Yes</label>
+
+                            <!-- No, is not for oily skin type -->
+                            <input type="radio" id="is-not-oily" name="oily" value="False" />
+                            <label class="quiz-btn-label" for="is-not-oily">No</label>
+                        </div>
+
+                        <!-- Dry skin -->
+                        <div id="radio-container">
+                            <h3>For dry skin?</h3>
+                            <!-- Yes, is for dry skin type -->
+                            <input type="radio" id="is-dry" name="dry" value="True" required/>
+                            <label class="quiz-btn-label" for="is-dry">Yes</label>
+
+                            <!-- No, is not for dry skin type -->
+                            <input type="radio" id="is-not-dry" name="dry" value="False" />
+                            <label class="quiz-btn-label" for="is-not-dry">No</label>
+                        </div>
+
+                        <!-- All skin -->
+                        <div id="radio-container">
+                            <h3>For all skin types?</h3>
+                            <!-- Yes, is for all skin types -->
+                            <input type="radio" id="is-all" name="all" value="True" required/>
+                            <label class="quiz-btn-label" for="is-all">Yes</label>
+
+                            <!-- No, is for all skin types -->
+                            <input type="radio" id="is-not-all" name="all" value="False" />
+                            <label class="quiz-btn-label" for="is-not-all">No</label>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- Submit button -->
+                    <div style="display: flex; align-items: center; justify-content: center; margin: 2%">
+                        <button type="submit" class="" style="width: 20%; height: 40px"><b>Submit</b></button>
+                    </div>
+                </fieldset>
+
+            </form>
+
+        </div>
+
+    </div>
+
+{% endblock %}

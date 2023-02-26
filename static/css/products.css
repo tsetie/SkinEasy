@@ -73,7 +73,9 @@ h3{
 }
 
 .product-card{
-  display:inline-block;
+  max-width: 100%;
+  max-height: 100%;
+  display: inline-block;
   white-space: normal;
 }
 

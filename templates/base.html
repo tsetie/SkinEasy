@@ -1,0 +1,58 @@
+<!-- base.html -->
+<!doctype html>
+<html lang="en">
+  
+  <!-- Head -->
+  <head>
+    {% block head %}
+
+    <!-- Title -->
+    <title>{% block title %}{% endblock %}</title>
+
+    <!-- Meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A layout example that shows off a responsive product landing page.">
+
+    <!-- Pure CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
+
+    {% endblock %}
+  </head>
+  
+  <!-- Body -->
+  <body>
+
+    <!-- Page header -->
+    <div class="header">
+      {% block header %}
+      <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+          <a class="pure-menu-heading" href="/">SKINEASY</a>
+          <ul class="pure-menu-list">
+              <li class="pure-menu-item"><a href="/products" class="pure-menu-link">Products</a></li>
+              <li class="pure-menu-item"><a href="/routine" class="pure-menu-link">Your Routine</a></li>
+              <li class="pure-menu-item"><a href="/signin" class="pure-menu-link">Sign In</a></li>
+          </ul>
+      </div>
+      {% endblock %}
+  </div>
+
+
+    <!-- Main page content -->
+    <div id="content">
+      {% block content %}
+      {% endblock %}
+    </div>
+    
+    
+    <!-- Page footer -->
+    <!-- <div id="footer">
+      {% block footer %}
+      &copy; Copyright 2010 by <a href="http://domain.invalid/">you</a>.
+      {% endblock %}
+    </div> -->
+  </body>
+
+
+</html>
