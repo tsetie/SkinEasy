@@ -92,17 +92,23 @@ def get_skincare_products_json():
         return cur.fetchall()
 
 # Function to get skincare based on product type
-def filter_by_product_type(is_cleanser, is_toner, is_serum, is_moisturizer, is_sunscreen):
+def filter_products(is_cleanser=False, is_exfoliant=False, is_toner=False, is_serum=False, is_moisturizer=False, is_sunscreen=False):
     ''' note -- result can be used as list of dictionaries'''
     with get_db_cursor() as cur:        
         sql = """
             SELECT row_to_json(skineasy_skincare_products) 
             FROM skineasy_skincare_products 
-            WHERE is_cleanser IS TRUE OR is_toner IS TRUE OR is_serum IS TRUE OR is_moisturizer IS TRUE OR is_sunscreen IS TRUE;
+            WHERE cleanser IS %s OR exfoliant IS %s OR toner IS %s OR serum IS %s OR moisturizer IS %s OR sunscreen IS %s;
             """
 
-        cur.execute(sql)    
+        cur.execute(sql, (is_cleanser, is_exfoliant, is_toner, is_serum, is_moisturizer, is_sunscreen))
         return cur.fetchall()
+
+
+# def filter_skincare_products(id):
+#     with get_db_cursor(False) as cur:
+#         cur.execute("select * from facts where id = %s", (id,))
+#         return cur.fetchone()
 
 
 # Function to get skincare products based on skin type

@@ -58,15 +58,45 @@ def products():
   
   # Check query string and store any checkmarks to keep in a list
   print(request.args)
-  query_dict = request.args
-  for query, value in query_dict.items():
-    print(query, value)
+  
+  unchecked_query_dict = request.args
+  # checked_query_dict = {}
+  checked_query_dict = request.args
+
+  # Get product type filters
+  cleanser_filter     = False
+  exfoliant_filter    = False
+  toner_filter        = False
+  serum_filter        = False
+  moisturizer_filter  = False
+  sunscreen_filter    = False
+
+  # Ensure query parameters have valid values
+  for query, value in unchecked_query_dict.items():
+    if (query == 'cleanser'):
+      cleanser_filter = True
+    elif (query == 'exfoliant'):
+      exfoliant_filter = True
+    elif (query == 'toner'):
+      toner_filter = True
+    elif (query == 'serum'):
+      serum_filter = True
+    elif (query == 'moisturizer'):
+      moisturizer_filter = True
+    elif (query == 'sunscreen'):
+      sunscreen_filter = True
+      
+
+  print(exfoliant_filter)
 
   # Call database function to get skincare products
-  products_list = db.get_skincare_products_json()
+  # products_list = db.get_skincare_products_json()
+  products_list = db.filter_products(cleanser_filter, exfoliant_filter, toner_filter, serum_filter, moisturizer_filter, sunscreen_filter)
   
+  # print(products_list)
+
   # Render products page with skincare products
-  return render_template('products.html', products_list=products_list, query_dict=query_dict)
+  return render_template('products.html', products_list=products_list, query_dict=checked_query_dict)
 
 # Routine page
 @app.route('/routine', methods=["GET"])

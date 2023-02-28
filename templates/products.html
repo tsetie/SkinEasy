@@ -67,13 +67,15 @@
         <!-- Keep a checkbox marked reference: https://stackoverflow.com/questions/63702099/how-to-make-a-checkbox-checked-in-jinja2 -->
         <div id="menu" class="pure-g filterContainer">
             <form id="filterform" action="/products" method="GET">
+
+                <!-- Filter by product category -->
                 <h3>Category</h3>
                 <div>
-                    <input type="checkbox" id="cleanser" name="cleanser" value="1" {{ "checked" if query_dict['cleanser'] }}>           
+                    <input type="checkbox" id="cleanser" name="cleanser" value="True" {{ "checked" if query_dict['cleanser'] }}>           
                     <label for="cleanser">Cleanser</label>
                 </div>
                 <div>
-                    <input type="checkbox" id="exfoliant" name="exfoliant" value="1" {{ "checked" if query_dict['exfoliant'] }}>
+                    <input type="checkbox" id="exfoliant" name="exfoliant" value="True" {{ "checked" if query_dict['exfoliant'] }}>
                     <label for="exfoliant">Exfoliant</label>
                 </div>
                 <div>
@@ -93,6 +95,8 @@
                     <label for="sunscreen">Sunscreen</label>
                 </div>
 
+
+                <!-- Filter by skin type -->
                 <h3>Skin Type</h3>
                 <div>
                     <input type="checkbox" id="normal" name="normal" value="1" {{ "checked" if query_dict['normal'] }}>
@@ -111,26 +115,39 @@
                     <label for="all">Show All</label>
                 </div>
 
+
+                <!-- Filter by price-->
                 <h3>Price</h3>
+                <!-- $0-$20 -->
                 <div>
-                    <input type="radio" id="price-under-20" name="price" value="price-under-20" {{ "checked" if query_dict['price-under-20'] }}>
+                    <input type="radio" id="price-under-20" name="price" value="price-under-20" {{ "checked" if query_dict['price'] == 'price-under-20' }}>
                     <label for="price-under-20">Under $20</label>
                 </div>
+                <!-- $20-$40 -->
                 <div>
-                    <input type="radio" id="price-20-40" name="price" value="price-20-40" {{ "checked" if query_dict['price-20-40'] }}>
+                    <input type="radio" id="price-20-40" name="price" value="price-20-40" {{ "checked" if query_dict['price'] == 'price-20-40' }}>
                     <label for="price-20-40">$20 - $40 </label>
                 </div>
+                <!-- $40-$60 -->
                 <div>
-                    <input type="radio" id="price-40-60" name="price" value="price-40-60" {{ "checked" if query_dict['price-40-60'] }}>
+                    <input type="radio" id="price-40-60" name="price" value="price-40-60" {{ "checked" if query_dict['price'] == 'price-40-60' }}>
                     <label for="price-40-60">$40 - $60 </label>
                 </div>
+                <!-- $60-$80 -->
                 <div>
-                    <input type="radio" id="price-60-80" name="price" value="price-60-80" {{ "checked" if query_dict['price-60-80'] }}>
+                    <input type="radio" id="price-60-80" name="price" value="price-60-80" {{ "checked" if query_dict['price'] == 'price-60-80' }}>
                     <label for="price-60-80">$60 - $80 </label>
                 </div>
+                <!-- $80+ -->
                 <div>
-                    <input type="radio" id="price-above-80" name="price" value="price-above-80" {{ "checked" if query_dict['price-above-80'] }}>
+                    <input type="radio" id="price-above-80" name="price" value="price-above-80" {{ "checked" if query_dict['price'] == 'price-above-80' }}>
                     <label for="price-above-80">$80 & Above</label>
+                </div>
+                <!-- All -->
+                <!-- Reference on jinja2 dictionay size: https://stackoverflow.com/questions/19492409/comparing-length-of-dictionary-in-jinja-flask-template -->
+                <div>
+                    <input type="radio" id="price-all" name="price" value="price-all" {{ "checked" if (query_dict|length == 0) or (query_dict['price'] == 'price-all') }}>
+                    <label for="price-all">All</label>
                 </div>
                 <button class="button-submit pure-button">Filter</button>    
             </form>
