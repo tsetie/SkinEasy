@@ -85,15 +85,15 @@ def products():
       moisturizer_filter = True
     elif (query == 'sunscreen'):
       sunscreen_filter = True
-      
 
-  print(exfoliant_filter)
+  # Reference to get dictionary length: https://stackabuse.com/python-get-size-of-dictionary/
+  num_filters = len(unchecked_query_dict)
 
   # Call database function to get skincare products
   # products_list = db.get_skincare_products_json()
-  products_list = db.filter_products(cleanser_filter, exfoliant_filter, toner_filter, serum_filter, moisturizer_filter, sunscreen_filter)
+  products_list = db.filter_products(num_filters, cleanser_filter, exfoliant_filter, toner_filter, serum_filter, moisturizer_filter, sunscreen_filter)
   
-  # print(products_list)
+  # print("Products list:", products_list)
 
   # Render products page with skincare products
   return render_template('products.html', products_list=products_list, query_dict=checked_query_dict)

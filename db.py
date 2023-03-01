@@ -92,16 +92,60 @@ def get_skincare_products_json():
         return cur.fetchall()
 
 # Function to get skincare based on product type
-def filter_products(is_cleanser=False, is_exfoliant=False, is_toner=False, is_serum=False, is_moisturizer=False, is_sunscreen=False):
+def filter_products(num_filters=0, cleanser_filter=False, exfoliant_filter=False, toner_filter=False, serum_filter=False, moisturizer_filter=False, sunscreen_filter=False):
     ''' note -- result can be used as list of dictionaries'''
-    with get_db_cursor() as cur:        
-        sql = """
-            SELECT row_to_json(skineasy_skincare_products) 
-            FROM skineasy_skincare_products 
-            WHERE cleanser IS %s OR exfoliant IS %s OR toner IS %s OR serum IS %s OR moisturizer IS %s OR sunscreen IS %s;
-            """
+    with get_db_cursor() as cur:    
+        
+        # *Build a PSQL WHERE clause based on filters
+        # If any filters are to be applied, set up a WHERE clause
+        where_clause = ""
+        
+        # If there is at least one filter to be applied, set up WHERE clause format
+        if (num_filters >= 1):
+            where_clause += "WHERE %s"
 
-        cur.execute(sql, (is_cleanser, is_exfoliant, is_toner, is_serum, is_moisturizer, is_sunscreen))
+        # For any additional filters, begin to use "OR" statement in WHERE clause
+        for i in range(1, num_filters):
+            where_clause += " OR %s" 
+ 
+
+        # Add any filters to where clause in a python list --> python tuple
+        data = []
+
+        # Check passed in filters
+        if (cleanser_filter):
+            data.append("cleanser IS TRUE")
+
+        if (exfoliant_filter):
+            data.append("exfoliant IS TRUE")
+
+        if (toner_filter):
+            data.append("toner IS TRUE")
+
+        if (serum_filter):
+            data.append("serum IS TRUE")
+
+        if (moisturizer_filter):
+            data.append("moisturizer IS TRUE")
+
+        if (sunscreen_filter):
+            data.append("sunscreen IS TRUE")
+
+        # Reference to convert lists to tuples: https://www.w3schools.com/python/python_tuples_update.asp
+        data = tuple(data)
+
+        where_clause = where_clause % data
+
+         # Reference to use multi-line strings in python with parenthesis: https://stackoverflow.com/questions/5437619/python-style-line-continuation-with-strings
+        # Reference to use "%s" in python: https://www.geeksforgeeks.org/what-does-s-mean-in-a-python-format-string/
+        sql = (
+            "SELECT row_to_json(skineasy_skincare_products) "
+            "FROM skineasy_skincare_products "
+            + where_clause
+        )
+
+        # Execute sql statement with data
+        cur.execute(sql)
         return cur.fetchall()
 
 
