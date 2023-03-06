@@ -117,7 +117,7 @@ def filter_products(num_filters=0, cleanser_filter=False, exfoliant_filter=False
             where_clause += "WHERE %s"
 
         # For any additional filters, begin to use "OR" statement in WHERE clause
-        for i in range(1, num_filters):
+        for i in range(1, num_filters-1):
             where_clause += " OR %s" 
  
         # Add any filters to where clause in a python list --> python tuple
@@ -144,7 +144,7 @@ def filter_products(num_filters=0, cleanser_filter=False, exfoliant_filter=False
 
         # Reference to convert lists to tuples: https://www.w3schools.com/python/python_tuples_update.asp
         data = tuple(data)
-
+        
         # Fill where clause with data tuple
         where_clause = where_clause % data
 
