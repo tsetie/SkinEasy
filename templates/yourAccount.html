@@ -1,0 +1,151 @@
+<!-- yourAccount.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>SkinEasy</title>
+    
+        <!-- Meta tags -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="A layout example that shows off a responsive product landing page.">
+        
+        <!-- Pure CSS -->
+        <link rel="stylesheet" href="https://purecss.io/css/pure/pure-min.css">
+        <link rel="stylesheet" href="https://purecss.io/layouts/side-menu/styles.css">
+
+        <!-- javascipt -->
+        <script src="https://purecss.io/js/ui.js"></script>
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/static/css/home.css">
+        <link rel="stylesheet" href="/static/css/reviews.css">
+    </head>
+
+    <body>
+        <!-- Navigation bar header -->
+        <!-- FIXME: Later put as template for all pages -->
+        <div class="header">
+            <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+                <a class="pure-menu-heading" href="/">SKINEASY</a>
+            
+                <ul class="pure-menu-list">
+                    <li class="pure-menu-item"><a href="/products" class="pure-menu-link">Products</a></li>
+                    <li class="pure-menu-item"><a href="/routine" class="pure-menu-link">Your Routine</a></li>
+                    {% if session %}
+                    <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+                        {{session.userinfo.nickname}}
+                        <ul class="pure-menu-children">
+                          <li class="pure-menu-item">
+                            <a href="/yourAccount" class="pure-menu-link" id="myAccountBtn">Your Account</a>
+                          </li>
+                          <li class="pure-menu-item">
+                            <a href="/logout" class="pure-menu-link" id="logoutBtn">Log Out</a>
+                          </li>
+                        </ul>
+                    </li>                
+                  {% else %}
+                  <li class="pure-menu-item"><a href="/login" class="pure-menu-link">Log in</a></li>
+                  {% endif %}                </ul>
+            </div>
+        </div>
+    
+
+        <div id="main">
+            <div class="header">
+                <h1>Your Account</h1>
+            </div>
+        <div>
+        <div class= "pure-g" id="reviewsContainer">
+            <div class="singleReviewContainer">
+                <div class="boxheader">
+                    <div class="user_first_name">
+                        <h2>Tseten</h2>
+                        <span>@tsetie</span>
+                    </div>
+                </div>
+                <div class="written-review">
+                    <p> The product was amazing and it has become my new holy grail! I cant live without this in my routin! Buy it now!</p>
+                </div>
+            </div>
+            <div class="singleReviewContainer">
+                <div class="boxheader">
+                    <div class="user_first_name">
+                        <h2>Ishika</h2>
+                        <span>@Ish</span>
+                    </div>
+                </div>
+                <div class="written-review">
+                    <p>Was super excited to try it out but it broke me out!</p>
+                </div>
+            </div>
+            <div class="singleReviewContainer">
+                <div class="boxheader">
+                    <div class="user_first_name">
+                        <h2>Josh</h2>
+                        <span>@boovs</span>
+                    </div>
+                </div>
+                <div class="written-review">
+                    <p>Loved the product! Did exactly as it said it would and was worth the $$$!!</p>
+                </div>
+            </div>
+            <div class="singleReviewContainer">
+                <div class="boxheader">
+                    <div class="user_first_name">
+                        <h2>Tenzin</h2>
+                        <span>@tsetie</span>
+                    </div>
+                </div>
+                <div class="written-review">
+                    <p> Can't live without this product!</p>
+                </div>
+            </div>
+            <div class="singleReviewContainer">
+                <div class="boxheader">
+                    <div class="user_first_name">
+                        <h2>Tia</h2>
+                        <span>@sys</span>
+                    </div>
+                </div>
+                <div class="written-review">
+                    <p> This product is affordable and made my skin feel absolutely amazing when I woke up the next day. Hands down best skin care item I own!</p>
+                </div>
+            </div>
+            <div class="singleReviewContainer">
+                <div class="boxheader">
+                    <div class="user_first_name">
+                        <h2>Ricky</h2>
+                        <span>@ky</span>
+                    </div>
+                </div>
+                <div class="written-review">
+                    <p>Heard a lot about this product but it didnt work out for me.</p>
+                </div>
+            </div>
+            <div class="singleReviewContainer">
+                <div class="boxheader">
+                    <div class="user_first_name">
+                        <h2>Tenzin</h2>
+                        <span>@tsetie</span>
+                    </div>
+                </div>
+                <div class="written-review">
+                    <p> Can't live without this product!</p>
+                </div>
+            </div> 
+            <div class="singleReviewContainer">
+                <div class="boxheader">
+                    <div class="user_first_name">
+                        <h2>Tseten</h2>
+                        <span>@tsetie</span>
+                    </div>
+                </div>
+                <div class="written-review">
+                    <p> The product was amazing and it has become my new holy grail! I cant live without this in my routin! Buy it now!</p>
+                </div>
+            </div>  
+        </div>
+    </body>
+
+</html>

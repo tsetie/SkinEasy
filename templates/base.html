@@ -32,7 +32,27 @@
           <ul class="pure-menu-list">
               <li class="pure-menu-item"><a href="/products" class="pure-menu-link">Products</a></li>
               <li class="pure-menu-item"><a href="/routine" class="pure-menu-link">Your Routine</a></li>
-              <li class="pure-menu-item"><a href="/signin" class="pure-menu-link">Sign In</a></li>
+
+              <!-- Show username if user logged in -->
+              {% if session %}
+                <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+                    <!-- Show username from server -->
+                    {{session.userinfo.nickname}}
+                    <ul class="pure-menu-children">
+                      <li class="pure-menu-item">
+                        <a href="/yourAccount" class="pure-menu-link" id="myAccountBtn">Your Account</a>
+                      </li>
+                      <li class="pure-menu-item">
+                        <a href="/logout" class="pure-menu-link" id="logoutBtn">Log Out</a>
+                      </li>
+                    </ul>
+                </li>   
+
+              <!-- If user not logged in, show log in option -->
+              {% else %}
+                <li class="pure-menu-item"><a href="/login" class="pure-menu-link">Log in</a></li>
+              {% endif %}
+
           </ul>
       </div>
       {% endblock %}

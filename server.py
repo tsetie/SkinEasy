@@ -2,6 +2,7 @@
 # CSCI5117 Project 1
 # yang7182 
 
+
 #########################################################
 # Imports
 #########################################################
@@ -25,10 +26,11 @@ if ENV_FILE:
     load_dotenv(ENV_FILE)
 
 app = Flask(__name__)
-app.secret_key = env.get('FLASK_SECRET')
+app.secret_key = env.get("APP_SECRET_KEY")
 
 oauth = OAuth(app)
-oauth.register (
+
+oauth.register(
     "auth0",
     client_id=env.get("AUTH0_CLIENT_ID"),
     client_secret=env.get("AUTH0_CLIENT_SECRET"),
@@ -37,6 +39,7 @@ oauth.register (
     },
     server_metadata_url=f'https://{env.get("AUTH0_DOMAIN")}/.well-known/openid-configuration'
 )
+
 
 # Setup connection to database
 @app.before_first_request
@@ -47,10 +50,11 @@ def setup():
 #########################################################
 # Regular routes
 #########################################################
+
 # Home page
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('home.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4))
 
 # Products page
 @app.route('/products', methods=["GET"])
@@ -85,28 +89,31 @@ def products():
       moisturizer_filter = True
     elif (query == 'sunscreen'):
       sunscreen_filter = True
+      
 
-  # Reference to get dictionary length: https://stackabuse.com/python-get-size-of-dictionary/
-  num_filters = len(unchecked_query_dict)
+  print(exfoliant_filter)
 
   # Call database function to get skincare products
   # products_list = db.get_skincare_products_json()
-  products_list = db.filter_products(num_filters, cleanser_filter, exfoliant_filter, toner_filter, serum_filter, moisturizer_filter, sunscreen_filter)
+  products_list = db.filter_products(cleanser_filter, exfoliant_filter, toner_filter, serum_filter, moisturizer_filter, sunscreen_filter)
   
-  # print("Products list:", products_list)
-
   # Render products page with skincare products
-  return render_template('products.html', products_list=products_list, query_dict=checked_query_dict)
+  return render_template('products.html', products_list=products_list, query_dict=checked_query_dict ,session=session.get('user'))
 
 # Routine page
 @app.route('/routine', methods=["GET"])
 def routine():
-  return render_template('routine.html')
+  return render_template('routine.html', session=session.get('user'))
+
+# Account page
+@app.route('/yourAccount', methods=["GET"])
+def yourAccount():
+  return render_template('yourAccount.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4))
 
 # Review Page
 @app.route('/reviews', methods=["GET"])
 def reviews():
-  return render_template('reviews.html')
+  return render_template('reviews.html',session=session.get('user'))
 
 
 #########################################################
@@ -180,6 +187,13 @@ def add_product():
 
   return redirect('/admin/add-product-form')
 
+# Auth0Json page to see what auth0's json returns
+@app.route('/auth0json', methods=["GET"])
+def auth0Json():
+  return render_template('Auth0Json.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4))
+
+
+
 #########################################################
 # APIs
 #########################################################
@@ -193,15 +207,90 @@ def get_products_json():
   # Return JSON format of skincare products
   return (db_products)
 
+# Gets skineasy users from database
+@app.route('/api/get-users-json', methods=["GET"])
+def get_users_json():
+
+  # Call database function to get skincare products
+  db_users = db.get_users_json()
+  
+  # Return JSON format of skincare products
+  return (db_users)
 
 
 #########################################################
 # Authorization
 #########################################################
-@app.route("/signin")
-def login():
-    return render_template('signin.html')
+# @app.route("/signin")
+# def login():
+#     return render_template('signin.html')
 
 #   return oauth.autho.authorize_redirect (
 #     redirect_url=url_for("callback", external=True)
 #   )
+
+@app.route("/login")
+def login():
+    return oauth.auth0.authorize_redirect(
+        redirect_uri=url_for("callback", _external=True)
+    )
+
+@app.route("/api/auth/callback", methods=["GET", "POST"])
+def callback():
+
+    # Check if user denied authorization
+    if (request.args.get('error')):
+      print("Error, user denied authorization")
+      return redirect("/")
+
+    token = oauth.auth0.authorize_access_token()
+
+    print(token)
+
+    # Fill sessions dictionary
+    # - Ensure keys exist before putting in session dict
+    # Reference to check if a key exists within a python dict: https://www.geeksforgeeks.org/python-check-whether-given-key-already-exists-in-a-dictionary/
+
+    # User login details
+    if (token):
+      session["user"] = token
+
+    # Username (use nickname from token)
+    if ('nickname' in token['userinfo']):
+      session['nickname'] = token['userinfo']['nickname']
+
+    # Session ID
+    if ('sid' in token['userinfo']):
+      session['sid'] = token['userinfo']['sid']
+
+    # Email
+    if ('email' in token['userinfo']):
+      session['email'] = token['userinfo']['email']
+
+    # Picture
+    if ('picture' in token['userinfo']):
+      session['picture'] = token['userinfo']['picture']
+
+    # Fill users table by calling db function
+    db.add_user(session)
+
+    # Redirect back to whatever page we were on before
+    return redirect("/")
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(
+        "https://" + env.get("AUTH0_DOMAIN")
+        + "/v2/logout?"
+        + urlencode(
+            {
+                "returnTo": url_for("home", _external=True),
+                "client_id": env.get("AUTH0_CLIENT_ID"),
+            },
+            quote_via=quote_plus,
+        )
+    )
+
+if __name__ == "__main__":
+    app.run(host="127.0.0.1", port=env.get("PORT", 5000))
