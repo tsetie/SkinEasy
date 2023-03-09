@@ -79,18 +79,24 @@ h3{
   white-space: normal;
 }
 
-.arrowbtn{
+
+/* Arrow box for viewing products in dynamically moving rows */
+.arrow-div{
+  display: flex;
+  justify-content: center;
+}
+
+
+.arrow-btn{
   background: none;
   border-style: none;
 }
 
-.arrow{
+.arrow-img{
   border-style: solid;
   border-width: 1px;
   border-color: rgb(196, 189, 180);
   width: 4vh;
-}
 
-#arrow-div{
-  justify-content: center;
+  margin: 1vh;
 }

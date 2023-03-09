@@ -26,9 +26,9 @@
 
     <!-- Page header -->
     <div class="header">
-      {% block header %}
       <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
           <a class="pure-menu-heading" href="/">SKINEASY</a>
+          {% block searchBar %}{% endblock %}
           <ul class="pure-menu-list">
               <li class="pure-menu-item"><a href="/products" class="pure-menu-link">Products</a></li>
               <li class="pure-menu-item"><a href="/routine" class="pure-menu-link">Your Routine</a></li>
@@ -55,7 +55,6 @@
 
           </ul>
       </div>
-      {% endblock %}
   </div>
 
 

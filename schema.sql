@@ -1,8 +1,7 @@
 -------------------------------------------
 -- 1) Create table for skin care products
 -------------------------------------------
-
-CREATE TABLE skineasy_skincare_products_2 (
+CREATE TABLE skineasy_skincare_products (
     product_id       serial primary key NOT NULL,
     product_name     varchar(255) NOT NULL,
     product_url      varchar(255) NOT NULL,
@@ -69,19 +68,24 @@ CREATE TABLE skineasy_users (
     UNIQUE(username, email)
 );
 
+
 -- Add a user to users table
 INSERT INTO skineasy_users (username, email, user_skin_type, user_target, routine_steps)
 VALUES (username, email, user_skin_type, user_target, routine_steps)
 
+
+-- Example of adding to users table
 INSERT INTO skineasy_users (username, email, user_skin_type, user_target, routine_steps)
 VALUES ('example_username', 'example_email@gmail.com', '', '', 4)
 
+
+-- Another format to add to users table
 INSERT INTO skineasy_users (
-username,
-email, 
-user_skin_type,
-user_target,
-routine_steps
+    username,
+    email, 
+    user_skin_type,
+    user_target,
+    routine_steps
 ) VALUES (%s, %s, %s, %s, %s)
 
 

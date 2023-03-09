@@ -1,0 +1,96 @@
+/* Quiz Selection Containers */
+
+#quizSelectionContainer{
+  border: solid;
+  border-width: 1px;
+  margin-left: 5em;
+  margin-right: 5em;
+  margin-top: 5em;
+  border-color: rgb(179, 167, 152);
+}
+#quizSelectionsDiv{
+  margin-left: 5em;
+  margin-right: 5em;
+  width: 50%;
+}
+
+.quizSelections{
+  border-width: 1px;
+  margin-bottom: 1em;
+}
+
+/* Little Details */
+
+#yourAccountHeaders{
+  margin-left: 1em;
+}
+
+span{
+  color:rgb(72, 71, 64);
+}
+
+h3{
+  display: inline;
+}
+h4{
+  color:black;
+}
+
+/* form container */
+
+form{
+  display: inline;
+  background-color: rgba(202, 194, 172, 0.173);
+  padding-left: 3em;
+  padding-right: 3em;
+  padding-top: .7em;
+  padding-bottom: 1.5em;
+  border-radius: 1em;
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
+
+/* Buttons to delete and modify reviews  */
+
+#icons{
+  width: 20px;
+}
+
+button{
+  border: none;
+  background-color: transparent;
+}
+
+button{
+  border: none;
+  background-color: transparent;
+}
+
+button:hover{
+  border: none;
+  background-color: rgba(168, 164, 152, 0.401);
+  border-radius: .4em;
+  height: 2em;
+  width: 2em;
+
+}
+
+#submit_edit_btn{
+  border: solid;
+  border-width: 1px;
+  border-radius: .4em;
+  display: block;
+  margin-top: 1em;
+  border-color: rgba(173, 169, 159, 0.516);
+  color:rgb(128, 119, 111);
+}
+
+#submit_edit_btn:hover{
+  background-color: rgba(206, 199, 178, 0.261);
+  height: 1.5em;
+  width: 5em;
+}
+
+.editBtn{
+  display: inline;
+}
