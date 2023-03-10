@@ -37,7 +37,9 @@
               {% if session %}
                 <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
                     <!-- Show username from server -->
-                    {{session.userinfo.nickname}}
+                    <div id="username">
+                      {{session.userinfo.nickname}}
+                    </div>
                     <ul class="pure-menu-children">
                       <li class="pure-menu-item">
                         <a href="/yourAccount" class="pure-menu-link" id="myAccountBtn">Your Account</a>

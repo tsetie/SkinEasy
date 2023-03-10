@@ -6,7 +6,7 @@ CREATE TABLE skineasy_skincare_products (
     product_name     varchar(255) NOT NULL,
     product_url      varchar(255) NOT NULL,
     product_brand    varchar(255) NOT NULL,
-
+    
     image_path       varchar(255) NOT NULL,
 
     cleanser         boolean,
@@ -16,7 +16,7 @@ CREATE TABLE skineasy_skincare_products (
     moisturizer      boolean,
     sunscreen        boolean,
 
-    sensitive_target boolean,
+    sensitive_target boolean,   
     mature_target    boolean,
     none_target      boolean,
 
@@ -24,6 +24,8 @@ CREATE TABLE skineasy_skincare_products (
     oily_skin        boolean,
     dry_skin         boolean,
     is_all           boolean,
+
+    price            varchar(10)
 );
 
 
@@ -39,9 +41,13 @@ VALUES (product_name, product_url, product_brand, is_cleanser, is_exfoliant, is_
 
 -- Update existing table data
 UPDATE skineasy_skincare_products
-SET image_path = '/static/images/first-aid-beauty/first-aid-beauty-ultra-repair-cream-intense-hydration.png'
-WHERE image_path = '/static/first-aid-beauty/first-aid-beauty-ultra-repair-cream-intense-hydration.png';
+SET product_name = 'Drunk Elephant Protini Polypeptide Cream'
+WHERE product_name = 'Drunk Elephant Protini Polypeptide Cream ';
 
+
+-- Add a new column to table
+ALTER TABLE skineasy_skincare_products 
+ADD COLUMN price varchar(10);
 
 -- Remove products entry from skincare products table
 DELETE FROM skineasy_skincare_products WHERE condition;
@@ -99,11 +105,14 @@ CREATE TABLE skineasy_routines (
     product_id      integer NOT NULL,
     published_date  timestamp DEFAULT CURRENT_TIMESTAMP,
     
+    PRIMARY KEY(routine_id),
+
     CONSTRAINT user_id
         FOREIGN KEY (user_id)
         REFERENCES skineasy_users(user_id)
         ON DELETE CASCADE,
 
+    UNIQUE(product_id),
     CONSTRAINT product_id
         FOREIGN KEY (product_id)
         REFERENCES skineasy_skincare_products(product_id)
@@ -116,7 +125,7 @@ CREATE TABLE skineasy_routines (
 -- 4) Review table
 ------------------------------------------------------------
 CREATE TABLE skineasy_reviews (
-    review_id       serial       NOT NULL,
+    review_id       serial  NOT NULL,
     user_id         integer NOT NULL,
     product_id      integer NOT NULL,
     reviewer_name   varchar(255) NOT NULL,
@@ -130,7 +139,8 @@ CREATE TABLE skineasy_reviews (
         FOREIGN KEY (user_id)
         REFERENCES skineasy_users(user_id)
         ON DELETE CASCADE,
-
+    
+    UNIQUE(product_id),
     CONSTRAINT product_id
         FOREIGN KEY (product_id)
         REFERENCES skineasy_skincare_products(product_id)
@@ -151,7 +161,7 @@ for table in cur.fetchall():
 -- View ALL columns of a table
 SELECT column_name, data_type
 FROM information_schema.columns
-WHERE table_schema = 'public' AND table_name = 'skineasy_users';
+WHERE table_schema = 'public' AND table_name = 'skineasy_skincare_products';
 
 
 -- Show all contents of table

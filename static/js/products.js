@@ -89,25 +89,28 @@ function checkUserClicks(e) {
     let areaClicked = e.target || e.srcElement;
     // console.log("Area clicked: " + areaClicked.className);
 
-    // ***********************************************************************************************
+    // **************************************************************************************************
     // * Check left and right arrow buttins in charge of moving product divs left and right
     // * based on which directional arrow was selected.
-    // * Get name of parent container's previous sibling container so we know which area to shift
+    // * Get grand-parent DOM and scan through its children until we find the div containing the products
+   
     // * Reference: https://developer.mozilla.org/en-US/docs/Web/API/Node/parentElement
     // * Reference: https://developer.mozilla.org/en-US/docs/Web/API/Element/previousElementSibling
-    // **********************************************************************************************
+    // * Reference: https://developer.mozilla.org/en-US/docs/Web/API/Node/childNodes
+    // * Reference: https://www.javascripttutorial.net/javascript-dom/javascript-get-child-element/
+    // **************************************************************************************************
     if (areaClicked.className.match('left-arrow') || areaClicked.className.match('right-arrow')) {
+        
         // Row container of horizontally-shiftable products
-        let productDiv = areaClicked.parentElement.previousElementSibling;
+        let productDiv = searchSiblingNodes(areaClicked.parentElement, 'stepContainers');
+        
         // * 1) Check each of left buttons
-        if (areaClicked.className.match('left-arrow')) 
-        {
+        if (areaClicked.className.match('left-arrow')) {
             // An element of class 'left-btn' was clicked
             productDiv.scrollLeft -= 505;
         }
         // * 2) Check each of right buttons
-        if (areaClicked.className.match('right-arrow')) 
-        {
+        if (areaClicked.className.match('right-arrow')) {
             // An element of class 'right-btn' was clicked
             productDiv.scrollLeft += 505;
         }
@@ -118,31 +121,56 @@ function checkUserClicks(e) {
     // * logged in user selects "add to routine button"
     // ***********************************************************************************************
     // * 3) Check if a product is attempting to be added to routines
-    if (areaClicked.className.match('add-to-routine-btn'))
+    if (areaClicked.className == ('add-to-routine-btn'))
     {
+        // An element of class 'add-product-btn' was clicked
         // Check if user is logged in?
 
-        // An element of class 'add-product-btn' was clicked
-        console.log("Add product button clicked!");
-        
-        // A) Get username
-        // B) Get product name
+        // Get username and product name
+        let username = document.getElementById("username").innerText;
+        let product = searchSiblingNodes(areaClicked, 'product-name');
+        let productName = product.innerText;
 
+        // Reference: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+        const data = { username: username, productName: productName };
 
+        fetch("/add_to_routine", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => response.json())
+          .then((responseData) => {
+            console.log("Success:", responseData);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
 
-
-        // fetch('/products', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({ "id": 78912 })
-        // })
-        //    .then(response => response.json())
-        //    .then(response => console.log(JSON.stringify(response)))
     }
-
-    
 }
 
+
+// Function that returns a specified sibling node based on a provided start node and a given name
+// **********************************************************************************************
+// * Start by getting parent's child nodes and look through them until we find the
+// * div with the specified classname
+// *
+// * Reference: https://developer.mozilla.org/en-US/docs/Web/API/Node/childNodes
+// * Reference: https://www.javascripttutorial.net/javascript-dom/javascript-get-child-element/
+// *********************************************************************************************
+function searchSiblingNodes(node, classTargetName) {
+    let parent = node.parentElement;
+    let siblings = parent.childNodes;
+    let targetSibling = null;
+    for (var i = 0; i < siblings.length; i++) {
+        // Look for product name in div with the class: 'product-name' 
+        if (siblings[i].className == classTargetName) {
+            targetSibling = siblings[i];
+            return targetSibling;
+        }
+    }
+    return targetSibling;
+}

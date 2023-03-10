@@ -105,7 +105,28 @@ def products():
 # 3) Routine page
 @app.route('/routine', methods=["GET"])
 def routine():
+
+  # Check if user is logged in, if not tell user to sign up or login to view
+  if (session):
+    print("Logged in")
+  else:
+    print("Not logged in")
+
   return render_template('routine.html', session=session.get('user'))
+
+
+# Add a product to routine after its respective 'add to routine' button is seleceted
+@app.route('/add_to_routine', methods=["POST"])
+def add_to_routine():
+
+  # Arguments stored in request.json
+  print(request.json)
+
+  # Add to users' routine/wishlist
+  if (('username' in request.json) and ('productName' in request.json)):
+    db.add_to_routine(request.json)
+
+  return request.json
 
 
 
@@ -132,6 +153,7 @@ def yourAccount():
   skin_type = quiz_selections_list[0][0]
   skin_target = quiz_selections_list[0][1]
   num_of_steps = quiz_selections_list[0][2]
+  
   return render_template('yourAccount.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4),user_target=skin_target, user_skin_type=skin_type, routine_steps=num_of_steps)
   
 
@@ -153,16 +175,12 @@ def editSkinType():
   # Get the modified skin type from the form 
   if request.method == 'POST':
     modified_skin_type = request.form["skin-type"]
-
     # Get the users details so we know which user to edit the skin type of in users table
     user_details = session
-
     # Edit users skin type in the users table
     db.edit_skin_type(user_details, modified_skin_type)
-
     # Get users details from session object
     user_details = session
-
     if ('nickname' in user_details):
             user = user_details['nickname']
 
@@ -179,6 +197,7 @@ def editSkinType():
     skin_type = user_selections_list[0][0]
     skin_target = user_selections_list[0][1]
     num_of_steps = user_selections_list[0][2]
+
     return render_template('yourAccount.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4),user_target=skin_target, user_skin_type=skin_type, routine_steps=num_of_steps)
 
 
@@ -209,6 +228,7 @@ def editSkinTarget():
     skin_type = user_selections_list[0][0]
     skin_target = user_selections_list[0][1]
     num_of_steps = user_selections_list[0][2]
+
     return render_template('yourAccount.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4),user_target=skin_target, user_skin_type=skin_type, routine_steps=num_of_steps)
 
 
@@ -239,6 +259,7 @@ def editNumOfSteps():
     skin_type = user_selections_list[0][0]
     skin_target = user_selections_list[0][1]
     num_of_steps = user_selections_list[0][2]
+
     return render_template('yourAccount.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4),user_target=skin_target, user_skin_type=skin_type, routine_steps=num_of_steps)
   
 
@@ -351,6 +372,16 @@ def get_users_json():
   # Return JSON format of skincare products
   return (db_users)
 
+
+# Gets skineasy reviews from database
+@app.route('/api/get-routines-json', methods=["GET"])
+def get_routines_json():
+
+  # Call database function to get skincare products
+  db_users = db.get_routines_json()
+  
+  # Return JSON format of skincare products
+  return (db_users)
 
 
 # Gets users review from database 

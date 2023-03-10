@@ -58,7 +58,6 @@ def get_db_cursor(commit=False):
 #################################
 # 1) PRODUCTS TABLE functions
 #################################
-
 # Function to add a product to skincare products table
 def add_skincare_product(product_name, product_url, product_brand, image_path, cleanser=False, exfoliant=False, toner=False, serum=False, moisturizer=False, sunscreen=False, sensitive_target=False, mature_target=False, no_target=False, normal_skin=False, oily_skin=False, dry_skin=False, is_all=False):
     
@@ -94,9 +93,9 @@ def add_skincare_product(product_name, product_url, product_brand, image_path, c
         cur.execute(sql, (product_name, product_url, product_brand, image_path, cleanser, exfoliant, toner, serum, moisturizer, sunscreen, sensitive_target, mature_target, no_target, normal_skin, oily_skin, dry_skin, is_all))
 
 
+
 # Function to get all skincare products from skincare products table
 def get_skincare_products_json():
-    ''' note -- result can be used as list of dictionaries '''
     with get_db_cursor() as cur:
 
         # Make SQL statement asking database for all entries in products table
@@ -106,9 +105,9 @@ def get_skincare_products_json():
         return cur.fetchall()
 
 
+
 # Function to get skincare products based on filter tags
 def filter_products(num_filters=0, cleanser_filter=False, exfoliant_filter=False, toner_filter=False, serum_filter=False, moisturizer_filter=False, sunscreen_filter=False):
-    ''' note -- result can be used as list of dictionaries '''
     with get_db_cursor(True) as cur:    
         
         # *Build a PSQL WHERE clause based on filters
@@ -151,7 +150,7 @@ def filter_products(num_filters=0, cleanser_filter=False, exfoliant_filter=False
         # Fill where clause with data tuple
         where_clause = where_clause % data
 
-        # Referencs: 
+        # References: 
         # Reference to use multi-line strings in python with parenthesis: https://stackoverflow.com/questions/5437619/python-style-line-continuation-with-strings
         # Reference to use '%s' in python: https://www.geeksforgeeks.org/what-does-s-mean-in-a-python-format-string/
         sql = (
@@ -164,6 +163,8 @@ def filter_products(num_filters=0, cleanser_filter=False, exfoliant_filter=False
         cur.execute(sql)
         return cur.fetchall()
 
+
+
 # Function to get skincare product details by name
 
 
@@ -171,8 +172,17 @@ def filter_products(num_filters=0, cleanser_filter=False, exfoliant_filter=False
 #################################
 # 2) USER TABLE functions
 #################################
+# Function to get ALL USERS from the user table as JSON
+def get_users_json():
+    with get_db_cursor() as cur:
+        
+        # Make SQL statement asking database for all entries in users table
+        sql = 'SELECT row_to_json(skineasy_users) FROM skineasy_users ORDER BY user_id ASC'
+        cur.execute(sql)   
+        return cur.fetchall()
 
-# 1) Function to add a user to the users table after they make an account
+
+# Function to add a user to the users table after they make an account
 def add_user(user_details):
     with get_db_cursor(True) as cur:
         
@@ -193,28 +203,17 @@ def add_user(user_details):
 
             # Execute sql statement with default data
             cur.execute(sql, (user, email))
+
+            print('Adding user to users table.')
+
         return
-
-
-# 2) Function to get ALL USERS from the user table as JSON
-def get_users_json():
-    ''' note -- result can be used as list of dictionaries'''
-    with get_db_cursor() as cur:
-        
-        # Make SQL statement asking database for all entries in users table
-        sql = 'SELECT row_to_json(skineasy_users) FROM skineasy_users ORDER BY user_id ASC'
-        cur.execute(sql)   
-        return cur.fetchall()
-
-
-# Function to get   
 
 
 # Function to update users skin type in users table
 def edit_skin_type(user_details, modified_skin_type):
     with get_db_cursor(True) as cur: 
         
-        # Get users name
+        # Get username
         # Reference to check if a key exists within a python dict: https://www.geeksforgeeks.org/python-check-whether-given-key-already-exists-in-a-dictionary/
         if ('nickname' in user_details):
             user = user_details['nickname']
@@ -241,7 +240,7 @@ def edit_skin_type(user_details, modified_skin_type):
 def edit_skin_target(user_details, modified_skin_target):
     with get_db_cursor(True) as cur: 
         
-        # Get users name
+        # Get username
         # Reference to check if a key exists within a python dict: https://www.geeksforgeeks.org/python-check-whether-given-key-already-exists-in-a-dictionary/
         if ('nickname' in user_details):
             user = user_details['nickname']
@@ -268,7 +267,7 @@ def edit_skin_target(user_details, modified_skin_target):
 def edit_num_of_steps(user_details, modified_num_of_steps):
     with get_db_cursor(True) as cur: 
         
-        # Get users name
+        # Get username
         # Reference to check if a key exists within a python dict: https://www.geeksforgeeks.org/python-check-whether-given-key-already-exists-in-a-dictionary/
         if ('nickname' in user_details):
             user = user_details['nickname']
@@ -291,10 +290,9 @@ def edit_num_of_steps(user_details, modified_num_of_steps):
             cur.execute(sql, (modified_num_of_steps, user_id))
 
 
-
 # Function to get QUIZ SELECTIONS from the user table for a specific user
 def get_user_quiz_selections(user_id):
-    ''' note -- result can be used as list of dictionaries'''
+
     with get_db_cursor() as cur:
         
         # Make SQL statement asking database for quiz selections from users table
@@ -302,9 +300,10 @@ def get_user_quiz_selections(user_id):
         cur.execute(sql, (user_id,))   
         return cur.fetchall()
 
+
 # Function to get ALL USER_IDS and REVIEWER_NAMES from the user table as a list
 def get_all_user_ids_and_names():
-    ''' note -- result can be used as list of dictionaries'''
+
     with get_db_cursor() as cur:
         
         # Make SQL statement asking database for all entries in users table
@@ -313,26 +312,82 @@ def get_all_user_ids_and_names():
         return cur.fetchall()
 
 
-        
+    
 #################################
 # 3) ROUTINE TABLE functions
 #################################
-def add_to_routine(review_info):
-    with get_db_cursor(True) as cur:
+# Function to get all routine table entries as JSON
+def get_routines_json():
+
+    with get_db_cursor() as cur:
         
+        # Make SQL statement asking database for all entries in users table
+        sql = "SELECT row_to_json(skineasy_routines) FROM skineasy_routines ORDER BY user_id ASC"
+        cur.execute(sql)   
+        return cur.fetchall()
+
+
+# Function to add an entry to routines table given a dictionary with username and product name
+def add_to_routine(user_product_info):
+
+    with get_db_cursor(True) as cur:
         current_app.logger.info('Adding entry to routine table')
 
-        # Build SQL insertion statement
-        sql = '''
-            INSERT INTO skineasy_routines (
-                user_id,
-                product_id, 
-            ) VALUES (%s, %s)
+        username = user_product_info['username']
+        product_name = user_product_info['productName']
+
+        # Build SQL where statements to get user ID and product ID based on provided arguments
+        user_id = get_user_id_from_username(username)
+        product_id = get_product_id_from_product_name(product_name)
+
+        print(user_id)
+        print(product_id)
+
+        # Use user ID and product ID to store in user's routine wishlist
+
+        # Build SQL insertion statement and ensure product ids are unique
+        add_routine_sql = '''
+            INSERT INTO skineasy_routines (user_id, product_id)
+            VALUES (%s, %s)
+            ON CONFLICT (product_id) DO NOTHING;
             '''
-            
-        # cur.execute(sql , (value1, value2))
+        # Execute sql insertion
+        cur.execute(add_routine_sql, (user_id, product_id))
 
         return
+
+
+# Function to get user id based on username string
+def get_user_id_from_username(username):
+    with get_db_cursor(True) as cur:
+        get_user_sql = "SELECT %s FROM %s WHERE %s = '%s'" % ('user_id', 'skineasy_users', 'username', username)
+        cur.execute(get_user_sql)
+        user_id = cur.fetchall()[0][0]
+        return user_id
+
+# Function to get product id based on product name string
+def get_product_id_from_product_name(product_name):
+    with get_db_cursor(True) as cur:
+        get_product_sql = "SELECT %s FROM %s WHERE %s = '%s'" % ('product_id', 'skineasy_skincare_products', 'product_name', product_name)
+        cur.execute(get_product_sql)
+        product_id = cur.fetchall()[0][0]
+        return product_id
+
+
+# Function to get a user's respective routine products 
+# def get_user_routine(username):
+
+
+
+
+
+# # *** Function to get anything specific from any table w/ customizable where clause
+# def make_sql_select(selector, table, key, value):
+#     # Make SQL statement
+#     # Reference: https://stackabuse.com/python-string-interpolation-with-the-percent-operator/
+#     sql = "SELECT %s FROM %s WHERE %s = '%s'" % (selector, table, key, value)
+#     return sql
+
 
 
 #################################
@@ -345,7 +400,7 @@ def get_reviews_json():
 
         # Make SQL statement asking database for all entries in reviews table
         sql = "SELECT row_to_json(skineasy_reviews) FROM skineasy_reviews ORDER BY review_id ASC"
-        cur.execute(sql)   
+        cur.execute(sql)
 
         return cur.fetchall()
     
@@ -393,7 +448,7 @@ def get_all_reviews_for_product(product_id):
         cur.execute(sql, product_id)
         return cur.fetchall()
 
-        
+
 # Function to show all reviews written by a specific user
 def get_all_reviews_by_user(user_id):
     with get_db_cursor(True) as cur: 
