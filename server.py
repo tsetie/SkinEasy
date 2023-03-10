@@ -51,16 +51,18 @@ def setup():
 # Regular routes
 #########################################################
 
-
-
+# *********************************
 # 1) Home page
+# *********************************
 @app.route('/')
 def home():
     return render_template('home.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4))
 
 
 
+# *********************************
 # 2) Products page
+# *********************************
 @app.route('/products', methods=["GET"])
 def products():
   
@@ -98,31 +100,52 @@ def products():
   products_list = db.filter_products(cleanser_filter, exfoliant_filter, toner_filter, serum_filter, moisturizer_filter, sunscreen_filter)
 
   # Render products page with skincare products
-  return render_template('products.html', products_list=products_list, query_dict=checked_query_dict ,session=session.get('user'))
+  return render_template('products.html', products_list=products_list, query_dict=checked_query_dict, session=session.get('user'))
 
 
 
+# *********************************
 # 3) Routine page
+# *********************************
 @app.route('/routine', methods=["GET"])
 def routine():
 
   # Check if user is logged in, if not tell user to sign up or login to view
-  if (session):
-    print("Logged in")
+  # ************************************************
+  # * Only have routine features for logged in users
+  # * Get the users details from session object
+  # ************************************************
+  user_details = session
+
+  # Initialize user's routine products (for non-logged in users)
+  is_user_logged_in = False
+  if ('nickname' not in user_details):
+    return render_template('routine.html', session=session.get('user'), is_user_logged_in=is_user_logged_in)
+
   else:
-    print("Not logged in")
+    is_user_logged_in = True
+    username = user_details['nickname']
 
-  return render_template('routine.html', session=session.get('user'))
+    # Call database function to get all of user's routine products that are
+    # categorized as 'product_category'
+    user_cleansers      = db.get_user_routine_by_type('cleanser', username)
+    user_exfoliants     = db.get_user_routine_by_type('exfoliant', username)
+    user_toners         = db.get_user_routine_by_type('toner', username)
+    user_serums         = db.get_user_routine_by_type('serum', username)
+    user_moisturizers   = db.get_user_routine_by_type('moisturizer', username)
+    user_suncreens      = db.get_user_routine_by_type('sunscreen', username)
+    
+  # Render routine page with the skincare products on the current user's wishlist
+  return render_template('routine.html', session=session.get('user'), is_user_logged_in=is_user_logged_in, user_cleansers=user_cleansers, user_exfoliants=user_exfoliants, user_toners=user_toners, user_serums=user_serums, user_moisturizers=user_moisturizers, user_suncreens=user_suncreens)
 
 
+# ***************************************************************************************************
 # Add a product to routine after its respective 'add to routine' button is seleceted
+# ***************************************************************************************************
 @app.route('/add_to_routine', methods=["POST"])
 def add_to_routine():
 
-  # Arguments stored in request.json
-  print(request.json)
-
-  # Add to users' routine/wishlist
+  # Add to users' routine/wishlist (NOTE: Arguments stored in request.json)
   if (('username' in request.json) and ('productName' in request.json)):
     db.add_to_routine(request.json)
 
@@ -130,11 +153,15 @@ def add_to_routine():
 
 
 
+# *********************************
 # 4) Account page
+# *********************************
 @app.route('/yourAccount', methods=["GET"])
 def yourAccount():
+  
   # Get the users details from session object
   user_details = session
+  
   # Get the users name
   # Reference to check if a key exists within a python dict: https://www.geeksforgeeks.org/python-check-whether-given-key-already-exists-in-a-dictionary/
   if ('nickname' in user_details):
@@ -158,7 +185,9 @@ def yourAccount():
   
 
 
+# *********************************
 # 5) Review Page
+# *********************************
 @app.route('/reviews', methods=["GET"])
 def reviews():
   return render_template('reviews.html',session=session.get('user'))
@@ -169,16 +198,23 @@ def reviews():
 #########################################################
 # Editing Quiz Selection Routes
 #########################################################
+
+# ***************************************************************************************************
 # Edit skin type route (comes here when edit skin type btn is clicked on "your account" page)
+# ***************************************************************************************************
 @app.route('/edit_skin_type', methods=['GET', 'POST'])
 def editSkinType():
+  
   # Get the modified skin type from the form 
   if request.method == 'POST':
     modified_skin_type = request.form["skin-type"]
+    
     # Get the users details so we know which user to edit the skin type of in users table
     user_details = session
+    
     # Edit users skin type in the users table
     db.edit_skin_type(user_details, modified_skin_type)
+   
     # Get users details from session object
     user_details = session
     if ('nickname' in user_details):
@@ -201,16 +237,22 @@ def editSkinType():
     return render_template('yourAccount.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4),user_target=skin_target, user_skin_type=skin_type, routine_steps=num_of_steps)
 
 
+# ***************************************************************************************************
 # Edit skin target route (comes here when edit skin target btn is clicked on "your account" page)
+# ***************************************************************************************************
 @app.route('/edit_skin_target', methods=['GET', 'POST'])
 def editSkinTarget():
+  
   # Get the modified skin target from the form 
   if request.method == 'POST':
     modified_skin_target = request.form["target-type"]
+    
     # Get the users details so we know which user to edit the skin target of in users table
     user_details = session
+   
     # Edit users skin target in the users table
     db.edit_skin_target(user_details, modified_skin_target)
+    
     # Get users details from session object
     user_details = session
     if ('nickname' in user_details):
@@ -223,6 +265,7 @@ def editSkinTarget():
             for item in usersID_and_names:
                 if item[1] == user:
                    user_id = item[0]
+
     # Get the users selections from the users table and store them into variables               
     user_selections_list = db.get_user_quiz_selections(user_id)
     skin_type = user_selections_list[0][0]
@@ -232,7 +275,9 @@ def editSkinTarget():
     return render_template('yourAccount.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4),user_target=skin_target, user_skin_type=skin_type, routine_steps=num_of_steps)
 
 
+# ***************************************************************************************************
 # Edit number of steps in routine route (comes here when edit skin target btn is clicked on "your account" page)
+# ***************************************************************************************************
 @app.route('/edit_num_of_steps', methods=['GET', 'POST'])
 def editNumOfSteps():
 # If steps are from the form, edit user steps
@@ -267,28 +312,45 @@ def editNumOfSteps():
 #########################################################
 # TEST routes
 #########################################################
+
+# *********************************
 # Base page
+# *********************************
 @app.route('/base', methods=["GET"])
 def base():
   return render_template('base.html')
 
+
+# *********************************
 # Child page (For testing)
+# *********************************
 @app.route('/child', methods=["GET"])
 def child():
   return render_template('child.html')
 
+
+# *********************************
 # Test page (For testing)
-@app.route('/test', methods=["GET"])
-def test():
+# *********************************
+@app.route('/api/get-user-routine-json', methods=["GET"])
+def get_user_routine():
 
-  # Get user ID
-  # Get product ID
+  # ************************************************
+  # * Only have routine features for logged in users
+  # * Get the users details from session object
+  # ************************************************
+  user_details = session
+  if ('nickname' in user_details):
+    # Get username
+    username = user_details['nickname']
 
-  # Call database function to add routine to user
-  db_products = db.get_skincare_products_json()
-  
-  # Render products page with skincare products
-  return render_template('products.html')
+    # Call database function to get all of user's routine products that are
+    # categorized as 'product_category'
+    product_category = None
+    user_products = db.get_user_routine_by_type(product_category, username)
+    
+  # Render routine page with the skincare products on their wishlist
+  return user_products
 
 
 
@@ -296,12 +358,18 @@ def test():
 #########################################################
 # TEMPORARY ADMIN routes
 #########################################################
+
+# *********************************
 # Admin form to add to database
+# *********************************
 @app.route('/admin/add-product-form', methods=["GET"])
 def add_product_form():
   return render_template('add_product_form.html') 
 
+
+# *********************************
 # Add item to database
+# *********************************
 @app.route('/admin/add-product-to-db', methods=["POST"])
 def add_product():
 
@@ -350,7 +418,10 @@ def auth0Json():
 #########################################################
 # APIs
 #########################################################
+
+# *********************************
 # Gets skincare products from database formatted as json
+# *********************************
 @app.route('/api/get-products-json', methods=["GET"])
 def get_products_json():
 
@@ -361,8 +432,9 @@ def get_products_json():
   return (db_products)
 
 
-
+# *********************************
 # Gets skineasy users from database
+# *********************************
 @app.route('/api/get-users-json', methods=["GET"])
 def get_users_json():
 
@@ -373,7 +445,9 @@ def get_users_json():
   return (db_users)
 
 
+# *********************************
 # Gets skineasy reviews from database
+# *********************************
 @app.route('/api/get-routines-json', methods=["GET"])
 def get_routines_json():
 
@@ -384,7 +458,9 @@ def get_routines_json():
   return (db_users)
 
 
+# *********************************
 # Gets users review from database 
+# *********************************
 @app.route('/api/get-reviews-json', methods=["GET"])
 def get_reviews_json():
 
@@ -400,15 +476,10 @@ def get_reviews_json():
 #########################################################
 # Authorization
 #########################################################
-# @app.route("/signin")
-# def login():
-#     return render_template('signin.html')
 
-#   return oauth.autho.authorize_redirect (
-#     redirect_url=url_for("callback", external=True)
-#   )
-
+# *********************************
 # User login
+# *********************************
 @app.route("/login")
 def login():
     return oauth.auth0.authorize_redirect(
@@ -416,7 +487,9 @@ def login():
     )
 
 
+# *********************************
 # User login authorization callback
+# *********************************
 @app.route("/api/auth/callback", methods=["GET", "POST"])
 def callback():
 
@@ -429,9 +502,12 @@ def callback():
     token = oauth.auth0.authorize_access_token()
     print(token)
 
+    # *******************************************************************************************************************************************************
     # * Fill sessions dictionary
     # * Ensure keys exist before putting in session dict
+    # *
     # * Reference to check if a key exists within a python dict: https://www.geeksforgeeks.org/python-check-whether-given-key-already-exists-in-a-dictionary/
+    # *******************************************************************************************************************************************************
     # User login details stored in auth0 token
     if (token):
       session["user"] = token
@@ -459,7 +535,9 @@ def callback():
     return redirect("/")
 
 
+# *********************************
 # User logout
+# *********************************
 @app.route("/logout")
 def logout():
     # Clear out session when user logging out
@@ -476,5 +554,9 @@ def logout():
         )
     )
 
+
+# *********************************
+# Run on port 5000 if run locally
+# *********************************
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=env.get("PORT", 5000))

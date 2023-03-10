@@ -112,11 +112,12 @@ CREATE TABLE skineasy_routines (
         REFERENCES skineasy_users(user_id)
         ON DELETE CASCADE,
 
-    UNIQUE(product_id),
     CONSTRAINT product_id
         FOREIGN KEY (product_id)
         REFERENCES skineasy_skincare_products(product_id)
-        ON DELETE CASCADE
+        ON DELETE CASCADE,
+
+    UNIQUE(user_id, product_id)
 );
 
 
@@ -140,11 +141,12 @@ CREATE TABLE skineasy_reviews (
         REFERENCES skineasy_users(user_id)
         ON DELETE CASCADE,
     
-    UNIQUE(product_id),
     CONSTRAINT product_id
         FOREIGN KEY (product_id)
         REFERENCES skineasy_skincare_products(product_id)
-        ON DELETE CASCADE
+        ON DELETE CASCADE,
+
+    UNIQUE(user_id, product_id)
 );
 
 
@@ -161,7 +163,7 @@ for table in cur.fetchall():
 -- View ALL columns of a table
 SELECT column_name, data_type
 FROM information_schema.columns
-WHERE table_schema = 'public' AND table_name = 'skineasy_skincare_products';
+WHERE table_schema = 'public' AND table_name = 'skineasy_reviews';
 
 
 -- Show all contents of table
@@ -211,3 +213,18 @@ cur = conn.cursor()
 
 -- Close connection
 conn.close()
+
+
+-- Try to get products via
+'''
+SELECT skincare_routines.product_id
+FROM skincare_routines
+INNER JOIN skincare_products ON skincare_routines.product_id = skincare_products.product_id;
+'''
+
+
+SELECT row_to_json(skineasy_skincare_products)
+FROM skineasy_skincare_products
+INNER JOIN skineasy_routines 
+ON skineasy_routines.user_id = 4
+-- ORDER BY payment_date;
