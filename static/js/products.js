@@ -1,67 +1,3 @@
-// const buttonleft1 = document.getElementById('leftarrow1');
-// const buttonright1 = document.getElementById('rightarrow1');
-
-// buttonleft1.onclick = function() {
-//   document.getElementById('step1container').scrollLeft -= 505;
-// };
-// buttonright1.onclick = function() {
-//   document.getElementById('step1container').scrollLeft += 505;
-// };
-
-// const buttonleft2 = document.getElementById('leftarrow2');
-// const buttonright2 = document.getElementById('rightarrow2');
-
-// buttonleft2.onclick = function() {
-//   document.getElementById('step2container').scrollLeft -= 505;
-// };
-// buttonright2.onclick = function() {
-//   document.getElementById('step2container').scrollLeft += 505;
-// };
-
-// const buttonleft3 = document.getElementById('leftarrow3');
-// const buttonright3 = document.getElementById('rightarrow3');
-
-// buttonleft3.onclick = function() {
-//   document.getElementById('step3container').scrollLeft -= 505;
-// };
-// buttonright3.onclick = function() {
-//   document.getElementById('step3container').scrollLeft += 505;
-// };
-
-// const buttonleft4 = document.getElementById('leftarrow4');
-// const buttonright4 = document.getElementById('rightarrow4');
-
-// buttonleft4.onclick = function() {
-//   document.getElementById('step4container').scrollLeft -= 505;
-// };
-// buttonright4.onclick = function() {
-//   document.getElementById('step4container').scrollLeft += 505;
-// };
-
-// const buttonleft5 = document.getElementById('leftarrow5');
-// const buttonright5 = document.getElementById('rightarrow5');
-
-// buttonleft5.onclick = function() {
-//   document.getElementById('step5container').scrollLeft -= 505;
-// };
-// buttonright5.onclick = function() {
-//   document.getElementById('step5container').scrollLeft += 505;
-// };
-
-// const buttonleft6 = document.getElementById('leftarrow6');
-// const buttonright6 = document.getElementById('rightarrow6');
-
-// buttonleft6.onclick = function() {
-//   document.getElementById('step6container').scrollLeft -= 505;
-// };
-// buttonright6.onclick = function() {
-//   document.getElementById('step6container').scrollLeft += 505;
-// };
-
-
-
-
-
 //////////////////////////////////////
 // Add JS for custom click features //
 //////////////////////////////////////
@@ -131,9 +67,11 @@ function checkUserClicks(e) {
         let product = searchSiblingNodes(areaClicked, 'product-name');
         let productName = product.innerText;
 
+        // Use JS Fetch to make post request
         // Reference: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
         const data = { username: username, productName: productName };
 
+        // Make POST request to add the selected product to user's routine table
         fetch("/add_to_routine", {
           method: "POST",
           headers: {
@@ -150,6 +88,47 @@ function checkUserClicks(e) {
           });
 
     }
+
+
+    // ***********************************************************************************************
+    // * Make post request to remove a product from a user's personal routine/wishlist when
+    // * logged in user clicks 'remove from routine' button in routine page
+    // ***********************************************************************************************
+    // * 4) Check if a product is attempting to be removed from a user's routine
+    if (areaClicked.className == ('remove-from-routine-btn'))
+    {
+        // An element of class 'remove-from-routine-btn' was clicked
+        // Get username and product name
+        let username = document.getElementById("username").innerText;
+        let product = searchSiblingNodes(areaClicked, 'product-name');
+        let productName = product.innerText;
+
+        // Use JS Fetch to make post request
+        // Reference: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+        const data = { username: username, productName: productName };
+
+        // Make post request to delete selected product from user's routine table
+        fetch("/remove_from_routine", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => response.json())
+          .then((responseData) => {
+            console.log("Success:", responseData);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+
+        // Remove product card from HTML as well
+        // Reference: https://stackoverflow.com/questions/12287422/removing-element-dynamically
+        let productHTMLNode = areaClicked.parentElement;
+        productHTMLNode.parentElement.removeChild(productHTMLNode);
+    }
+
 }
 
 

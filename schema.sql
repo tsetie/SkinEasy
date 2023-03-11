@@ -25,7 +25,9 @@ CREATE TABLE skineasy_skincare_products (
     dry_skin         boolean,
     is_all           boolean,
 
-    price            varchar(10)
+    price            money,
+    num_reviews      integer,
+    average_rating   numeric
 );
 
 
@@ -47,7 +49,8 @@ WHERE product_name = 'Drunk Elephant Protini Polypeptide Cream ';
 
 -- Add a new column to table
 ALTER TABLE skineasy_skincare_products 
-ADD COLUMN price varchar(10);
+ADD COLUMN num_reviews integer,
+ADD COLUMN average_rating numeric;
 
 -- Remove products entry from skincare products table
 DELETE FROM skineasy_skincare_products WHERE condition;
@@ -163,7 +166,7 @@ for table in cur.fetchall():
 -- View ALL columns of a table
 SELECT column_name, data_type
 FROM information_schema.columns
-WHERE table_schema = 'public' AND table_name = 'skineasy_reviews';
+WHERE table_schema = 'public' AND table_name = 'skineasy_skincare_products';
 
 
 -- Show all contents of table

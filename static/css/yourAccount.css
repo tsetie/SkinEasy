@@ -94,3 +94,14 @@ button:hover{
 .editBtn{
   display: inline;
 }
+
+/* Reviews written container */
+
+#reviewsContainer{
+  border: solid;
+  border-width: 1px;
+  margin-left: 5em;
+  margin-right: 5em;
+  margin-top: 5em;
+  border-color: rgb(179, 167, 152);
+}

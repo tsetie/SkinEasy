@@ -15,6 +15,7 @@ from urllib.parse import quote_plus, urlencode
 from authlib.integrations.flask_client import OAuth
 from dotenv import find_dotenv, load_dotenv
 from flask import Flask, redirect, render_template, session, url_for
+from jinja2 import TemplateNotFound
 
 import db
 
@@ -56,7 +57,10 @@ def setup():
 # *********************************
 @app.route('/')
 def home():
+  try:
     return render_template('home.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4))
+  except TemplateNotFound:
+    abort(404)
 
 
 
@@ -100,8 +104,11 @@ def products():
   products_list = db.filter_products(cleanser_filter, exfoliant_filter, toner_filter, serum_filter, moisturizer_filter, sunscreen_filter)
 
   # Render products page with skincare products
-  return render_template('products.html', products_list=products_list, query_dict=checked_query_dict, session=session.get('user'))
-
+  # Template not found try/catch block reference: https://flask-diamond.readthedocs.io/en/stable/developer/writing_views_with_jinja_and_blueprints/
+  try:
+    return render_template('products.html', products_list=products_list, query_dict=checked_query_dict, session=session.get('user'))
+  except TemplateNotFound:
+    abort(404)
 
 
 # *********************************
@@ -136,11 +143,13 @@ def routine():
     user_suncreens      = db.get_user_routine_by_type('sunscreen', username)
     
   # Render routine page with the skincare products on the current user's wishlist
-  return render_template('routine.html', session=session.get('user'), is_user_logged_in=is_user_logged_in, user_cleansers=user_cleansers, user_exfoliants=user_exfoliants, user_toners=user_toners, user_serums=user_serums, user_moisturizers=user_moisturizers, user_suncreens=user_suncreens)
-
+  try:
+    return render_template('routine.html', session=session.get('user'), is_user_logged_in=is_user_logged_in, user_cleansers=user_cleansers, user_exfoliants=user_exfoliants, user_toners=user_toners, user_serums=user_serums, user_moisturizers=user_moisturizers, user_suncreens=user_suncreens)
+  except TemplateNotFound:
+    abort(404)
 
 # ***************************************************************************************************
-# Add a product to routine after its respective 'add to routine' button is seleceted
+# Add a product to routine after its respective 'add to routine' button is selected
 # ***************************************************************************************************
 @app.route('/add_to_routine', methods=["POST"])
 def add_to_routine():
@@ -151,6 +160,18 @@ def add_to_routine():
 
   return request.json
 
+
+# ***************************************************************************************************
+# Remove a product to routine after its respective 'remove from routine' button is selected
+# ***************************************************************************************************
+@app.route('/remove_from_routine', methods=["POST"])
+def remove_from_routine():
+
+  # Add to users' routine/wishlist (NOTE: Arguments stored in request.json)
+  if (('username' in request.json) and ('productName' in request.json)):
+    db.remove_from_routine(request.json)
+
+  return request.json
 
 
 # *********************************
@@ -181,8 +202,11 @@ def yourAccount():
   skin_target = quiz_selections_list[0][1]
   num_of_steps = quiz_selections_list[0][2]
   
-  return render_template('yourAccount.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4),user_target=skin_target, user_skin_type=skin_type, routine_steps=num_of_steps)
-  
+  # Render account page
+  try:
+    return render_template('yourAccount.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4),user_target=skin_target, user_skin_type=skin_type, routine_steps=num_of_steps)
+  except TemplateNotFound:
+    abort(404)
 
 
 # *********************************
@@ -190,8 +214,19 @@ def yourAccount():
 # *********************************
 @app.route('/reviews', methods=["GET"])
 def reviews():
-  return render_template('reviews.html',session=session.get('user'))
+  try:
+    return render_template('reviews.html',session=session.get('user'))
+  except TemplateNotFound:
+    abort(404)
+  
 
+
+@app.route('/write-a-review', methods=["GET"])
+def write_review():
+  try:
+    return render_template('write_review.html',session=session.get('user'))
+  except TemplateNotFound:
+    abort(404)
 
 
 
@@ -234,8 +269,10 @@ def editSkinType():
     skin_target = user_selections_list[0][1]
     num_of_steps = user_selections_list[0][2]
 
-    return render_template('yourAccount.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4),user_target=skin_target, user_skin_type=skin_type, routine_steps=num_of_steps)
-
+    try:
+      return render_template('yourAccount.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4),user_target=skin_target, user_skin_type=skin_type, routine_steps=num_of_steps)
+    except TemplateNotFound:
+      abort(404)
 
 # ***************************************************************************************************
 # Edit skin target route (comes here when edit skin target btn is clicked on "your account" page)
@@ -256,15 +293,15 @@ def editSkinTarget():
     # Get users details from session object
     user_details = session
     if ('nickname' in user_details):
-            user = user_details['nickname']
+      user = user_details['nickname']
 
-            # Get user_ids from users table to add to the review table 
-            usersID_and_names = db.get_all_user_ids_and_names()
+      # Get user_ids from users table to add to the review table 
+      usersID_and_names = db.get_all_user_ids_and_names()
 
-            # Iterate list and find user_id corresponding to user's name
-            for item in usersID_and_names:
-                if item[1] == user:
-                   user_id = item[0]
+      # Iterate list and find user_id corresponding to user's name
+      for item in usersID_and_names:
+        if item[1] == user:
+          user_id = item[0]
 
     # Get the users selections from the users table and store them into variables               
     user_selections_list = db.get_user_quiz_selections(user_id)
@@ -272,8 +309,11 @@ def editSkinTarget():
     skin_target = user_selections_list[0][1]
     num_of_steps = user_selections_list[0][2]
 
-    return render_template('yourAccount.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4),user_target=skin_target, user_skin_type=skin_type, routine_steps=num_of_steps)
-
+    # Render account page
+    try:
+      return render_template('yourAccount.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4),user_target=skin_target, user_skin_type=skin_type, routine_steps=num_of_steps)
+    except TemplateNotFound:
+        abort(404)
 
 # ***************************************************************************************************
 # Edit number of steps in routine route (comes here when edit skin target btn is clicked on "your account" page)
@@ -290,23 +330,26 @@ def editNumOfSteps():
     # Get users details from session object
     user_details = session
     if ('nickname' in user_details):
-            user = user_details['nickname']
+      user = user_details['nickname']
 
-            # Get user_ids from users table to add to the review table 
-            usersID_and_names = db.get_all_user_ids_and_names()
+      # Get user_ids from users table to add to the review table 
+      usersID_and_names = db.get_all_user_ids_and_names()
 
-            # Iterate list and find user_id corresponding to user's name
-            for item in usersID_and_names:
-                if item[1] == user:
-                   user_id = item[0]
+      # Iterate list and find user_id corresponding to user's name
+      for item in usersID_and_names:
+        if item[1] == user:
+          user_id = item[0]
+
     # Get the users selections from the users table and store them into variables             
     user_selections_list = db.get_user_quiz_selections(user_id)
     skin_type = user_selections_list[0][0]
     skin_target = user_selections_list[0][1]
     num_of_steps = user_selections_list[0][2]
 
-    return render_template('yourAccount.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4),user_target=skin_target, user_skin_type=skin_type, routine_steps=num_of_steps)
-  
+    try:
+      return render_template('yourAccount.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4),user_target=skin_target, user_skin_type=skin_type, routine_steps=num_of_steps)
+    except TemplateNotFound:
+      abort(404)
 
 
 #########################################################
@@ -364,7 +407,11 @@ def get_user_routine():
 # *********************************
 @app.route('/admin/add-product-form', methods=["GET"])
 def add_product_form():
-  return render_template('add_product_form.html') 
+  try:
+    return render_template('add_product_form.html')
+  except TemplateNotFound:
+      abort(404)
+  
 
 
 # *********************************

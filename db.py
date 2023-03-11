@@ -422,38 +422,6 @@ def get_routines_json():
 
 
 # ****************************************************
-# Function to add an entry to routines table given a dictionary with username and product name
-# ****************************************************
-def add_to_routine(user_product_info):
-
-    with get_db_cursor(True) as cur:
-        current_app.logger.info('Adding entry to routine table')
-
-        username = user_product_info['username']
-        product_name = user_product_info['productName']
-
-        # Build SQL where statements to get user ID and product ID based on provided arguments
-        user_id = get_user_id_from_username(username)
-        product_id = get_product_id_from_product_name(product_name)
-
-        print(user_id)
-        print(product_id)
-
-        # Use user ID and product ID to store in user's routine wishlist
-
-        # Build SQL insertion statement and ensure product ids are unique
-        add_routine_sql = '''
-            INSERT INTO skineasy_routines (user_id, product_id)
-            VALUES (%s, %s)
-            ON CONFLICT (user_id, product_id) DO NOTHING;
-            '''
-        # Execute sql insertion
-        cur.execute(add_routine_sql, (user_id, product_id))
-
-        return
-
-
-# ****************************************************
 # Function to get user id based on username string
 # ****************************************************
 def get_user_id_from_username(username):
@@ -475,6 +443,66 @@ def get_product_id_from_product_name(product_name):
         cur.execute(get_product_sql)
         product_id = cur.fetchall()[0][0]
         return product_id
+
+
+# ****************************************************
+# Function to add an entry to routines table given a dictionary with username and product name
+# ****************************************************
+def add_to_routine(user_product_info):
+
+    with get_db_cursor(True) as cur:
+        current_app.logger.info('Adding entry to routine table')
+
+        # Get username and product name 
+        username = user_product_info['username']
+        product_name = user_product_info['productName']
+
+        # Build SQL where statements to get user ID and product ID based on provided arguments
+        user_id = get_user_id_from_username(username)
+        product_id = get_product_id_from_product_name(product_name)
+
+        # Use user ID and product ID to store in user's routine wishlist
+
+        # Build SQL insertion statement and ensure product ids are unique
+        add_routine_entry_sql = '''
+            INSERT INTO skineasy_routines (user_id, product_id)
+            VALUES (%s, %s)
+            ON CONFLICT (user_id, product_id) DO NOTHING;
+            '''
+        # Execute sql insertion
+        cur.execute(add_routine_entry_sql, (user_id, product_id))
+
+        return
+
+
+# ****************************************************
+# Function to add an entry to routines table given a dictionary with username and product name
+# ****************************************************
+def remove_from_routine(user_product_info):
+
+    with get_db_cursor(True) as cur:
+        current_app.logger.info('Adding entry to routine table')
+
+        # Get username and product name 
+        username = user_product_info['username']
+        product_name = user_product_info['productName']
+
+        # Build SQL where statements to get user ID and product ID based on provided arguments
+        user_id = get_user_id_from_username(username)
+        product_id = get_product_id_from_product_name(product_name)
+
+        # Use user ID and product ID to store in user's routine wishlist
+
+        # Build SQL insertion statement and ensure product ids are unique
+        remove_routine_entry_sql = '''
+            DELETE 
+            FROM skineasy_routines 
+            WHERE user_id = %s AND product_id = %s
+            '''
+        # Execute sql insertion
+        cur.execute(remove_routine_entry_sql, (user_id, product_id))
+
+        return
 
 
 # ****************************************************
