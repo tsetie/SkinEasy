@@ -8,6 +8,7 @@
   width: 80%;
   border: 3px solid #727066;
   z-index: 9;
+  overflow: scroll;
 }
 
 /* Add styles to the form container */
@@ -117,7 +118,7 @@ input[type="radio"]:checked + label.quiz-btn-label:before {
 }
 
 .x {
-  background-color: rgba(255, 0, 0, 0.05);
+  background-color: rgb(255, 255, 255);
 }
 
 #quizdiv{

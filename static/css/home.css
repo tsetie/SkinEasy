@@ -2,6 +2,7 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  
 }
 
 /* Fonts */
@@ -91,6 +92,21 @@ a.pure-button-primary {
   font-size: 120%;
 }
 
+/* sign in drop down styling */
+
+#myAccountBtn{
+  color: rgb(164, 155, 135);
+}
+#myAccountBtn:hover{
+  background-color: rgba(169, 165, 158, 0.272);
+}
+
+#logoutBtn{
+  color: rgb(164, 155, 135);
+}
+#logoutBtn:hover{
+  background-color: rgba(169, 165, 158, 0.272);
+}
 
 /*
 * -- MENU STYLES --
@@ -132,6 +148,13 @@ a.pure-button-primary {
   color: #6a6a6a;
 }
 
+.pure-menu-link{
+  color: rgb(164, 155, 135);
+}
+
+.pure-menu-has-children{
+  color: rgb(255, 255, 255);
+}
 
 /*
 * -- SPLASH STYLES --

@@ -100,11 +100,17 @@
                     <input type="checkbox" id="oily" name="oily" value="1" {{ "checked" if query_dict['oily'] }}>
                     <label for="oily">Oily</label>
                 </div>
-                <div>
-                    <input type="checkbox" id="all" name="all" value="1" {{ "checked" if query_dict['all'] }}>
-                    <label for="all">Show All</label>
-                </div>
 
+                <!-- Filter by target area -->
+                <h3>Target Area</h3>
+                <div>
+                    <input type="checkbox" id="sensitive-target" name="sensitive-target" value="1" {{ "checked" if query_dict['sensitive-target'] }}>
+                    <label for="sensitive-target">Sensitive</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="mature-target" name="mature-target" value="1" {{ "checked" if query_dict['mature-target'] }}>
+                    <label for="mature-target">Mature</label>
+                </div>
 
                 <!-- Filter by price-->
                 <h3>Price</h3>

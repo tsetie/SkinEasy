@@ -56,27 +56,28 @@ h3 {
 
 
 /* Search bar CSS */
-#searchBar{
+#search_bar{
   border-style:none;
   border-radius: .5em;
   height: 1.8em;
-  width: 14em;
-}
-
-#searchBar:hover{
+  width: 14em;  
   background-color: rgb(212, 206, 195);
 }
 
-#searchbarbtn{
+#search_bar:hover{
+  background-color: rgba(255, 255, 255, 0.609);
+}
+
+#search_bar_btn{
   border-radius: .5em;
   border-style: none;
-  color: rgb(129, 127, 119);
+  background-color: rgb(212, 206, 195);
+  color: gray;
   height: 1.8em;
   width: 5em;
 }
-#searchbarbtn:hover{
-  background-color: white;
-}
+#search_bar_btn:hover{
+  background-color: rgba(255, 255, 255, 0.609);}
 
 .stepContainers{
   overflow-x:scroll;

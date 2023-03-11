@@ -60,11 +60,10 @@ function checkUserClicks(e) {
     if (areaClicked.className == ('add-to-routine-btn'))
     {
         // An element of class 'add-product-btn' was clicked
-        // Check if user is logged in?
-
         // Get username and product name
         let username = document.getElementById("username").innerText;
         let product = searchSiblingNodes(areaClicked, 'product-name');
+        console.log(username)
         let productName = product.innerText;
 
         // Use JS Fetch to make post request
@@ -87,6 +86,7 @@ function checkUserClicks(e) {
             console.error("Error:", error);
           });
 
+          console.log("AYE")
     }
 
 
