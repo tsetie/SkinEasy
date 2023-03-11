@@ -133,15 +133,51 @@ def routine():
     is_user_logged_in = True
     username = user_details['nickname']
 
-    # Call database function to get all of user's routine products that are
-    # categorized as 'product_category'
-    user_cleansers      = db.get_user_routine_by_type('cleanser', username)
-    user_exfoliants     = db.get_user_routine_by_type('exfoliant', username)
-    user_toners         = db.get_user_routine_by_type('toner', username)
-    user_serums         = db.get_user_routine_by_type('serum', username)
-    user_moisturizers   = db.get_user_routine_by_type('moisturizer', username)
-    user_suncreens      = db.get_user_routine_by_type('sunscreen', username)
-    
+    # Call database function to get all of user's routine products for each category
+    # NOTE: This method results in LONG LOAD TIMES.. Likely due to many SQL database queries :(
+    # user_cleansers      = db.get_user_routine_by_type('cleanser', username)
+    # user_exfoliants     = db.get_user_routine_by_type('exfoliant', username)
+    # user_toners         = db.get_user_routine_by_type('toner', username)
+    # user_serums         = db.get_user_routine_by_type('serum', username)
+    # user_moisturizers   = db.get_user_routine_by_type('moisturizer', username)
+    # user_suncreens      = db.get_user_routine_by_type('sunscreen', username)
+
+    # Instead, try this, maybe it's faster?
+    user_routine = db.get_user_routine(username)
+
+    # Start with empty lists for product lists we want to return
+    user_cleansers    = []
+    user_exfoliants   = []
+    user_toners       = []
+    user_serums       = []
+    user_moisturizers = []
+    user_suncreens    = []
+    # Loop through one SQL select's results and add to python lists
+    for product in user_routine:
+
+      # Product details stored as a dict in a length one list so remove the list part
+      product_details = product[0]
+      
+      # If cleanser, add to cleanser list
+      if (product_details['cleanser'] == True):
+        user_cleansers.append(product)
+      # If exfoliant, add to exfoliant list
+      if (product_details['exfoliant'] == True):
+        user_exfoliants.append(product)
+      # If toner, add to toner list
+      if (product_details['toner'] == True):
+        user_toners.append(product)
+      # If serum, add to serum list
+      if (product_details['serum'] == True):
+        user_serums.append(product)
+      # If moisturizer, add to moisturizer list
+      if (product_details['moisturizer'] == True):
+        user_moisturizers.append(product)
+      # If sunscreen, add to sunscreen list
+      if (product_details['sunscreen'] == True):
+        user_suncreens.append(product)
+
+
   # Render routine page with the skincare products on the current user's wishlist
   try:
     return render_template('routine.html', session=session.get('user'), is_user_logged_in=is_user_logged_in, user_cleansers=user_cleansers, user_exfoliants=user_exfoliants, user_toners=user_toners, user_serums=user_serums, user_moisturizers=user_moisturizers, user_suncreens=user_suncreens)
@@ -224,7 +260,7 @@ def reviews():
 @app.route('/write-a-review', methods=["GET"])
 def write_review():
   try:
-    return render_template('write_review.html',session=session.get('user'))
+    return render_template('add_review.html',session=session.get('user'))
   except TemplateNotFound:
     abort(404)
 
