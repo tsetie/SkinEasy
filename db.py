@@ -62,19 +62,15 @@ def get_db_cursor(commit=False):
 ###################################################################################################
 # 1) PRODUCTS TABLE functions
 ###################################################################################################
-
 # ****************************************************
-# Function to add a product to skincare products table
+# A) Function to add a product to skincare products table
+# Inputs:   product_name (string):  text name of product we want to find the 'product_id' of
+# Returns:  product_id (integer):   ID from products table of product name parameter
 # ****************************************************
 def add_skincare_product(product_name, product_url, product_brand, image_path, cleanser=False, exfoliant=False, toner=False, serum=False, moisturizer=False, sunscreen=False, sensitive_target=False, mature_target=False, no_target=False, normal_skin=False, oily_skin=False, dry_skin=False, is_all=False):
-    
-    # Since we're using connection pooling, it's not as big of a deal to have   
-    # lots of short-lived cursors (I think -- worth testing if we ever go big)
-    
     with get_db_cursor(True) as cur:
-        current_app.logger.info('Adding entry to skincare products table')
 
-        # Build SQL insertion statement
+        # Build SQL insertion statement for each column in products table
         sql = '''
             INSERT INTO skineasy_skincare_products (
                 product_name,
@@ -98,30 +94,48 @@ def add_skincare_product(product_name, product_url, product_brand, image_path, c
             '''
         # Execute sql insertion
         cur.execute(sql, (product_name, product_url, product_brand, image_path, cleanser, exfoliant, toner, serum, moisturizer, sunscreen, sensitive_target, mature_target, no_target, normal_skin, oily_skin, dry_skin, is_all))
+        current_app.logger.info('Attempted to add entry to skincare products table')
+        return
+
+# *****************************************************************************************
+# B) Function to get product id based on product name string
+# Inputs:   product_name (string):  text name of product we want to find the 'product_id' of
+# Returns:  product_id (integer):   ID from products table found using product name parameter
+# *****************************************************************************************
+def get_product_id_from_product_name(product_name):
+    with get_db_cursor(True) as cur:
+    
+        # Make SQL statement to get product ID from the product name (string) parameter
+        get_product_sql = "SELECT %s FROM %s WHERE %s = '%s'" % ('product_id', 'skineasy_skincare_products', 'product_name', product_name)
+        cur.execute(get_product_sql)
+        product_id = cur.fetchall()[0][0]
+        return product_id
 
 
-# ****************************************************
-# Function to get all skincare products from skincare products table
-# ****************************************************
+# *****************************************************************************
+# C) Function to get all skincare products from skincare products table as JSON
+# *****************************************************************************
 def get_skincare_products_json():
     with get_db_cursor() as cur:
 
-        # Make SQL statement asking database for all entries in products table
+        # Make SQL statement asking database for all entries in products table as JSON
         sql = 'SELECT row_to_json(skineasy_skincare_products) FROM skineasy_skincare_products ORDER BY product_id ASC'
-       
         cur.execute(sql)   
         return cur.fetchall()
 
 
-# ****************************************************
-# Function to get skincare products based on filter tags
-# ****************************************************
+# ************************************************************************************************************************************************************
+# D) Function to get skincare products based on product category tags as JSON
+# Inputs: 
+# References:
+# * Reference to convert lists to tuples: https://www.w3schools.com/python/python_tuples_update.asp
+# * Reference to use multi-line strings in python with parenthesis: https://stackoverflow.com/questions/5437619/python-style-line-continuation-with-strings
+# * Reference to use '%s' in python: https://www.geeksforgeeks.org/what-does-s-mean-in-a-python-format-string/
+# ************************************************************************************************************************************************************
 def filter_products(num_filters=0, cleanser_filter=False, exfoliant_filter=False, toner_filter=False, serum_filter=False, moisturizer_filter=False, sunscreen_filter=False):
     with get_db_cursor(True) as cur:    
         
-        # *Build a PSQL WHERE clause based on filters
-        # If any filters are to be applied, set up a WHERE clause
-        where_clause = ''
+        where_clause = ''  # Build a PSQL WHERE clause based on filters
         
         # If there is at least one filter to be applied, set up WHERE clause format
         if (num_filters >= 1):
@@ -130,9 +144,7 @@ def filter_products(num_filters=0, cleanser_filter=False, exfoliant_filter=False
         # For any additional filters, begin to use 'OR' statement in WHERE clause
         for i in range(1, num_filters-1):
             where_clause += ' OR %s' 
- 
-        # Add any filters to where clause in a python list --> python tuple
-        data = []
+        data = []  # Add any filters to where clause in a python list --> python tuple
 
         # Check passed in filters
         if (cleanser_filter):
@@ -153,17 +165,13 @@ def filter_products(num_filters=0, cleanser_filter=False, exfoliant_filter=False
         if (sunscreen_filter):
             data.append('sunscreen IS TRUE')
 
-        # Reference to convert lists to tuples: https://www.w3schools.com/python/python_tuples_update.asp
+        # Convert SQL data to tuples to fill in '%s' for SQL strings
         data = tuple(data)
         
         # Fill where clause with data tuple
-        print("Where:", where_clause)
-        print("Data:", data)
         where_clause = where_clause % data
 
-        # References: 
-        # * Reference to use multi-line strings in python with parenthesis: https://stackoverflow.com/questions/5437619/python-style-line-continuation-with-strings
-        # * Reference to use '%s' in python: https://www.geeksforgeeks.org/what-does-s-mean-in-a-python-format-string/
+        # Make SQL SELECT statement with filter data (tuple)
         sql = (
             'SELECT row_to_json(skineasy_skincare_products) '
             'FROM skineasy_skincare_products '
@@ -175,24 +183,42 @@ def filter_products(num_filters=0, cleanser_filter=False, exfoliant_filter=False
         return cur.fetchall()
 
 
-# ****************************************************
-# Function to get all products with filters
-# ****************************************************
-def get_products(num_of_skintype_filters_selected, normal_skin_type, dry_skin_type, oily_skin_type, all_skin_type, price, product_type):
-    with get_db_cursor(True) as cur:    
-        
-        # *Build a PSQL WHERE clause based on filters
-        # If any filters are to be applied, set up a WHERE clause
-        where_clause = "%s"
+# **********************************************************************************************************************************************************
+# E) Function to get all products with any user applied filters as JSON
+# Inputs: 
+# References:
+# * Reference to convert lists to tuples: https://www.w3schools.com/python/python_tuples_update.asp
+# * Reference to use multi-line strings in python with parenthesis: https://stackoverflow.com/questions/5437619/python-style-line-continuation-with-strings
+# * Reference to use "%s" in python: https://www.geeksforgeeks.org/what-does-s-mean-in-a-python-format-string/
+# * Reference to display 2 decimal points for price https://stackoverflow.com/questions/13113096/how-to-round-an-average-to-2-decimal-places-in-postgresql
+# **********************************************************************************************************************************************************
+def get_products(num_of_skintype_filters_selected, normal_skin_type, dry_skin_type, oily_skin_type, all_skin_type,num_of_targets, sensitive_target, mature_target, price, product_type):
+    with get_db_cursor(True) as cur:
 
+        where_clause = "%s"  # Build a PSQL WHERE clause based on filters for SKIN TYPE
+    
         # For any additional filters, begin to use "OR" statement in WHERE clause
         for i in range(1, num_of_skintype_filters_selected):
             where_clause += " OR %s" 
- 
-        # Add any filters to where clause in a python list --> python tuple
-        data = []
+
+        data = []  # Add any filters to where clause in a python list --> python tuple
+
+        # Build a PSQL WHERE clause based on filters for TARGET AREAS
+        target_clause = "AND (%s"
+
+        # For any additional filters, begin to use "or" statement in TARGET clause
+        for i in range(1, (num_of_targets)):
+            target_clause += " OR %s"
+
+        # Add closing parenthesis for target_clause
+        target_clause += ")"
+        target_data = []
+
+        # In case price is not filtered, at least need an empty string to pass into SQL query
+        price_range_clause = ""
 
         # Check passed in filters
+        # --- Skin type ---
         if (normal_skin_type):
             data.append("normal_skin IS TRUE")
 
@@ -205,39 +231,48 @@ def get_products(num_of_skintype_filters_selected, normal_skin_type, dry_skin_ty
         if (all_skin_type):
             data.append("is_all IS TRUE")
 
-        if(price == "price-under-20"):
-            data.append("(price < 20)")
+        # --- Skin target ---
+        if (sensitive_target):
+            target_data.append("sensitive_target IS TRUE")
 
-        if(price == "price-20-40"):
-           data.append("(price > 20 AND price < 40)")
+        if (mature_target):
+            target_data.append("mature_target IS TRUE")
+       
+        if (num_of_targets < 1):
+            target_data.append("none_target is TRUE OR sensitive_target IS TRUE OR mature_target IS TRUE")
 
-        if(price == "price-40-60"):
-           data.append("(price > 40 AND price < 60)")
+        # --- Price ---
+        if (price == "price-under-20"):
+            price_range_clause = ("  AND price < 20.00")
 
-        if(price == "price-60-80"):
-           data.append("(price > 60 AND price < 80)")
+        elif (price == "price-20-40"):
+           price_range_clause = " AND price > 20.00 AND price < 40.00"
 
-        if(price == "price-above-80"):
-            data.append("price > 80")
+        elif (price == "price-40-60"):
+           price_range_clause = (" AND price > 40.00 AND price < 60.00")
 
-        # Reference to convert lists to tuples: https://www.w3schools.com/python/python_tuples_update.asp
+        elif (price == "price-60-80"):
+           price_range_clause = (" AND price > 60.00 AND price < 80.00")
+
+        elif (price == "price-above-80"):
+            price_range_clause = (" AND price > 80.00")
+
+        # Convert SQL data to tuples to fill in '%s' for SQL strings
         data = tuple(data)
+        target_data = tuple(target_data)
 
-        print("\n")
-        print(where_clause)
-        # Fill where clause with data tuple
-        where_clause = where_clause % data
-        print(where_clause)
-        
-        # Reference to use multi-line strings in python with parenthesis: https://stackoverflow.com/questions/5437619/python-style-line-continuation-with-strings
-        # Reference to use "%s" in python: https://www.geeksforgeeks.org/what-does-s-mean-in-a-python-format-string/
+        where_clause = where_clause % data              # Fill where clause with data tuple
+        target_clause = target_clause % target_data     # Fill target clause with target data tuple
+
+        # Make SQL SELECT statement with filter data (tuple)
         sql = (
-            "SELECT row_to_json(skineasy_skincare_products) "
-            "FROM skineasy_skincare_products "
+            "SELECT row_to_json(row) "
+            "FROM (SELECT * , to_char(price::numeric, 'FM9999D00') display_price FROM skineasy_skincare_products ) row "
             "WHERE %s IS TRUE "
             "AND (" % product_type
-            + where_clause
-            + ")"
+            + where_clause + ") "
+            + target_clause
+            + " %s" % price_range_clause
         )
         
         # Execute sql statement with data
@@ -248,10 +283,9 @@ def get_products(num_of_skintype_filters_selected, normal_skin_type, dry_skin_ty
 ###################################################################################################
 # 2) USER TABLE functions
 ###################################################################################################
-
-# ****************************************************
-# Function to get ALL USERS from the user table as JSON
-# ****************************************************
+# *****************************************************************
+# A) Function to get all skineasy users in ascending order as JSON
+# *****************************************************************
 def get_users_json():
     with get_db_cursor() as cur:
         
@@ -261,120 +295,96 @@ def get_users_json():
         return cur.fetchall()
 
 
-# ****************************************************
-# Function to add a user to the users table after they make an account
-# ****************************************************
+# **********************************************************************************
+# B) Function to get user id based on username string
+# Inputs:   username (string): user unique text identifier
+# Returns:  user_id (integer): ID from users table found using provided username parameter
+# **********************************************************************************
+def get_user_id_from_username(username):
+    with get_db_cursor(True) as cur:
+        
+        # Make SQL statement asking for user ID using provided username input
+        get_user_sql = "SELECT %s FROM %s WHERE %s = '%s'" % ('user_id', 'skineasy_users', 'username', username)
+        cur.execute(get_user_sql)
+        user_id = cur.fetchall()[0][0]
+        return user_id
+
+
+# *************************************************************************************************************************************************************************************
+# Function to add a user to the users table when logging in for the first time
+# Inputs:   user_details (dictionary):  two-key dictionary with { username: (string), email: (string) } keys
+# Returns:  nothing
+# References: 
+# * Reference to check if a key exists within a python dict:    https://www.geeksforgeeks.org/python-check-whether-given-key-already-exists-in-a-dictionary/
+# * Reference on PSQL insertion without duplicates:             https://stackoverflow.com/questions/1009584/how-to-emulate-insert-ignore-and-on-duplicate-key-update-sql-merge-with-po
+# *************************************************************************************************************************************************************************************
 def add_user(user_details):
     with get_db_cursor(True) as cur:
         
         # Only add user if provided a username and email
-        # Reference to check if a key exists within a python dict: https://www.geeksforgeeks.org/python-check-whether-given-key-already-exists-in-a-dictionary/
-        if (('nickname' in user_details) and ('email' in user_details)):
-            user = user_details['nickname']
-            email = user_details['email']
+        if (('nickname' not in user_details) or ('email' not in user_details)):
+            current_app.logger.info('Error at function "add_user": Invalid username OR email given.')
+        
+        # Otherwise, we can get username & email since they exist
+        user = user_details['nickname']
+        email = user_details['email']
 
-            # Build SQL statement with sessions object
-            # Make sure no duplicate emails (emails are unique)
-            # Reference on PSQL insertion without duplicates: https://stackoverflow.com/questions/1009584/how-to-emulate-insert-ignore-and-on-duplicate-key-update-sql-merge-with-po
-            sql = '''
-                INSERT INTO skineasy_users (username, email)
-                VALUES (%s, %s)
-                ON CONFLICT (username, email) DO NOTHING;
-                '''
+        # Build SQL statement with user and email
+        # NOTE: Don't add to users table if a user already exists (don't want duplicate entries for users)
+        sql = '''
+            INSERT INTO skineasy_users (username, email)
+            VALUES (%s, %s)
+            ON CONFLICT (username, email) DO NOTHING;
+            '''
 
-            # Execute sql statement with default data
-            cur.execute(sql, (user, email))
+        # Execute sql statement with username and email data
+        cur.execute(sql, (user, email))
 
-            print('Adding user to users table.')
-
+        # Report that attempt to add user was made
+        current_app.logger.info('Attempted to add user to users table.')
         return
 
 
-# ****************************************************
-# Function to update users skin type in users table
-# ****************************************************
-def edit_skin_type(user_details, modified_skin_type):
+# **********************************************************************************************************************************************************
+# Function to update users skincare preferences in users table
+# Inputs: 
+# * user_details (dictionary):      two-key dictionary with { username: (string), email: (string) } keys
+# * preference_type (string):       text representing which user preference to change  
+# * modified_preference (string):   specified value of what preference type should change to
+# References:
+# * Reference to check if a key exists within a python dict:    https://www.geeksforgeeks.org/python-check-whether-given-key-already-exists-in-a-dictionary/
+# **********************************************************************************************************************************************************
+def edit_user_preferences(user_details, preference_type, preference_value):
     with get_db_cursor(True) as cur: 
         
-        # Get username
-        # Reference to check if a key exists within a python dict: https://www.geeksforgeeks.org/python-check-whether-given-key-already-exists-in-a-dictionary/
-        if ('nickname' in user_details):
-            user = user_details['nickname']
+        # Check for invalid inputs
+        # 1) Ensure username valid
+        if ('nickname' not in user_details):
+            current_app.logger.info('Error at function "edit_user_preferences": Invalid username given.')
+            return
+        # 2) Ensure preference type is valid
+        valid_preferences = ['user_skin_type', 'user_target', 'routine_steps']
+        if (preference_type not in valid_preferences):
+            current_app.logger.info('Error at function "edit_user_preferences": Invalid preference type given.')
+            return
+        # 3) Ensure modified preference is valid
 
-            # Get user_ids from users table to add to the review table 
-            usersID_and_names = get_all_user_ids_and_names()
+        username = user_details['nickname']             # Get username in order to find user ID 
+        user_id = get_user_id_from_username(username)   # Get user_id from username
 
-            # Iterate list and find user_id corresponding to user's name
-            for item in usersID_and_names:
-                if item[1] == user:
-                    user_id = item[0]
-        
-            sql = '''
-                UPDATE skineasy_users
-                SET user_skin_type = %s
-                WHERE user_id = %s
-                '''
+        # Build SQL string to change a user's skincare preferences
+        sql = '''
+            UPDATE skineasy_users
+            SET %s = %s
+            WHERE user_id = %s
+            '''
 
-            # Execute sql statement with default data
-            cur.execute(sql, (modified_skin_type, user_id))
+        print(sql % (preference_type, preference_value, user_id))
 
-
-# ****************************************************
-# Function to update users skin target in users table
-# ****************************************************
-def edit_skin_target(user_details, modified_skin_target):
-    with get_db_cursor(True) as cur: 
-        
-        # Get username
-        # Reference to check if a key exists within a python dict: https://www.geeksforgeeks.org/python-check-whether-given-key-already-exists-in-a-dictionary/
-        if ('nickname' in user_details):
-            user = user_details['nickname']
-
-            # Get user_ids from users table to add to the review table 
-            usersID_and_names = get_all_user_ids_and_names()
-
-            # Iterate list and find user_id corresponding to user's name
-            for item in usersID_and_names:
-                if item[1] == user:
-                    user_id = item[0]
-        
-            sql = '''
-                UPDATE skineasy_users
-                SET user_target = %s
-                WHERE user_id = %s
-                '''
-
-            # Execute sql statement with default data
-            cur.execute(sql, (modified_skin_target, user_id))
-
-
-# ****************************************************
-# Function to update users steps amount in users table
-# ****************************************************
-def edit_num_of_steps(user_details, modified_num_of_steps):
-    with get_db_cursor(True) as cur: 
-        
-        # Get username
-        # Reference to check if a key exists within a python dict: https://www.geeksforgeeks.org/python-check-whether-given-key-already-exists-in-a-dictionary/
-        if ('nickname' in user_details):
-            user = user_details['nickname']
-
-            # Get user_ids from users table to add to the review table 
-            usersID_and_names = get_all_user_ids_and_names()
-
-            # Iterate list and find user_id corresponding to user's name
-            for item in usersID_and_names:
-                if item[1] == user:
-                    user_id = item[0]
-        
-            sql = '''
-                UPDATE skineasy_users
-                SET routine_steps = %s
-                WHERE user_id = %s
-                '''
-
-            # Execute sql statement with default data
-            cur.execute(sql, (modified_num_of_steps, user_id))
+        # Execute sql statement with default data
+        cur.execute(sql, (preference_type, preference_value, user_id))
+        current_app.logger.info('Attempted to edit user preference.')
+        return
 
 
 # ****************************************************
@@ -422,23 +432,11 @@ def get_routines_json():
 
 
 # ****************************************************
-# Function to get user id based on username string
-# ****************************************************
-def get_user_id_from_username(username):
-
-    with get_db_cursor(True) as cur:
-        get_user_sql = "SELECT %s FROM %s WHERE %s = '%s'" % ('user_id', 'skineasy_users', 'username', username)
-        cur.execute(get_user_sql)
-        user_id = cur.fetchall()[0][0]
-        return user_id
-
-
-# ****************************************************
 # Function to get product id based on product name string
 # ****************************************************
 def get_product_id_from_product_name(product_name):
-
     with get_db_cursor(True) as cur:
+        
         get_product_sql = "SELECT %s FROM %s WHERE %s = '%s'" % ('product_id', 'skineasy_skincare_products', 'product_name', product_name)
         cur.execute(get_product_sql)
         product_id = cur.fetchall()[0][0]

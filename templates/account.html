@@ -1,5 +1,5 @@
-<!-- youAccount.html -->
-<!-- SkinEasy Your account page -->
+<!-- adccount.html -->
+<!-- SkinEasy User Account Ppage -->
 
 <!-- Inherits from: -->
 {% extends "base.html" %}
@@ -14,7 +14,7 @@
     <!-- Pure CSS -->
     <link rel="stylesheet" href="https://purecss.io/layouts/side-menu/styles.css">
 
-    <!-- javascipt -->
+    <!-- Javascript -->
     <script src="https://purecss.io/js/ui.js"></script>
 
     <!-- Custom CSS -->
@@ -27,21 +27,24 @@
 {% endblock %}
 
 {% block content %}
-        <div id="main">
-            <div class="header">
-                <h1>Your Account</h1>
-            </div>
-        <div>
+    <div id="main">
+        <div class="header">
+            <h1>Your Account</h1>
+        </div>
+    
         <!-- Quiz Selection Container  -->
         <div id="quizSelectionContainer">
             <h2 id="yourAccountHeaders">Your Quiz Selections:</h2> 
+
             <!-- Selection Content Container -->
             <div id="quizSelectionsDiv" class="pure-g">
+
+
                 <div class="quizSelections pure-u-1">
-                    <button onclick="show_skin_type_form()" id="edit_skin_type_btn" class="editBtn"><img id="icons" src="/static/images/editIcon.png" ></button>
+                    <button onclick="show_skin_type_form()" id="edit_skin_type_btn" class="editBtn"><img id="icons" src="/static/images/UI/editIcon.png" ></button>
                     <h3><span>Skin Type:</span> {{ user_skin_type }}</h3>
                         <!-- Skin type form -->
-                        <form action="/edit_skin_type" style="display:none" id="skin_type_form" method="POST">
+                        <form action="/edit_user_preferences" style="display:none" id="skin_type_form" method="POST">
                             <h4>Modify your skin type: </h4>
                             <!-- Option 1) Normal skin -->
                             <input type="radio" id="normal-skin" name="skin-type" value="normal-skin">
@@ -54,13 +57,14 @@
                             <label class="quiz-btn-label" for="oily-skin">Oily</label>
                             <button type="submit" id="submit_edit_btn">Modify</button>
                         </form> 
-                       
                 </div>   
+
+
                 <div class="quizSelections pure-u-1">
-                    <button onclick="show_skin_target_form()"  id="edit_target_btn"><img id="icons" src="/static/images/editIcon.png" ></button>
+                    <button onclick="show_skin_target_form()"  id="edit_target_btn"><img id="icons" src="/static/images/UI/editIcon.png" ></button>
                     <h3><span>Target:</span> {{ user_target }}</h3>
                     <!-- Skin Targeting Form -->
-                    <form action="/edit_skin_target" style="display:none" id="target_form" method="POST">
+                    <form action="/edit_user_preferences" style="display:none" id="target_form" method="POST">
                         <h4>Modify your skin target: </h4>
                         <!-- Option 1) Sensitive -->
                         <input type="radio"id="sensitive-target" name="target-type" value="sensitive-target">
@@ -74,11 +78,13 @@
                         <button type="submit" id="submit_edit_btn">Modify</button>
                     </form>
                 </div>
+
+                
                 <div class="quizSelections pure-u-1">
-                    <button onclick="show_num_of_steps_form()"  id="edit_num_of_steps_btn"><img id="icons" src="/static/images/editIcon.png" ></button>
+                    <button onclick="show_num_of_steps_form()"  id="edit_num_of_steps_btn"><img id="icons" src="/static/images/UI/editIcon.png" ></button>
                     <h3><span># of Steps:</span> {{ routine_steps }}</h3>
                     <!-- Number of Steps Form -->
-                    <form action="/edit_num_of_steps" style="display:none" id="num_of_steps_form" method="POST">
+                    <form action="/edit_user_preferences" style="display:none" id="num_of_steps_form" method="POST">
                     <h4>Modify the number of steps in your routine:</h4>
                     <!-- Option 1) Redness -->
                     <input type="radio" id="two-steps" name="number-steps" value="2">
@@ -92,14 +98,21 @@
                         <button type="submit" id="submit_edit_btn">Modify</button>
                     </form>
                 </div>
-            </div>             
+
+
+            </div>      
+                    
         </div>
         
-        
+
+        <!-- User reviews section -->
         <div class= "pure-g" id="reviewsContainer" >
             <h2 id="yourAccountHeaders">Reviews you have written:</h2>
             <div id="reviewsWrittenInnerContainer">
                 
             </div>
         </div>
+
+    </div>
+
 {% endblock %}

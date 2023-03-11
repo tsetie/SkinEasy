@@ -184,9 +184,9 @@ def routine():
   except TemplateNotFound:
     abort(404)
 
-# ***************************************************************************************************
+# **********************************************************************************
 # Add a product to routine after its respective 'add to routine' button is selected
-# ***************************************************************************************************
+# **********************************************************************************
 @app.route('/add_to_routine', methods=["POST"])
 def add_to_routine():
 
@@ -197,12 +197,12 @@ def add_to_routine():
   return request.json
 
 
-# ***************************************************************************************************
+# ******************************************************************************************
 # Remove a product to routine after its respective 'remove from routine' button is selected
-# ***************************************************************************************************
+# ******************************************************************************************
 @app.route('/remove_from_routine', methods=["POST"])
 def remove_from_routine():
-
+  
   # Add to users' routine/wishlist (NOTE: Arguments stored in request.json)
   if (('username' in request.json) and ('productName' in request.json)):
     db.remove_from_routine(request.json)
@@ -213,34 +213,32 @@ def remove_from_routine():
 # *********************************
 # 4) Account page
 # *********************************
-@app.route('/yourAccount', methods=["GET"])
-def yourAccount():
+@app.route('/account', methods=["GET"])
+def account():
   
-  # Get the users details from session object
+  # Get users details from session object
   user_details = session
   
-  # Get the users name
-  # Reference to check if a key exists within a python dict: https://www.geeksforgeeks.org/python-check-whether-given-key-already-exists-in-a-dictionary/
-  if ('nickname' in user_details):
-      user = user_details['nickname']
+  # Ensure username exists
+  # * Reference to check if a key exists within a python dict: https://www.geeksforgeeks.org/python-check-whether-given-key-already-exists-in-a-dictionary/
+  if ('nickname' not in user_details):
+    print('Error at "/account" route. No suitable username provided.')
+    return
+  
+  username = user_details['nickname']  # Get username
 
-      # Get user_ids from users table to add to the review table 
-      usersID_and_names = db.get_all_user_ids_and_names()
-
-      # Iterate list and find user_id corresponding to user's name
-      for item in usersID_and_names:
-          if item[1] == user:
-              user_id = item[0]
+  # Get user_ids from users table to add to the review table 
+  user_id = db.get_user_id_from_username(username)
 
   # Get the users quiz selections 
   quiz_selections_list = db.get_user_quiz_selections(user_id)
-  skin_type = quiz_selections_list[0][0]
-  skin_target = quiz_selections_list[0][1]
-  num_of_steps = quiz_selections_list[0][2]
+  skin_type     = quiz_selections_list[0][0]
+  skin_target   = quiz_selections_list[0][1]
+  num_of_steps  = quiz_selections_list[0][2]
   
   # Render account page
   try:
-    return render_template('yourAccount.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4),user_target=skin_target, user_skin_type=skin_type, routine_steps=num_of_steps)
+    return render_template('account.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4),user_target=skin_target, user_skin_type=skin_type, routine_steps=num_of_steps)
   except TemplateNotFound:
     abort(404)
 
@@ -256,7 +254,6 @@ def reviews():
     abort(404)
   
 
-
 @app.route('/write-a-review', methods=["GET"])
 def write_review():
   try:
@@ -270,122 +267,51 @@ def write_review():
 # Editing Quiz Selection Routes
 #########################################################
 
+
 # ***************************************************************************************************
-# Edit skin type route (comes here when edit skin type btn is clicked on "your account" page)
+# Edit user preferences route
 # ***************************************************************************************************
-@app.route('/edit_skin_type', methods=['GET', 'POST'])
-def editSkinType():
+@app.route('/edit_user_preferences', methods=['POST'])
+def edit_user_preferences():
+
+  # Ensure user is logged in (just in case)
+  user_details = session
+  if ('nickname' not in user_details):
+    print('Error at "/edit_user_preferences": User not logged in.')
+    return
   
-  # Get the modified skin type from the form 
-  if request.method == 'POST':
-    modified_skin_type = request.form["skin-type"]
-    
-    # Get the users details so we know which user to edit the skin type of in users table
-    user_details = session
-    
-    # Edit users skin type in the users table
-    db.edit_skin_type(user_details, modified_skin_type)
-   
-    # Get users details from session object
-    user_details = session
-    if ('nickname' in user_details):
-            user = user_details['nickname']
+  # Initialize values to pass into db function responsible for modifying user preferences
+  preference_type     = None
+  preference_value    = None
 
-            # Get user_ids from users table to add to the review table 
-            usersID_and_names = db.get_all_user_ids_and_names()
+  # Identify which preference user wants to change
+  # Valid Preferences: ['skin-type', 'target-type', 'number-steps']
+  # 1) Preference to change is skin type
+  if ('skin-type' in request.form):
+    preference_type   = 'user_skin_type'
+    preference_value  = request.form['skin-type']
+  # 2) Preference to change is target type
+  elif ('target-type' in request.form):
+    preference_type   = 'user_target'
+    preference_value  = request.form['target-type']
+  # 3) Preference to change is number of routine steps
+  elif ('number-steps' in request.form):
+    preference_type   = 'routine_steps'
+    preference_value  = request.form['number-steps']
 
-            # Iterate list and find user_id corresponding to user's name
-            for item in usersID_and_names:
-                if item[1] == user:
-                   user_id = item[0]
 
-    # Get the users selections from the users table and store them into variables           
-    user_selections_list = db.get_user_quiz_selections(user_id)
-    skin_type = user_selections_list[0][0]
-    skin_target = user_selections_list[0][1]
-    num_of_steps = user_selections_list[0][2]
+  print("Preference type:", preference_type)
+  print("Value:", preference_value)
 
-    try:
-      return render_template('yourAccount.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4),user_target=skin_target, user_skin_type=skin_type, routine_steps=num_of_steps)
-    except TemplateNotFound:
-      abort(404)
+  try:  # Attempt to run DB command
+    db.edit_user_preferences(user_details, preference_type, preference_value)
+  except:
+    print('Error at: "/edit_user_preferences" route. DB function failed.')
 
-# ***************************************************************************************************
-# Edit skin target route (comes here when edit skin target btn is clicked on "your account" page)
-# ***************************************************************************************************
-@app.route('/edit_skin_target', methods=['GET', 'POST'])
-def editSkinTarget():
-  
-  # Get the modified skin target from the form 
-  if request.method == 'POST':
-    modified_skin_target = request.form["target-type"]
-    
-    # Get the users details so we know which user to edit the skin target of in users table
-    user_details = session
-   
-    # Edit users skin target in the users table
-    db.edit_skin_target(user_details, modified_skin_target)
-    
-    # Get users details from session object
-    user_details = session
-    if ('nickname' in user_details):
-      user = user_details['nickname']
-
-      # Get user_ids from users table to add to the review table 
-      usersID_and_names = db.get_all_user_ids_and_names()
-
-      # Iterate list and find user_id corresponding to user's name
-      for item in usersID_and_names:
-        if item[1] == user:
-          user_id = item[0]
-
-    # Get the users selections from the users table and store them into variables               
-    user_selections_list = db.get_user_quiz_selections(user_id)
-    skin_type = user_selections_list[0][0]
-    skin_target = user_selections_list[0][1]
-    num_of_steps = user_selections_list[0][2]
-
-    # Render account page
-    try:
-      return render_template('yourAccount.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4),user_target=skin_target, user_skin_type=skin_type, routine_steps=num_of_steps)
-    except TemplateNotFound:
-        abort(404)
-
-# ***************************************************************************************************
-# Edit number of steps in routine route (comes here when edit skin target btn is clicked on "your account" page)
-# ***************************************************************************************************
-@app.route('/edit_num_of_steps', methods=['GET', 'POST'])
-def editNumOfSteps():
-# If steps are from the form, edit user steps
-  if request.method == 'PO  # Get the modified num oST':
-    modified_num_of_steps = request.form["number-steps"]
-    # Get the users details so we know which user to edit the skin target of in users table
-    user_details = session
-    # Edit users skin target in the users table
-    db.edit_num_of_steps(user_details, modified_num_of_steps)
-    # Get users details from session object
-    user_details = session
-    if ('nickname' in user_details):
-      user = user_details['nickname']
-
-      # Get user_ids from users table to add to the review table 
-      usersID_and_names = db.get_all_user_ids_and_names()
-
-      # Iterate list and find user_id corresponding to user's name
-      for item in usersID_and_names:
-        if item[1] == user:
-          user_id = item[0]
-
-    # Get the users selections from the users table and store them into variables             
-    user_selections_list = db.get_user_quiz_selections(user_id)
-    skin_type = user_selections_list[0][0]
-    skin_target = user_selections_list[0][1]
-    num_of_steps = user_selections_list[0][2]
-
-    try:
-      return render_template('yourAccount.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4),user_target=skin_target, user_skin_type=skin_type, routine_steps=num_of_steps)
-    except TemplateNotFound:
-      abort(404)
+  try:  # Redirect back to account page with new preferences
+    return redirect('/account')
+  except TemplateNotFound:
+    abort(404)
 
 
 #########################################################
