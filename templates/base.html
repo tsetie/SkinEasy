@@ -34,7 +34,7 @@
               <li class="pure-menu-item"><a href="/routine" class="pure-menu-link">Your Routine</a></li>
 
               <!-- Show username if user logged in -->
-              {% if session %}
+              {% if session and session.userinfo %}
                 <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
                     <!-- Show username from server -->
                     <div id="username">
