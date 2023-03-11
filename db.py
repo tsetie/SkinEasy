@@ -67,7 +67,7 @@ def get_db_cursor(commit=False):
 # Input(s):   product_name (string):  text name of product we want to find the 'product_id' of
 # Returns:    product_id (integer):   ID from products table of product name parameter
 # ****************************************************
-def add_skincare_product(product_name, product_url, product_brand, image_path, cleanser=False, exfoliant=False, toner=False, serum=False, moisturizer=False, sunscreen=False, sensitive_target=False, mature_target=False, no_target=False, normal_skin=False, oily_skin=False, dry_skin=False, is_all=False):
+def add_skincare_product(product_name, product_url, product_brand, image_path, cleanser=False, exfoliant=False, toner=False, serum=False, moisturizer=False, sunscreen=False, sensitive_target=False, mature_target=False, none_target=False, normal_skin=False, oily_skin=False, dry_skin=False, is_all=False, price=None):
     with get_db_cursor(True) as cur:
 
         # Build SQL insertion statement for each column in products table
@@ -89,11 +89,12 @@ def add_skincare_product(product_name, product_url, product_brand, image_path, c
                 normal_skin, 
                 oily_skin, 
                 dry_skin, 
-                is_all
-            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                is_all,
+                price
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             '''
         # Execute sql insertion
-        cur.execute(sql, (product_name, product_url, product_brand, image_path, cleanser, exfoliant, toner, serum, moisturizer, sunscreen, sensitive_target, mature_target, no_target, normal_skin, oily_skin, dry_skin, is_all))
+        cur.execute(sql, (product_name, product_url, product_brand, image_path, cleanser, exfoliant, toner, serum, moisturizer, sunscreen, sensitive_target, mature_target, none_target, normal_skin, oily_skin, dry_skin, is_all, price))
         current_app.logger.info('Attempted to add entry to skincare products table')
         return
 

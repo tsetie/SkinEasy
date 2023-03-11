@@ -526,9 +526,11 @@ def add_product():
   dry_skin          = request.form.get('dry') or False
   is_all            = request.form.get('all') or False
 
+  price             = request.form.get('product-price')
+
   # Call database function to add a product to skincare product table
   if ((name is not None) and (url is not None) and (brand is not None) and (image_path is not None)):
-    db.add_skincare_product(name, url, brand, image_path, cleanser, exfoliant, toner, serum, moisturizer, sunscreen, sensitive_target, mature_target, no_target, normal_skin, dry_skin, is_all)
+    db.add_skincare_product(name, url, brand, image_path, cleanser, exfoliant, toner, serum, moisturizer, sunscreen, sensitive_target, mature_target, no_target, normal_skin, dry_skin, oily_skin, is_all, price)
   # Otherwise, report error & bad inputs
   else:
     print("Error: Failed to add to database.")

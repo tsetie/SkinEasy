@@ -167,7 +167,7 @@ for table in cur.fetchall():
 -- View ALL columns of a table
 SELECT column_name, data_type
 FROM information_schema.columns
-WHERE table_schema = 'public' AND table_name = 'skineasy_reviews';
+WHERE table_schema = 'public' AND table_name = 'skineasy_skincare_products';
 
 
 -- Show all contents of table
