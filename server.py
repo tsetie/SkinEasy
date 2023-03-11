@@ -213,6 +213,8 @@ def search_bar_filtering():
   moisturizer_list = db.search_bar_filtering(query, "moisturizer")
   sunscreen_list = db.search_bar_filtering(query, "sunscreen")
 
+  print(moisturizer_list)
+
   return render_template('/products.html',session=session.get('user'), cleanser_list=cleanser_list, exfoliant_list=exfoliant_list, toner_list=toner_list, serum_list=serum_list, moisturizer_list=moisturizer_list, sunscreen_list=sunscreen_list, query_dict=query )
 
 

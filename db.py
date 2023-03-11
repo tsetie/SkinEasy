@@ -116,6 +116,7 @@ def get_product_id_from_product_name(product_name):
 # *****************************************************************************************
 # C) Function to get all product with product_id
 # Input(s):  product_id (integer):   ID from products table found using product name parameter
+# Returns:   product_name (string):  text name of product we get from ID
 # *****************************************************************************************
 def get_product_name(product_id):
     with get_db_cursor(True) as cur:    
@@ -317,7 +318,7 @@ def search_bar_filtering(query, product_type):
         # Build the regex to to find all products that have the searched word 
         query_regex = "'%" + query + "%'"
 
-        # Build SQL string using string query
+        # Build SQL string using string querye
         sql = (
             "SELECT row_to_json(row) "
             "FROM (SELECT * , to_char(price::numeric, 'FM9999D00') display_price FROM skineasy_skincare_products ) row "
@@ -325,6 +326,8 @@ def search_bar_filtering(query, product_type):
             "product_name ILIKE %s" % query_regex
         )
         
+        print(sql)
+
         # Execute sql statement with data
         cur.execute(sql)
         return cur.fetchall()
@@ -346,11 +349,11 @@ def get_users_json():
         return cur.fetchall()
 
 
-# **********************************************************************************
+# *******************************************************************************************
 # B) Function to get user id based on username string
 # Input(s):   username (string): user unique text identifier
 # Returns:    user_id (integer): ID from users table found using provided username parameter
-# **********************************************************************************
+# *******************************************************************************************
 def get_user_id_from_username(username):
     with get_db_cursor(True) as cur:
         
@@ -403,6 +406,8 @@ def add_user(user_details):
 #   * user_details (dictionary):      two-key dictionary with { username: (string), email: (string) } keys
 #   * preference_type (string):       text representing which user preference to change  
 #   * modified_preference (string):   specified value of what preference type should change to
+# Returns:  
+#   * void
 # References:
 #   * Reference to check if a key exists within a python dict:    https://www.geeksforgeeks.org/python-check-whether-given-key-already-exists-in-a-dictionary/
 # *****************************************************************************************************************************************************************
@@ -457,7 +462,8 @@ def edit_user_preferences(user_details, preference_type, preference_value):
 
 # ****************************************************************************
 # E) Function to get QUIZ SELECTIONS from the user table for a specific user
-# Input(s):     user_id (int):  ID of user in users table
+# Input(s):     user_id (int):   ID of user in users table
+# Returns:
 # ****************************************************************************
 def get_user_quiz_selections(user_id):
     with get_db_cursor() as cur:
@@ -470,6 +476,7 @@ def get_user_quiz_selections(user_id):
 
 # **********************************************************************************
 # F) Function to get ALL USER_IDS and REVIEWER_NAMES from the user table as a list
+# Returns:
 # **********************************************************************************
 def get_all_user_ids_and_names():
 
@@ -486,7 +493,7 @@ def get_all_user_ids_and_names():
 # 3) ROUTINE TABLE functions
 ###################################################################################################
 # ****************************************************
-# Function to get all routine table entries as JSON
+# A) Function to get all routine table entries as JSON
 # ****************************************************
 def get_routines_json():
     with get_db_cursor() as cur:
@@ -497,9 +504,11 @@ def get_routines_json():
         return cur.fetchall()
 
 
-# ****************************************************
-# Function to get product id based on product name string
-# ****************************************************
+# ************************************************************************************************
+# B) Function to get product id based on product name string
+# Input(s):     product_name (string):  text representing which product name we want the ID of
+# Returns:      product_id (integer):   ID from products table found using product name parameter
+# ************************************************************************************************
 def get_product_id_from_product_name(product_name):
     with get_db_cursor(True) as cur:
         
@@ -509,9 +518,11 @@ def get_product_id_from_product_name(product_name):
         return product_id
 
 
-# ****************************************************
-# Function to add an entry to routines table given a dictionary with username and product name
-# ****************************************************
+# **************************************************************************************************************************
+# C) Function to add an entry to routines table given a dictionary with username and product name
+# Input(s): user_product_info (dictionary):     two-key dictionary with { username: (string), product name: (string) } keys
+# Returns:  void
+# **************************************************************************************************************************
 def add_to_routine(user_product_info):
     with get_db_cursor(True) as cur:
         current_app.logger.info('Adding entry to routine table')
@@ -534,12 +545,13 @@ def add_to_routine(user_product_info):
             '''
         # Execute sql insertion
         cur.execute(add_routine_entry_sql, (user_id, product_id))
-
         return
 
 
 # ****************************************************
 # Function to add an entry to routines table given a dictionary with username and product name
+# Input(s):     user_
+# Returns:      void
 # ****************************************************
 def remove_from_routine(user_product_info):
     with get_db_cursor(True) as cur:
@@ -569,6 +581,8 @@ def remove_from_routine(user_product_info):
 
 # ****************************************************
 # Function to get a user's respective routine products
+# Input(s):     username (string)
+# Returns:      
 # ****************************************************
 def get_user_routine(username):
     with get_db_cursor(True) as cur:
@@ -591,6 +605,8 @@ def get_user_routine(username):
 
 # ********************************************************************************************************
 # Function to get a get a specific product type based on type (string) and username (string)
+# Input(s):
+# Returns:
 # ********************************************************************************************************
 def get_user_routine_by_type(product_type=None, username=None):
     with get_db_cursor(True) as cur:
@@ -633,6 +649,7 @@ def get_user_routine_by_type(product_type=None, username=None):
 ###################################################################################################
 # *********************************************************
 # Function to get all reviews from the review table as JSON
+# Returns: 
 # *********************************************************
 def get_reviews_json():
     ''' note -- result can be used as list of dictionaries'''
