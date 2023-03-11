@@ -64,8 +64,8 @@ def get_db_cursor(commit=False):
 ###################################################################################################
 # ****************************************************
 # A) Function to add a product to skincare products table
-# Inputs:   product_name (string):  text name of product we want to find the 'product_id' of
-# Returns:  product_id (integer):   ID from products table of product name parameter
+# Input(s):   product_name (string):  text name of product we want to find the 'product_id' of
+# Returns:    product_id (integer):   ID from products table of product name parameter
 # ****************************************************
 def add_skincare_product(product_name, product_url, product_brand, image_path, cleanser=False, exfoliant=False, toner=False, serum=False, moisturizer=False, sunscreen=False, sensitive_target=False, mature_target=False, no_target=False, normal_skin=False, oily_skin=False, dry_skin=False, is_all=False):
     with get_db_cursor(True) as cur:
@@ -99,8 +99,8 @@ def add_skincare_product(product_name, product_url, product_brand, image_path, c
 
 # *****************************************************************************************
 # B) Function to get product id based on product name string
-# Inputs:   product_name (string):  text name of product we want to find the 'product_id' of
-# Returns:  product_id (integer):   ID from products table found using product name parameter
+# Input(s):   product_name (string):  text name of product we want to find the 'product_id' of
+# Returns:    product_id (integer):   ID from products table found using product name parameter
 # *****************************************************************************************
 def get_product_id_from_product_name(product_name):
     with get_db_cursor(True) as cur:
@@ -126,11 +126,11 @@ def get_skincare_products_json():
 
 # ************************************************************************************************************************************************************
 # D) Function to get skincare products based on product category tags as JSON
-# Inputs: 
+# Input(s): 
 # References:
-# * Reference to convert lists to tuples: https://www.w3schools.com/python/python_tuples_update.asp
-# * Reference to use multi-line strings in python with parenthesis: https://stackoverflow.com/questions/5437619/python-style-line-continuation-with-strings
-# * Reference to use '%s' in python: https://www.geeksforgeeks.org/what-does-s-mean-in-a-python-format-string/
+#   * Reference to convert lists to tuples: https://www.w3schools.com/python/python_tuples_update.asp
+#   * Reference to use multi-line strings in python with parenthesis: https://stackoverflow.com/questions/5437619/python-style-line-continuation-with-strings
+#   * Reference to use '%s' in python: https://www.geeksforgeeks.org/what-does-s-mean-in-a-python-format-string/
 # ************************************************************************************************************************************************************
 def filter_products(num_filters=0, cleanser_filter=False, exfoliant_filter=False, toner_filter=False, serum_filter=False, moisturizer_filter=False, sunscreen_filter=False):
     with get_db_cursor(True) as cur:    
@@ -185,12 +185,12 @@ def filter_products(num_filters=0, cleanser_filter=False, exfoliant_filter=False
 
 # **********************************************************************************************************************************************************
 # E) Function to get all products with any user applied filters as JSON
-# Inputs: 
+# Input(s): 
 # References:
-# * Reference to convert lists to tuples: https://www.w3schools.com/python/python_tuples_update.asp
-# * Reference to use multi-line strings in python with parenthesis: https://stackoverflow.com/questions/5437619/python-style-line-continuation-with-strings
-# * Reference to use "%s" in python: https://www.geeksforgeeks.org/what-does-s-mean-in-a-python-format-string/
-# * Reference to display 2 decimal points for price https://stackoverflow.com/questions/13113096/how-to-round-an-average-to-2-decimal-places-in-postgresql
+#   * Reference to convert lists to tuples: https://www.w3schools.com/python/python_tuples_update.asp
+#   * Reference to use multi-line strings in python with parenthesis: https://stackoverflow.com/questions/5437619/python-style-line-continuation-with-strings
+#   * Reference to use "%s" in python: https://www.geeksforgeeks.org/what-does-s-mean-in-a-python-format-string/
+#   * Reference to display 2 decimal points for price https://stackoverflow.com/questions/13113096/how-to-round-an-average-to-2-decimal-places-in-postgresql
 # **********************************************************************************************************************************************************
 def get_products(num_of_skintype_filters_selected, normal_skin_type, dry_skin_type, oily_skin_type, all_skin_type,num_of_targets, sensitive_target, mature_target, price, product_type):
     with get_db_cursor(True) as cur:
@@ -280,6 +280,36 @@ def get_products(num_of_skintype_filters_selected, normal_skin_type, dry_skin_ty
         return cur.fetchall()
 
 
+# *****************************************************************
+# Function to get all products with specified filters 
+# Input(s):
+#   * query (string):           user-entered search bar text
+#   * product_type (string):    skincare product category
+# Returns: search results as JSON
+# Refernces:
+#   * Reference to use multi-line strings in python with parenthesis: https://stackoverflow.com/questions/5437619/python-style-line-continuation-with-strings
+#   * Reference to use "%s" in python: https://www.geeksforgeeks.org/what-does-s-mean-in-a-python-format-string/
+#   * Reference to display 2 decimal points for price https://stackoverflow.com/questions/13113096/how-to-round-an-average-to-2-decimal-places-in-postgresql
+# *****************************************************************
+def search_bar_filtering(query, product_type):
+    with get_db_cursor(True) as cur:    
+
+        # Build the regex to to find all products that have the searched word 
+        query_regex = "'%" + query + "%'"
+
+        sql = (
+            "SELECT row_to_json(row) "
+            "FROM (SELECT * , to_char(price::numeric, 'FM9999D00') display_price FROM skineasy_skincare_products ) row "
+            "WHERE %s IS TRUE AND " % product_type +
+            "product_name ILIKE %s" % query_regex
+        )
+        
+        # Execute sql statement with data
+        cur.execute(sql)
+        return cur.fetchall()
+
+
+
 ###################################################################################################
 # 2) USER TABLE functions
 ###################################################################################################
@@ -297,8 +327,8 @@ def get_users_json():
 
 # **********************************************************************************
 # B) Function to get user id based on username string
-# Inputs:   username (string): user unique text identifier
-# Returns:  user_id (integer): ID from users table found using provided username parameter
+# Input(s):   username (string): user unique text identifier
+# Returns:    user_id (integer): ID from users table found using provided username parameter
 # **********************************************************************************
 def get_user_id_from_username(username):
     with get_db_cursor(True) as cur:
@@ -312,15 +342,16 @@ def get_user_id_from_username(username):
 
 # *************************************************************************************************************************************************************************************
 # Function to add a user to the users table when logging in for the first time
-# Inputs:   user_details (dictionary):  two-key dictionary with { username: (string), email: (string) } keys
-# Returns:  nothing
+# Input(s):   user_details (dictionary):  two-key dictionary with { username: (string), email: (string) } keys
+# Returns:    nothing
 # References: 
-# * Reference to check if a key exists within a python dict:    https://www.geeksforgeeks.org/python-check-whether-given-key-already-exists-in-a-dictionary/
-# * Reference on PSQL insertion without duplicates:             https://stackoverflow.com/questions/1009584/how-to-emulate-insert-ignore-and-on-duplicate-key-update-sql-merge-with-po
+#   * Reference to check if a key exists within a python dict:    https://www.geeksforgeeks.org/python-check-whether-given-key-already-exists-in-a-dictionary/
+#   * Reference on PSQL insertion without duplicates:             https://stackoverflow.com/questions/1009584/how-to-emulate-insert-ignore-and-on-duplicate-key-update-sql-merge-with-po
 # *************************************************************************************************************************************************************************************
 def add_user(user_details):
     with get_db_cursor(True) as cur:
         
+        # --- Check for invalid Input(s) ---
         # Only add user if provided a username and email
         if (('nickname' not in user_details) or ('email' not in user_details)):
             current_app.logger.info('Error at function "add_user": Invalid username OR email given.')
@@ -345,44 +376,60 @@ def add_user(user_details):
         return
 
 
-# **********************************************************************************************************************************************************
+# *****************************************************************************************************************************************************************
 # Function to update users skincare preferences in users table
-# Inputs: 
-# * user_details (dictionary):      two-key dictionary with { username: (string), email: (string) } keys
-# * preference_type (string):       text representing which user preference to change  
-# * modified_preference (string):   specified value of what preference type should change to
+# Input(s): 
+#   * user_details (dictionary):      two-key dictionary with { username: (string), email: (string) } keys
+#   * preference_type (string):       text representing which user preference to change  
+#   * modified_preference (string):   specified value of what preference type should change to
 # References:
-# * Reference to check if a key exists within a python dict:    https://www.geeksforgeeks.org/python-check-whether-given-key-already-exists-in-a-dictionary/
-# **********************************************************************************************************************************************************
+#   * Reference to check if a key exists within a python dict:    https://www.geeksforgeeks.org/python-check-whether-given-key-already-exists-in-a-dictionary/
+# *****************************************************************************************************************************************************************
 def edit_user_preferences(user_details, preference_type, preference_value):
     with get_db_cursor(True) as cur: 
         
-        # Check for invalid inputs
+        # --- Check for invalid Input(s) ---
         # 1) Ensure username valid
         if ('nickname' not in user_details):
             current_app.logger.info('Error at function "edit_user_preferences": Invalid username given.')
             return
+
         # 2) Ensure preference type is valid
         valid_preferences = ['user_skin_type', 'user_target', 'routine_steps']
         if (preference_type not in valid_preferences):
             current_app.logger.info('Error at function "edit_user_preferences": Invalid preference type given.')
             return
-        # 3) Ensure modified preference is valid
 
-        username = user_details['nickname']             # Get username in order to find user ID 
-        user_id = get_user_id_from_username(username)   # Get user_id from username
+        # 3) Ensure modified preference is valid
+        valid_skin_types    = ['normal-skin', 'dry-skin', 'oily-skin']
+        valid_targets       = ['sensitive-target', 'mature-target', 'none-target']
+        valid_routine_steps = ['2', '3', '6']
+
+        if ((preference_type == 'user_skin_type') and (preference_value not in valid_skin_types)):
+            current_app.logger.info('Error at function "edit_user_preferences": Invalid preference value for skin type given.')
+            return
+        
+        if ((preference_type == 'user_target') and (preference_value not in valid_targets)):
+            current_app.logger.info('Error at function "edit_user_preferences": Invalid preference value for target ype given.')
+            return
+
+        if ((preference_type == 'routine_steps') and (preference_value not in valid_routine_steps)):
+            current_app.logger.info('Error at function "edit_user_preferences": Invalid preference value for number of steps given.')
+            return
+
+        # --- Get username in order to find user ID ---
+        username = user_details['nickname']
+        user_id = get_user_id_from_username(username)
 
         # Build SQL string to change a user's skincare preferences
         sql = '''
             UPDATE skineasy_users
-            SET %s = %s
+            SET %s = '%s'
             WHERE user_id = %s
-            '''
-
-        print(sql % (preference_type, preference_value, user_id))
+            '''  % (preference_type, preference_value, user_id)
 
         # Execute sql statement with default data
-        cur.execute(sql, (preference_type, preference_value, user_id))
+        cur.execute(sql)
         current_app.logger.info('Attempted to edit user preference.')
         return
 
@@ -391,26 +438,25 @@ def edit_user_preferences(user_details, preference_type, preference_value):
 # Function to get QUIZ SELECTIONS from the user table for a specific user
 # ****************************************************
 def get_user_quiz_selections(user_id):
-
     with get_db_cursor() as cur:
         
         # Make SQL statement asking database for quiz selections from users table
-        sql = "SELECT user_skin_type, user_target, routine_steps FROM skineasy_users WHERE user_id = %s"
+        sql = 'SELECT user_skin_type, user_target, routine_steps FROM skineasy_users WHERE user_id = %s'
         cur.execute(sql, (user_id,))   
         return cur.fetchall()
 
 
-# ****************************************************
-# Function to get ALL USER_IDS and REVIEWER_NAMES from the user table as a list
-# ****************************************************
-def get_all_user_ids_and_names():
+# # ****************************************************
+# # Function to get ALL USER_IDS and REVIEWER_NAMES from the user table as a list
+# # ****************************************************
+# def get_all_user_ids_and_names():
 
-    with get_db_cursor() as cur:
+#     with get_db_cursor() as cur:
         
-        # Make SQL statement asking database for all entries in users table
-        sql = "SELECT user_id, username FROM skineasy_users"
-        cur.execute(sql)   
-        return cur.fetchall()
+#         # Make SQL statement asking database for all entries in users table
+#         sql = 'SELECT user_id, username FROM skineasy_users'
+#         cur.execute(sql)   
+#         return cur.fetchall()
 
 
     
@@ -422,7 +468,6 @@ def get_all_user_ids_and_names():
 # Function to get all routine table entries as JSON
 # ****************************************************
 def get_routines_json():
-
     with get_db_cursor() as cur:
         
         # Make SQL statement asking database for all entries in users table
@@ -447,7 +492,6 @@ def get_product_id_from_product_name(product_name):
 # Function to add an entry to routines table given a dictionary with username and product name
 # ****************************************************
 def add_to_routine(user_product_info):
-
     with get_db_cursor(True) as cur:
         current_app.logger.info('Adding entry to routine table')
 
@@ -477,7 +521,6 @@ def add_to_routine(user_product_info):
 # Function to add an entry to routines table given a dictionary with username and product name
 # ****************************************************
 def remove_from_routine(user_product_info):
-
     with get_db_cursor(True) as cur:
         current_app.logger.info('Adding entry to routine table')
 
@@ -531,9 +574,9 @@ def get_user_routine(username):
 def get_user_routine_by_type(product_type=None, username=None):
     with get_db_cursor(True) as cur:
 
-        # Ensure inputs don't cause an internal server error
+        # Ensure Input(s) don't cause an internal server error
         if ((username is None)):
-            current_app.logger.info("Error: get_user_routine_type - Function inputs invalid.")
+            current_app.logger.info("Error: get_user_routine_type - Function Input(s) invalid.")
             return
 
         # Using the username string, get JSON of all products via routines table that have right user ID
@@ -584,34 +627,35 @@ def get_reviews_json():
 
 # ****************************************************
 # Function to add a review to the review table
+# Input(s):
+#   *
+#   *
+#   *
+#   *
+# References:
+#   * Reference to check if a key exists within a python dict: https://www.geeksforgeeks.org/python-check-whether-given-key-already-exists-in-a-dictionary/
+#   * Reference on PSQL insertion without duplicates: https://stackoverflow.com/questions/1009584/how-to-emulate-insert-ignore-and-on-duplicate-key-update-sql-merge-with-po
 # ****************************************************
 def add_review(user_details, content, product_id, rating):
     with get_db_cursor(True) as cur: 
    
         # Only add review if user has a username
-        # Reference to check if a key exists within a python dict: https://www.geeksforgeeks.org/python-check-whether-given-key-already-exists-in-a-dictionary/
         if ('nickname' in user_details):
-            user = user_details['nickname']
+            username = user_details['nickname']
 
             # Get user_ids from users table to add to the review table 
-            usersID_and_names = get_all_user_ids_and_names()
-
-            # Iterate list and find user_id corresponding to user's name
-            for item in usersID_and_names:
-                if item[1] == user:
-                    user_id = item[0]
+            user_id = get_user_id_from_username(username)
 
             # # # Build SQL statement with sessions object and user_id from users table 
-            # # # Reference on PSQL insertion without duplicates: https://stackoverflow.com/questions/1009584/how-to-emulate-insert-ignore-and-on-duplicate-key-update-sql-merge-with-po
             sql = '''
                 INSERT INTO skineasy_reviews (user_id, product_id, reviewer_name, content, rating)
                 VALUES (%s, %s, %s, %s, %s)
                 ON CONFLICT (user_id, product_id, reviewer_name, content, rating) DO NOTHING;
                 '''
 
-            # # Execute sql statement with default data
+            # Execute sql statement with default data
             cur.execute(sql, (user_id, product_id, user, content, rating))
-
+        return
 
 # ****************************************************
 # Function to show all reviews for a certain product
@@ -630,9 +674,10 @@ def get_all_reviews_for_product(product_id):
         return cur.fetchall()
 
 
-# ****************************************************
+# ********************************************************
 # Function to show all reviews written by a specific user
-# ****************************************************
+# Input(s): 
+# ********************************************************
 def get_all_reviews_by_user(user_id):
     with get_db_cursor(True) as cur: 
         

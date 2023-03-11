@@ -1,3 +1,4 @@
+/* reviews.css */
 #reviewsContainer{
   justify-content: center;
   align-items: center;
@@ -17,10 +18,10 @@
  flex-direction: column;
 }
 
-h2{
+h3{
  color: rgb(74, 70, 70);
  letter-spacing: .8px;
- margin-bottom: 2px;
+ margin-bottom: .1px;
 }
 
 .written-review{
@@ -44,4 +45,29 @@ h2{
  margin-left: 47%;
  margin-top: 3em;
  margin-bottom: 1em;
+}
+
+/* checked review stars */
+.checked {
+ color: rgb(229, 222, 193);
+}
+
+h4{
+ margin-top: .5em;
+}
+
+#content_title{
+ display: inline;
+ margin-left: 1em;
+ color: black;
+}
+
+#review_container{
+ width: 50em;
+ margin: auto;
+}
+
+#no_review_msg{
+ margin-left: 45%;
+ margin-top: 10em;
 }

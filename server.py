@@ -48,13 +48,15 @@ def setup():
     db.setup()
 
 
+
+
 #########################################################
 # Regular routes
 #########################################################
 
-# *********************************
-# 1) Home page
-# *********************************
+######################
+# 1) Home page 
+######################
 @app.route('/')
 def home():
   try:
@@ -64,18 +66,14 @@ def home():
 
 
 
-# *********************************
-# 2) Products page
-# *********************************
+#######################################
+# 2) Products page & related functions
+#######################################
 @app.route('/products', methods=["GET"])
 def products():
   
-  # Check query string and store any checkmarks to keep in a list
-  print(request.args)
-  
-  unchecked_query_dict = request.args
-  # checked_query_dict = {}
-  checked_query_dict = request.args
+  # Get any queries from url
+  query_dict = request.args
 
   # Get product type filters
   cleanser_filter     = False
@@ -85,35 +83,143 @@ def products():
   moisturizer_filter  = False
   sunscreen_filter    = False
 
+  # Keep track of number of skin typefilters checked/selected (If 0 then by default user selected all skin types)
+  num_of_skintype_filters_selected = 0
+  # Keep track of number of target filters checked/selected
+  num_of_targets = 0
+
+  # Get skin type filters
+  show_all_filter = True
+  normal_skin_filter = False
+  dry_skin_filter = False
+  oily_skin_filter = False
+
+  # Get target area filters
+  sensitive_target = False
+  mature_target = False
+
+  # By default price is set to price-all 
+  price_filter = "price-all"
+
   # Ensure query parameters have valid values
-  for query, value in unchecked_query_dict.items():
+  for query, value in query_dict.items():
+    if (query == 'normal'):
+      normal_skin_filter = True
+      show_all_filter = False
+      num_of_skintype_filters_selected +=1
+    elif (query == 'dry'):
+      dry_skin_filter = True
+      show_all_filter = False
+      num_of_skintype_filters_selected +=1
+    elif (query == 'oily'):
+      oily_skin_filter = True
+      show_all_filter = False
+      num_of_skintype_filters_selected +=1
+    elif (query == 'sensitive-target'):
+      sensitive_target = True
+      num_of_targets +=1
+    elif (query == 'mature-target'):
+      mature_target = True
+      num_of_targets +=1       
+    elif (query == 'price'):
+      price_filter = value
+
+  # If user did not filter skin type, show all 
+  if show_all_filter:
+    normal_skin_filter  = True
+    dry_skin_filter     = True
+    oily_skin_filter    = True
+    num_of_skintype_filters_selected +=4
+
+  # Declare lists so if it doesnt have an item, it will still render to the html
+  cleanser_list     = []
+  exfoliant_list    = []
+  toner_list        = []
+  serum_list        = []
+  moisturizer_list  = []
+  sunscreen_list    = []
+
+  # No filters selected / filter form not submmited SO we need to get ALL PRODUCTS
+  # Goes here each time the products page is visited becasue the filter form is not submmited so its an empty list initially
+  if (not query_dict):
+    num_of_skintype_filters_selected = 4
+    cleanser_list     = db.get_products(num_of_skintype_filters_selected, normal_skin_filter, dry_skin_filter, oily_skin_filter, show_all_filter,num_of_targets, sensitive_target, mature_target, price_filter, "cleanser")
+    exfoliant_list    = db.get_products(num_of_skintype_filters_selected, normal_skin_filter, dry_skin_filter, oily_skin_filter, show_all_filter,num_of_targets, sensitive_target, mature_target, price_filter, "exfoliant")
+    toner_list        = db.get_products(num_of_skintype_filters_selected, normal_skin_filter, dry_skin_filter, oily_skin_filter, show_all_filter,num_of_targets, sensitive_target, mature_target, price_filter, "toner")
+    serum_list        = db.get_products(num_of_skintype_filters_selected, normal_skin_filter, dry_skin_filter, oily_skin_filter, show_all_filter,num_of_targets, sensitive_target, mature_target, price_filter, "serum")
+    moisturizer_list  = db.get_products(num_of_skintype_filters_selected, normal_skin_filter, dry_skin_filter, oily_skin_filter, show_all_filter,num_of_targets, sensitive_target, mature_target, price_filter,"moisturizer")
+    sunscreen_list    = db.get_products(num_of_skintype_filters_selected, normal_skin_filter, dry_skin_filter, oily_skin_filter, show_all_filter,num_of_targets, sensitive_target, mature_target, price_filter, "sunscreen")
+
+
+  # Ensure query parameters have valid values
+  for query, value in query_dict.items():
     if (query == 'cleanser'):
       cleanser_filter = True
+      # Call database function to get skincare products with specified skin type and price filters
+      cleanser_list = db.get_products(num_of_skintype_filters_selected, normal_skin_filter, dry_skin_filter, oily_skin_filter, show_all_filter,num_of_targets,sensitive_target, mature_target, price_filter, "cleanser")
     elif (query == 'exfoliant'):
       exfoliant_filter = True
+      # Call database function to get skincare products with specified skin type and price filters
+      exfoliant_list = db.get_products(num_of_skintype_filters_selected, normal_skin_filter, dry_skin_filter, oily_skin_filter, show_all_filter,num_of_targets,sensitive_target, mature_target, price_filter, "exfoliant")
     elif (query == 'toner'):
       toner_filter = True
+      # Call database function to get skincare products with specified skin type and price filters
+      toner_list = db.get_products(num_of_skintype_filters_selected, normal_skin_filter, dry_skin_filter, oily_skin_filter, show_all_filter,num_of_targets,sensitive_target, mature_target, price_filter, "toner")
     elif (query == 'serum'):
       serum_filter = True
+      # Call database function to get skincare products with specified skin type and price filters
+      serum_list = db.get_products(num_of_skintype_filters_selected, normal_skin_filter, dry_skin_filter, oily_skin_filter, show_all_filter,num_of_targets,sensitive_target, mature_target, price_filter, "serum")
     elif (query == 'moisturizer'):
       moisturizer_filter = True
+      # Call database function to get skincare products with specified skin type and price filters
+      moisturizer_list = db.get_products(num_of_skintype_filters_selected, normal_skin_filter, dry_skin_filter, oily_skin_filter, show_all_filter,num_of_targets,sensitive_target, mature_target, price_filter, "moisturizer")
     elif (query == 'sunscreen'):
       sunscreen_filter = True
-      
-  # Call database function to get skincare products
-  products_list = db.filter_products(cleanser_filter, exfoliant_filter, toner_filter, serum_filter, moisturizer_filter, sunscreen_filter)
+      # Call database function to get skincare products with specified skin type and price filters
+      sunscreen_list = db.get_products(num_of_skintype_filters_selected, normal_skin_filter, dry_skin_filter, oily_skin_filter, show_all_filter,num_of_targets,sensitive_target, mature_target, price_filter, "sunscreen")
+
+  # No category or skintype selected, but filter form got submmited SO get ALL PRODUCTS with specified price
+  # By default the price will be 'all' so dictionary will have "price : price all" which will be the only item in the dictinoary
+  if (cleanser_filter == False and  exfoliant_filter == False and toner_filter == False and serum_filter == False and moisturizer_filter == False and sunscreen_filter == False):
+    cleanser_list     = db.get_products(num_of_skintype_filters_selected, normal_skin_filter, dry_skin_filter, oily_skin_filter, show_all_filter,num_of_targets,sensitive_target, mature_target, price_filter, "cleanser")
+    exfoliant_list    = db.get_products(num_of_skintype_filters_selected, normal_skin_filter, dry_skin_filter, oily_skin_filter, show_all_filter,num_of_targets,sensitive_target, mature_target, price_filter, "exfoliant")
+    toner_list        = db.get_products(num_of_skintype_filters_selected, normal_skin_filter, dry_skin_filter, oily_skin_filter, show_all_filter,num_of_targets,sensitive_target, mature_target, price_filter, "toner")
+    serum_list        = db.get_products(num_of_skintype_filters_selected, normal_skin_filter, dry_skin_filter, oily_skin_filter, show_all_filter,num_of_targets,sensitive_target, mature_target, price_filter, "serum")
+    moisturizer_list  = db.get_products(num_of_skintype_filters_selected, normal_skin_filter, dry_skin_filter, oily_skin_filter, show_all_filter,num_of_targets,sensitive_target, mature_target, price_filter,"moisturizer")
+    sunscreen_list    = db.get_products(num_of_skintype_filters_selected, normal_skin_filter, dry_skin_filter, oily_skin_filter, show_all_filter,num_of_targets,sensitive_target, mature_target, price_filter, "sunscreen")
+
 
   # Render products page with skincare products
-  # Template not found try/catch block reference: https://flask-diamond.readthedocs.io/en/stable/developer/writing_views_with_jinja_and_blueprints/
   try:
-    return render_template('products.html', products_list=products_list, query_dict=checked_query_dict, session=session.get('user'))
-  except TemplateNotFound:
+    return render_template('products.html', cleanser_list=cleanser_list, exfoliant_list=exfoliant_list, toner_list=toner_list, serum_list=serum_list, moisturizer_list=moisturizer_list, sunscreen_list=sunscreen_list, query_dict=query_dict ,session=session.get('user'))
+  except:
     abort(404)
 
 
+
 # *********************************
-# 3) Routine page
+# Search bar feature
 # *********************************
+@app.route('/products/search', methods=["GET"])
+def search_bar_filtering():
+  # Store the users search into query var
+  query = request.args['search']
+
+  # Call db function on each product to get all products that match users search 
+  cleanser_list = db.search_bar_filtering(query, "cleanser")
+  exfoliant_list = db.search_bar_filtering(query, "exfoliant")
+  toner_list = db.search_bar_filtering(query, "toner")
+  serum_list = db.search_bar_filtering(query, "serum")
+  moisturizer_list = db.search_bar_filtering(query, "moisturizer")
+  sunscreen_list = db.search_bar_filtering(query, "sunscreen")
+
+  return render_template('/products.html',session=session.get('user'), cleanser_list=cleanser_list, exfoliant_list=exfoliant_list, toner_list=toner_list, serum_list=serum_list, moisturizer_list=moisturizer_list, sunscreen_list=sunscreen_list, query_dict=query )
+
+
+
+######################################
+# 3) Routine page & related functions
+######################################
 @app.route('/routine', methods=["GET"])
 def routine():
 
@@ -127,55 +233,52 @@ def routine():
   # Initialize user's routine products (for non-logged in users)
   is_user_logged_in = False
   if ('nickname' not in user_details):
+    print('Error at "/routine" route. No suitable username provided.')
     return render_template('routine.html', session=session.get('user'), is_user_logged_in=is_user_logged_in)
 
-  else:
-    is_user_logged_in = True
-    username = user_details['nickname']
+  # User is logged in
+  is_user_logged_in = True
+  username = user_details['nickname']
 
-    # Call database function to get all of user's routine products for each category
-    # NOTE: This method results in LONG LOAD TIMES.. Likely due to many SQL database queries :(
-    # user_cleansers      = db.get_user_routine_by_type('cleanser', username)
-    # user_exfoliants     = db.get_user_routine_by_type('exfoliant', username)
-    # user_toners         = db.get_user_routine_by_type('toner', username)
-    # user_serums         = db.get_user_routine_by_type('serum', username)
-    # user_moisturizers   = db.get_user_routine_by_type('moisturizer', username)
-    # user_suncreens      = db.get_user_routine_by_type('sunscreen', username)
-
-    # Instead, try this, maybe it's faster?
+  # Call database function to get all of user's routine products for each category
+  try:
     user_routine = db.get_user_routine(username)
+  except:
+    print('Error at route "routine". Failed to get user routine.')
+    return render_template('routine.html', session=session.get('user'), is_user_logged_in=is_user_logged_in)
 
-    # Start with empty lists for product lists we want to return
-    user_cleansers    = []
-    user_exfoliants   = []
-    user_toners       = []
-    user_serums       = []
-    user_moisturizers = []
-    user_suncreens    = []
-    # Loop through one SQL select's results and add to python lists
-    for product in user_routine:
+  # Start with empty lists for product lists we want to return
+  user_cleansers    = []
+  user_exfoliants   = []
+  user_toners       = []
+  user_serums       = []
+  user_moisturizers = []
+  user_suncreens    = []
+  
+  # Loop through one SQL select's results and add to python lists
+  for product in user_routine:
 
-      # Product details stored as a dict in a length one list so remove the list part
-      product_details = product[0]
-      
-      # If cleanser, add to cleanser list
-      if (product_details['cleanser'] == True):
-        user_cleansers.append(product)
-      # If exfoliant, add to exfoliant list
-      if (product_details['exfoliant'] == True):
-        user_exfoliants.append(product)
-      # If toner, add to toner list
-      if (product_details['toner'] == True):
-        user_toners.append(product)
-      # If serum, add to serum list
-      if (product_details['serum'] == True):
-        user_serums.append(product)
-      # If moisturizer, add to moisturizer list
-      if (product_details['moisturizer'] == True):
-        user_moisturizers.append(product)
-      # If sunscreen, add to sunscreen list
-      if (product_details['sunscreen'] == True):
-        user_suncreens.append(product)
+    # Product details stored as a dict in a length one list so remove the list part
+    product_details = product[0]
+    
+    # If cleanser, add to cleanser list
+    if (product_details['cleanser'] == True):
+      user_cleansers.append(product)
+    # If exfoliant, add to exfoliant list
+    if (product_details['exfoliant'] == True):
+      user_exfoliants.append(product)
+    # If toner, add to toner list
+    if (product_details['toner'] == True):
+      user_toners.append(product)
+    # If serum, add to serum list
+    if (product_details['serum'] == True):
+      user_serums.append(product)
+    # If moisturizer, add to moisturizer list
+    if (product_details['moisturizer'] == True):
+      user_moisturizers.append(product)
+    # If sunscreen, add to sunscreen list
+    if (product_details['sunscreen'] == True):
+      user_suncreens.append(product)
 
 
   # Render routine page with the skincare products on the current user's wishlist
@@ -183,6 +286,7 @@ def routine():
     return render_template('routine.html', session=session.get('user'), is_user_logged_in=is_user_logged_in, user_cleansers=user_cleansers, user_exfoliants=user_exfoliants, user_toners=user_toners, user_serums=user_serums, user_moisturizers=user_moisturizers, user_suncreens=user_suncreens)
   except TemplateNotFound:
     abort(404)
+
 
 # **********************************************************************************
 # Add a product to routine after its respective 'add to routine' button is selected
@@ -210,24 +314,63 @@ def remove_from_routine():
   return request.json
 
 
-# *********************************
-# 4) Account page
-# *********************************
+
+#####################################
+# 4) Review Page & related functions
+#####################################
+@app.route('/reviews', methods=["GET"])
+def reviews():
+
+  # Store the product_id
+  product_id = request.args.get('product_id')
+
+  # If you go to reviews page without product_id then 404 
+  if product_id == None:
+    abort(404)  
+
+  #TODO: handle  if user types in fake product id
+
+  # Call db function yo get all the reviews for the product
+  review_list = db.get_all_reviews_for_product(product_id)
+
+  # Get the product name
+  product_name = db.get_product_name(product_id)
+  product_name = product_name[0][0].get('product_name')
+
+  try:
+    return render_template('reviews.html', session=session.get('user'), review_list=review_list, product_name=product_name)
+  except TemplateNotFound:
+    abort(404)
+  
+
+# ****************************************************************
+# Add a review after selecting 'add a review' option to a product
+# ****************************************************************
+@app.route('/write-a-review', methods=["GET"])
+def write_review():
+  try:
+    return render_template('add_review.html',session=session.get('user'))
+  except TemplateNotFound:
+    abort(404)
+
+
+
+######################################
+# 5) Account page & related functions
+######################################
 @app.route('/account', methods=["GET"])
 def account():
   
-  # Get users details from session object
-  user_details = session
+  user_details = session  # Get users details from session object
   
   # Ensure username exists
   # * Reference to check if a key exists within a python dict: https://www.geeksforgeeks.org/python-check-whether-given-key-already-exists-in-a-dictionary/
   if ('nickname' not in user_details):
     print('Error at "/account" route. No suitable username provided.')
     return
-  
-  username = user_details['nickname']  # Get username
 
   # Get user_ids from users table to add to the review table 
+  username = user_details['nickname']  # Get username
   user_id = db.get_user_id_from_username(username)
 
   # Get the users quiz selections 
@@ -243,31 +386,9 @@ def account():
     abort(404)
 
 
-# *********************************
-# 5) Review Page
-# *********************************
-@app.route('/reviews', methods=["GET"])
-def reviews():
-  try:
-    return render_template('reviews.html',session=session.get('user'))
-  except TemplateNotFound:
-    abort(404)
-  
-
-@app.route('/write-a-review', methods=["GET"])
-def write_review():
-  try:
-    return render_template('add_review.html',session=session.get('user'))
-  except TemplateNotFound:
-    abort(404)
-
-
-
-#########################################################
+####################################
 # Editing Quiz Selection Routes
-#########################################################
-
-
+####################################
 # ***************************************************************************************************
 # Edit user preferences route
 # ***************************************************************************************************
@@ -285,7 +406,8 @@ def edit_user_preferences():
   preference_value    = None
 
   # Identify which preference user wants to change
-  # Valid Preferences: ['skin-type', 'target-type', 'number-steps']
+  # * Valid prefernces from form: ['skin-type', 'target-type', 'number-steps']
+  # * Translate to database keys: ['user_skin_type', 'user_target', 'routine_steps']
   # 1) Preference to change is skin type
   if ('skin-type' in request.form):
     preference_type   = 'user_skin_type'
@@ -298,10 +420,6 @@ def edit_user_preferences():
   elif ('number-steps' in request.form):
     preference_type   = 'routine_steps'
     preference_value  = request.form['number-steps']
-
-
-  print("Preference type:", preference_type)
-  print("Value:", preference_value)
 
   try:  # Attempt to run DB command
     db.edit_user_preferences(user_details, preference_type, preference_value)
@@ -375,7 +493,6 @@ def add_product_form():
       abort(404)
   
 
-
 # *********************************
 # Add item to database
 # *********************************
@@ -417,10 +534,23 @@ def add_product():
 
   return redirect('/admin/add-product-form')
 
+
+# *************************************************
 # Auth0Json page to see what auth0's json returns
+# *************************************************
 @app.route('/auth0json', methods=["GET"])
 def auth0Json():
   return render_template('Auth0Json.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4))
+
+
+# ***************************************************
+# TODO: DELETE LATER 
+# Function to chnage data type of column in database
+# ***************************************************
+@app.route('/changeType', methods=["GET"])
+def changeType():
+  db.changeType()
+  return "Type Chnaged"
 
 
 
@@ -428,9 +558,9 @@ def auth0Json():
 # APIs
 #########################################################
 
-# *********************************
-# Gets skincare products from database formatted as json
-# *********************************
+# *******************************************************
+# Gets skincare products from database formatted as JSON
+# *******************************************************
 @app.route('/api/get-products-json', methods=["GET"])
 def get_products_json():
 
@@ -441,9 +571,9 @@ def get_products_json():
   return (db_products)
 
 
-# *********************************
-# Gets skineasy users from database
-# *********************************
+# ******************************************
+# Gets skineasy users from database as JSON
+# ******************************************
 @app.route('/api/get-users-json', methods=["GET"])
 def get_users_json():
 
@@ -454,9 +584,9 @@ def get_users_json():
   return (db_users)
 
 
-# *********************************
-# Gets skineasy reviews from database
-# *********************************
+# *********************************************
+# Gets skineasy reviews from database as JSON
+# *********************************************
 @app.route('/api/get-routines-json', methods=["GET"])
 def get_routines_json():
 
@@ -467,9 +597,9 @@ def get_routines_json():
   return (db_users)
 
 
-# *********************************
-# Gets users review from database 
-# *********************************
+# ****************************************
+# Gets users review from database as JSON
+# ****************************************
 @app.route('/api/get-reviews-json', methods=["GET"])
 def get_reviews_json():
 
@@ -517,8 +647,7 @@ def callback():
     # *
     # * Reference to check if a key exists within a python dict: https://www.geeksforgeeks.org/python-check-whether-given-key-already-exists-in-a-dictionary/
     # *******************************************************************************************************************************************************
-    # User login details stored in auth0 token
-    if (token):
+    if (token):  # User login details stored in auth0 token
       session["user"] = token
 
     # Ensure we have dictionary w/ user information
@@ -537,8 +666,10 @@ def callback():
       if ('picture' in token['userinfo']):
         session['picture'] = token['userinfo']['picture']
         
-      # Fill users table by calling db function
-      db.add_user(session)
+      try:  # Fill users table by calling db function
+        db.add_user(session)
+      except:
+        print('Error at route "auth/callback". Failed to add user  to session.')
 
     # Redirect back to whatever page we were on before
     return redirect("/")

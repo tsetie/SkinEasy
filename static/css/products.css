@@ -1,49 +1,61 @@
+/* product.css */
+
+
+/* Product page consistent attributes */
 html {
   scroll-behavior: smooth;
 }
 
-a{
+a {
   text-decoration: none;
   color: rgb(118, 118, 118);
 }
-h3{
+
+h3 {
   font-weight: bold;
   color:black;
 }
 
-#filterHeader{
+
+
+/* Filter-related CSS */
+#filterHeader {
   background-color: rgb(255, 255, 255);
   display: block;
   text-align: center;
 }
 
-#filterform{
+#filterform {
   margin-left: 1vh;
 }
-/* filter submit button */
+
+/* Filter submit button */
 .button-submit {
   margin-top: 4vh;
   background: rgb(163, 157, 139);
 }
 
-/* filter section */
+/* Filter section */
 #menu{
   margin-top: 3.55em;
   background-color: rgba(181, 175, 166, 0.138);
 
 }
+
 /* Hamburger icon */
 .menu-link{
   margin-top: 5em;
   background-color: #b1aaa1;
 } 
 
-/* all the products */
+/* Products displayed in horizontal rows */
 .productContainer{
   margin-left: 4vh;
   margin-right: 4vh;
 }
 
+
+/* Search bar CSS */
 #searchBar{
   border-style:none;
   border-radius: .5em;
