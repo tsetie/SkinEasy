@@ -35,12 +35,17 @@
 
     <!-- Content header -->
     <div class="header">
-        <h2></h2>
+        <h2>Write a review:</h2>
     </div>
 
     <!-- Main content -->
     <div class="productContainer" style="margin: 1%;">
-        <h2>Write a review:</h2>
+        <h2>Product:</h2>
+
+        <!-- Display product here in center -->
+        <div id="product div">
+
+        </div>
 
         <div id="add-product-form" style="margin: 1%;">
             <!-- Product db setup -->
@@ -49,32 +54,19 @@
 
                     <hr>
     
-                    <!---------------------------------->
-                    <!-- SKINCARE PRODUCT TEXT INPUTS -->
-                    <!---------------------------------->
+                    <!------------------------->
+                    <!-- Rating (1-5 stars)  -->
+                    <!------------------------->
                     <div style="margin: 2%;">
-                        <h2 style="color: royalblue">Product text inputs</h2>
-                        <!-- Product name -->
-                        <label for="product-name">Product name:</label>
-                        <input type="text" id="product-name" placeholder="Type product name here." name="product-name" maxlength="255" required/>
+                        <h3 style="color: royalblue">Rating</h3>
+                       <!-- Add 1-5 star system -->
 
-                        <!-- Product URL -->
-                        <label for="product-url">Product URL:</label>
-                        <input type="text" id="product-url" placeholder="Type product URL here." name="product-url" maxlength="255" required/>
-                        
-                        <!-- Product brand -->
-                        <label for="product-brand">Product brand:</label>
-                        <input type="text" id="product-brand" placeholder="Type product brand here." name="product-brand" maxlength="255" required/>
-                    
-                        <!-- Product image path -->
-                        <label for="product-img-path">Product server image path:</label>
-                        <input type="text" id="product-img-path" placeholder="Type product image path here. (/static/images/...)" name="product-img-path" maxlength="255"/>
                     </div>
 
                     <hr>
 
                     <!--------------------------->
-                    <!-- SKINCARE PRODUCT TYPE -->
+                    <!-- Title -->
                     <!--------------------------->
                     <div style="margin: 2%;">
                         <h2 style="color: royalblue">Product type</h2>

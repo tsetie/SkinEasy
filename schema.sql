@@ -133,8 +133,9 @@ CREATE TABLE skineasy_reviews (
     user_id         integer NOT NULL,
     product_id      integer NOT NULL,
     reviewer_name   varchar(255) NOT NULL,
+    title           varchar (255),
     content         varchar(255),
-    rating          integer,
+    rating          integer NOT NULL,
     published_date  timestamp DEFAULT CURRENT_TIMESTAMP,
 
     PRIMARY KEY (review_id),
@@ -166,7 +167,7 @@ for table in cur.fetchall():
 -- View ALL columns of a table
 SELECT column_name, data_type
 FROM information_schema.columns
-WHERE table_schema = 'public' AND table_name = 'skineasy_skincare_products';
+WHERE table_schema = 'public' AND table_name = 'skineasy_reviews';
 
 
 -- Show all contents of table
