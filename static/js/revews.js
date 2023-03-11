@@ -4,5 +4,5 @@ const make_review_button = document.getElementById('writeReviewBtn');
 addEventListener('click', sendToReviewForm)
 
 function sendToReviewForm() {
-    
+    // Make POST request 
 }

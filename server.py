@@ -348,7 +348,7 @@ def reviews():
 # ****************************************************************
 # Add a review after selecting 'add a review' option to a product
 # ****************************************************************
-@app.route('/write-a-review', methods=["GET"])
+@app.route('/add-review', methods=["GET"])
 def write_review():
   try:
     return render_template('add_review.html',session=session.get('user'))
