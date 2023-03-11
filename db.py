@@ -97,6 +97,7 @@ def add_skincare_product(product_name, product_url, product_brand, image_path, c
         current_app.logger.info('Attempted to add entry to skincare products table')
         return
 
+
 # *****************************************************************************************
 # B) Function to get product id based on product name string
 # Input(s):   product_name (string):  text name of product we want to find the 'product_id' of
@@ -112,8 +113,27 @@ def get_product_id_from_product_name(product_name):
         return product_id
 
 
+# *****************************************************************************************
+# C) Function to get all product with product_id
+# Input(s):  product_id (integer):   ID from products table found using product name parameter
+# *****************************************************************************************
+def get_product_name(product_id):
+    with get_db_cursor(True) as cur:    
+
+        # Build SQL string to get product name from product ID
+        sql = (
+            "SELECT row_to_json(row) "
+            "FROM (SELECT product_name FROM skineasy_skincare_products WHERE product_id = %s ) row"
+            % product_id
+        )
+        
+        # Execute sql statement with data
+        cur.execute(sql)
+        return cur.fetchall()
+    
+
 # *****************************************************************************
-# C) Function to get all skincare products from skincare products table as JSON
+# D) Function to get all skincare products from skincare products table as JSON
 # *****************************************************************************
 def get_skincare_products_json():
     with get_db_cursor() as cur:
@@ -125,7 +145,7 @@ def get_skincare_products_json():
 
 
 # ************************************************************************************************************************************************************
-# D) Function to get skincare products based on product category tags as JSON
+# E) Function to get skincare products based on product category tags as JSON
 # Input(s): 
 # References:
 #   * Reference to convert lists to tuples: https://www.w3schools.com/python/python_tuples_update.asp
@@ -184,7 +204,7 @@ def filter_products(num_filters=0, cleanser_filter=False, exfoliant_filter=False
 
 
 # **********************************************************************************************************************************************************
-# E) Function to get all products with any user applied filters as JSON
+# F) Function to get all products with any user applied filters as JSON
 # Input(s): 
 # References:
 #   * Reference to convert lists to tuples: https://www.w3schools.com/python/python_tuples_update.asp
@@ -281,7 +301,7 @@ def get_products(num_of_skintype_filters_selected, normal_skin_type, dry_skin_ty
 
 
 # *****************************************************************
-# Function to get all products with specified filters 
+# G) Function to get all products with specified filters 
 # Input(s):
 #   * query (string):           user-entered search bar text
 #   * product_type (string):    skincare product category
@@ -297,6 +317,7 @@ def search_bar_filtering(query, product_type):
         # Build the regex to to find all products that have the searched word 
         query_regex = "'%" + query + "%'"
 
+        # Build SQL string using string query
         sql = (
             "SELECT row_to_json(row) "
             "FROM (SELECT * , to_char(price::numeric, 'FM9999D00') display_price FROM skineasy_skincare_products ) row "
@@ -341,7 +362,7 @@ def get_user_id_from_username(username):
 
 
 # *************************************************************************************************************************************************************************************
-# Function to add a user to the users table when logging in for the first time
+# C) Function to add a user to the users table when logging in for the first time
 # Input(s):   user_details (dictionary):  two-key dictionary with { username: (string), email: (string) } keys
 # Returns:    nothing
 # References: 
@@ -377,7 +398,7 @@ def add_user(user_details):
 
 
 # *****************************************************************************************************************************************************************
-# Function to update users skincare preferences in users table
+# D) Function to update users skincare preferences in users table
 # Input(s): 
 #   * user_details (dictionary):      two-key dictionary with { username: (string), email: (string) } keys
 #   * preference_type (string):       text representing which user preference to change  
@@ -434,9 +455,10 @@ def edit_user_preferences(user_details, preference_type, preference_value):
         return
 
 
-# ****************************************************
-# Function to get QUIZ SELECTIONS from the user table for a specific user
-# ****************************************************
+# ****************************************************************************
+# E) Function to get QUIZ SELECTIONS from the user table for a specific user
+# Input(s):     user_id (int):  ID of user in users table
+# ****************************************************************************
 def get_user_quiz_selections(user_id):
     with get_db_cursor() as cur:
         
@@ -446,24 +468,23 @@ def get_user_quiz_selections(user_id):
         return cur.fetchall()
 
 
-# # ****************************************************
-# # Function to get ALL USER_IDS and REVIEWER_NAMES from the user table as a list
-# # ****************************************************
-# def get_all_user_ids_and_names():
+# **********************************************************************************
+# F) Function to get ALL USER_IDS and REVIEWER_NAMES from the user table as a list
+# **********************************************************************************
+def get_all_user_ids_and_names():
 
-#     with get_db_cursor() as cur:
+    with get_db_cursor() as cur:
         
-#         # Make SQL statement asking database for all entries in users table
-#         sql = 'SELECT user_id, username FROM skineasy_users'
-#         cur.execute(sql)   
-#         return cur.fetchall()
+        # Make SQL statement asking database for all entries in users table
+        sql = 'SELECT user_id, username FROM skineasy_users'
+        cur.execute(sql)   
+        return cur.fetchall()
 
 
     
 ###################################################################################################
 # 3) ROUTINE TABLE functions
 ###################################################################################################
-
 # ****************************************************
 # Function to get all routine table entries as JSON
 # ****************************************************
@@ -610,10 +631,9 @@ def get_user_routine_by_type(product_type=None, username=None):
 ###################################################################################################
 # 4) REVIEWS TABLE functions
 ###################################################################################################
-
-# ****************************************************
+# *********************************************************
 # Function to get all reviews from the review table as JSON
-# ****************************************************
+# *********************************************************
 def get_reviews_json():
     ''' note -- result can be used as list of dictionaries'''
     with get_db_cursor() as cur:
@@ -628,10 +648,10 @@ def get_reviews_json():
 # ****************************************************
 # Function to add a review to the review table
 # Input(s):
-#   *
-#   *
-#   *
-#   *
+#   * user_details (dictionary)
+#   * content ()
+#   * product_id (integer)
+#   * rating (integer)
 # References:
 #   * Reference to check if a key exists within a python dict: https://www.geeksforgeeks.org/python-check-whether-given-key-already-exists-in-a-dictionary/
 #   * Reference on PSQL insertion without duplicates: https://stackoverflow.com/questions/1009584/how-to-emulate-insert-ignore-and-on-duplicate-key-update-sql-merge-with-po
@@ -656,6 +676,7 @@ def add_review(user_details, content, product_id, rating):
             # Execute sql statement with default data
             cur.execute(sql, (user_id, product_id, user, content, rating))
         return
+
 
 # ****************************************************
 # Function to show all reviews for a certain product

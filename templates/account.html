@@ -19,10 +19,10 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/static/css/home.css">
-    <link rel="stylesheet" href="/static/css/yourAccount.css">
+    <link rel="stylesheet" href="/static/css/account.css">
 
      <!-- JS -->
-     <script type="text/javascript" async defer src="/static/js/myAccount.js"></script>
+     <script type="text/javascript" async defer src="/static/js/account.js"></script>
 
 {% endblock %}
 
@@ -82,7 +82,15 @@
                 
                 <div class="quizSelections pure-u-1">
                     <button onclick="show_num_of_steps_form()"  id="edit_num_of_steps_btn"><img id="icons" src="/static/images/UI/editIcon.png" ></button>
-                    <h3><span># of Steps:</span> {{ routine_steps }}</h3>
+                    <h3><span># of Steps:</span> 
+                        {% if routine_steps == 2 or routine_steps == 3 %}
+                            <span>{{ routine_steps }}</span>
+                        {% elif routine_steps == 6 %}
+                            <span>4+</span>
+                        {% else %}
+                            <span>0</span>
+                        {% endif %}
+                    </h3>
                     <!-- Number of Steps Form -->
                     <form action="/edit_user_preferences" style="display:none" id="num_of_steps_form" method="POST">
                     <h4>Modify the number of steps in your routine:</h4>

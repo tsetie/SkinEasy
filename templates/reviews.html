@@ -26,7 +26,8 @@
 
 
      <!-- JS -->
-     <script type="text/javascript" async defer src="/static/js/myAccount.js"></script>
+     <script type="text/javascript" async defer src="/static/js/reviews.js"></script>
+     <script type="text/javascript" async defer src="/static/js/account.js"></script>
 
 {% endblock %}
 {% block content %}
@@ -40,84 +41,81 @@
     <!-- Only let user write a review if logged in  -->
     {% if session %}
     <div id="addReviewDiv">
-        <form action="writeReview">
-            <button id="writeReviewBtn" >Write a review</button>            
-        </form>
-
+        <button id="writeReviewBtn" >Write a review</button>            
     </div>
     {% endif %}
 
     {% if review_list %}
-    <div class='pure-g'>
-        <!-- Example review, delete later -->
-        <div class='pure-u-1' id="review_container">
-            <div class="boxheader">
-                <h3>@Tsetie</h3>
-                <br>
-                <span class="fa fa-star checked star"></span>
-                <span class="fa fa-star checked star"></span>
-                <span class="fa fa-star checked star"></span>
-                <span class="fa fa-star checked star"></span>
-                <span class="fa fa-star checked star"></span>
-                <h4 id="content_title">Great product!</h4>
-                <h4>Reviewed on March 10, 2023</h4>
-                <div id="review_content">
-                    <p>
-                        I loved this product. It worked great on my skin and I would highly recc this product to friends and family!
-                        If you have normal - dry skin it will become your holy grail!
-                    </p>
-                </div>
-            </div>
-            <hr>
-        <!-- Example review, delete later -->
-        <div class='pure-u-1' id="review_container">
-            <div class="boxheader">
-                <h3>@Boovs</h3>
-                <br>
-                <span class="fa fa-star checked star"></span>
-                <span class="fa fa-star checked star"></span>
-                <span class="fa fa-star checked star"></span>
-                <span class="fa fa-star star"></span>
-                <span class="fa fa-star star"></span>
-                <h4 id="content_title">Pretty good product</h4>
-                <h4>Reviewed on January 10, 2023</h4>
-                <div id="review_content">
-                    <p>
-                        This product was worth the money, but it didn't do any drastic changes to my skin. Nothing wrong with it either.
-                </div>
-            </div>
-            <hr>
-        
-            <!-- Loop through each review from the database function and display -->
-            {% for review in review_list %}
-            <!-- NOTE: Each review is stored in a size '1' list for some reason, so just remove the list part by indexing first element -->
-            {% set review = review[0] %}
+        <div class='pure-g'>
+            <!-- Example review, delete later -->
             <div class='pure-u-1' id="review_container">
                 <div class="boxheader">
-                    <h3>{{ review['reviewer_name'] }}</h3>
+                    <h3>@Tsetie</h3>
                     <br>
-                    {% for i in range(0, 5)  %}
-                        {% if review['rating'] >= i %}
-                            <span class="fa fa-star checked star"></span>
-                        {% else %}
-                            <span class="fa fa-star star"></span>
-                        {% endif %}
-                    {% endfor %}
-                    <h4 id="content_title">{{ review['title'] }}</h4>
-                    <h4>{{ review['published_date'] }}</h4>
+                    <span class="fa fa-star checked star"></span>
+                    <span class="fa fa-star checked star"></span>
+                    <span class="fa fa-star checked star"></span>
+                    <span class="fa fa-star checked star"></span>
+                    <span class="fa fa-star checked star"></span>
+                    <h4 id="content_title">Great product!</h4>
+                    <h4>Reviewed on March 10, 2023</h4>
                     <div id="review_content">
                         <p>
-                           {{ review['content'] }}
+                            I loved this product. It worked great on my skin and I would highly recc this product to friends and family!
+                            If you have normal - dry skin it will become your holy grail!
                         </p>
                     </div>
                 </div>
                 <hr>
-            {% endfor %}
-        </div>
-        <div pure-u-1>
+            <!-- Example review, delete later -->
+            <div class='pure-u-1' id="review_container">
+                <div class="boxheader">
+                    <h3>@Boovs</h3>
+                    <br>
+                    <span class="fa fa-star checked star"></span>
+                    <span class="fa fa-star checked star"></span>
+                    <span class="fa fa-star checked star"></span>
+                    <span class="fa fa-star star"></span>
+                    <span class="fa fa-star star"></span>
+                    <h4 id="content_title">Pretty good product</h4>
+                    <h4>Reviewed on January 10, 2023</h4>
+                    <div id="review_content">
+                        <p>
+                            This product was worth the money, but it didn't do any drastic changes to my skin. Nothing wrong with it either.
+                    </div>
+                </div>
+                <hr>
+            
+                <!-- Loop through each review from the database function and display -->
+                {% for review in review_list %}
+                    <!-- NOTE: Each review is stored in a size '1' list for some reason, so just remove the list part by indexing first element -->
+                    {% set review = review[0] %}
+                    <div class='pure-u-1' id="review_container">
+                        <div class="boxheader">
+                            <h3>{{ review['reviewer_name'] }}</h3>
+                            <br>
+                            {% for i in range(0, 5)  %}
+                                {% if review['rating'] >= i %}
+                                    <span class="fa fa-star checked star"></span>
+                                {% else %}
+                                    <span class="fa fa-star star"></span>
+                                {% endif %}
+                            {% endfor %}
+                            <h4 id="content_title">{{ review['title'] }}</h4>
+                            <h4>{{ review['published_date'] }}</h4>
+                            <div id="review_content">
+                                <p>
+                                {{ review['content'] }}
+                                </p>
+                            </div>
+                        </div>
+                        <hr>
+                {% endfor %}
+            </div>
+            <div pure-u-1>
 
+            </div>
         </div>
-    </div>
     {% endif %}
     <h2 id="no_review_msg"> No reviews yet.</h2>
 {% endblock %}
