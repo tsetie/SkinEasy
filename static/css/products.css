@@ -110,10 +110,19 @@ h3 {
   border-width: 1px;
   border-color: rgb(196, 189, 180);
   width: 4vh;
-
   margin: 1vh;
 }
 
 .add-to-routine-btn{
-  color:red
+  color:red;
+  border-style: solid;
+  border-radius: 10em;
+  border-width: 1px;
+  border-color: rgb(209, 205, 198);
+  width: 2.2em;
+  height: 2.2em;
+  padding-top:.3em;
+}
+.add-to-routine-btn:hover{
+  background-color: rgba(129, 129, 129, 0.319);
 }
