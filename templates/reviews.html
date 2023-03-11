@@ -1,11 +1,11 @@
 <!-- reviews.html -->
-<!-- SkinEasy Reviews page -->
+<!-- SkinEasy Product Reviews Page -->
 
 <!-- Inherits from: -->
 {% extends "base.html" %}
 
 <!-- Title  -->
-{% block title %}Your Account{% endblock %}
+{% block title %}Reviews{% endblock %}
 
 <!-- Head -->
 {% block head %}
@@ -21,118 +21,103 @@
     <link rel="stylesheet" href="/static/css/home.css">
     <link rel="stylesheet" href="/static/css/reviews.css">
 
+    <!-- External CSS libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
      <!-- JS -->
      <script type="text/javascript" async defer src="/static/js/myAccount.js"></script>
 
 {% endblock %}
-
-
-<!-- Pge content -->
 {% block content %}
+
     <div id="main">
         <div class="header">
             <h1>Product Reviews</h1>
-            <h2>Weleda skin food moisturizer</h2>
+            <h2>{{product_name}}</h2>
         </div>
     <div>
-    <div id="addReview">
-        <button>Write a Review</button>
-        <form>
-            <input type="textarea">
+    <!-- Only let user write a review if logged in  -->
+    {% if session %}
+    <div id="addReviewDiv">
+        <form action="writeReview">
+            <button id="writeReviewBtn" >Write a review</button>            
         </form>
+
     </div>
+    {% endif %}
 
-    <div class= "pure-g" id="reviewsContainer">
-        <div class="singleReviewContainer">
+    {% if review_list %}
+    <div class='pure-g'>
+        <!-- Example review, delete later -->
+        <div class='pure-u-1' id="review_container">
             <div class="boxheader">
-                <div class="user_first_name">
-                    <h2>Tseten</h2>
-                    <span>@tsetie</span>
+                <h3>@Tsetie</h3>
+                <br>
+                <span class="fa fa-star checked star"></span>
+                <span class="fa fa-star checked star"></span>
+                <span class="fa fa-star checked star"></span>
+                <span class="fa fa-star checked star"></span>
+                <span class="fa fa-star checked star"></span>
+                <h4 id="content_title">Great product!</h4>
+                <h4>Reviewed on March 10, 2023</h4>
+                <div id="review_content">
+                    <p>
+                        I loved this product. It worked great on my skin and I would highly recc this product to friends and family!
+                        If you have normal - dry skin it will become your holy grail!
+                    </p>
                 </div>
             </div>
-            <div class="written-review">
-                <p> The product was amazing and it has become my new holy grail! I cant live without this in my routin! Buy it now!</p>
+            <hr>
+        <!-- Example review, delete later -->
+        <div class='pure-u-1' id="review_container">
+            <div class="boxheader">
+                <h3>@Boovs</h3>
+                <br>
+                <span class="fa fa-star checked star"></span>
+                <span class="fa fa-star checked star"></span>
+                <span class="fa fa-star checked star"></span>
+                <span class="fa fa-star star"></span>
+                <span class="fa fa-star star"></span>
+                <h4 id="content_title">Pretty good product</h4>
+                <h4>Reviewed on January 10, 2023</h4>
+                <div id="review_content">
+                    <p>
+                        This product was worth the money, but it didn't do any drastic changes to my skin. Nothing wrong with it either.
+                </div>
             </div>
+            <hr>
+        
+            <!-- Loop through each review from the database function and display -->
+            {% for review in review_list %}
+            <!-- NOTE: Each review is stored in a size '1' list for some reason, so just remove the list part by indexing first element -->
+            {% set review = review[0] %}
+            <div class='pure-u-1' id="review_container">
+                <div class="boxheader">
+                    <h3>{{ review['reviewer_name'] }}</h3>
+                    <br>
+                    {% for i in range(0, 5)  %}
+                        {% if review['rating'] >= i %}
+                            <span class="fa fa-star checked star"></span>
+                        {% else %}
+                            <span class="fa fa-star star"></span>
+                        {% endif %}
+                    {% endfor %}
+                    <h4 id="content_title">{{ review['title'] }}</h4>
+                    <h4>{{ review['published_date'] }}</h4>
+                    <div id="review_content">
+                        <p>
+                           {{ review['content'] }}
+                        </p>
+                    </div>
+                </div>
+                <hr>
+            {% endfor %}
         </div>
-        <div class="singleReviewContainer">
-            <div class="boxheader">
-                <div class="user_first_name">
-                    <h2>Ishika</h2>
-                    <span>@Ish</span>
-                </div>
-            </div>
-            <div class="written-review">
-                <p>Was super excited to try it out but it broke me out!</p>
-            </div>
+        <div pure-u-1>
+
         </div>
-        <div class="singleReviewContainer">
-            <div class="boxheader">
-                <div class="user_first_name">
-                    <h2>Josh</h2>
-                    <span>@boovs</span>
-                </div>
-            </div>
-            <div class="written-review">
-                <p>Loved the product! Did exactly as it said it would and was worth the $$$!!</p>
-            </div>
-        </div>
-        <div class="singleReviewContainer">
-            <div class="boxheader">
-                <div class="user_first_name">
-                    <h2>Tenzin</h2>
-                    <span>@tsetie</span>
-                </div>
-            </div>
-            <div class="written-review">
-                <p> Can't live without this product!</p>
-            </div>
-        </div>
-        <div class="singleReviewContainer">
-            <div class="boxheader">
-                <div class="user_first_name">
-                    <h2>Tia</h2>
-                    <span>@sys</span>
-                </div>
-            </div>
-            <div class="written-review">
-                <p> This product is affordable and made my skin feel absolutely amazing when I woke up the next day. Hands down best skin care item I own!</p>
-            </div>
-        </div>
-        <div class="singleReviewContainer">
-            <div class="boxheader">
-                <div class="user_first_name">
-                    <h2>Ricky</h2>
-                    <span>@ky</span>
-                </div>
-            </div>
-            <div class="written-review">
-                <p>Heard a lot about this product but it didnt work out for me.</p>
-            </div>
-        </div>
-        <div class="singleReviewContainer">
-            <div class="boxheader">
-                <div class="user_first_name">
-                    <h2>Tenzin</h2>
-                    <span>@tsetie</span>
-                </div>
-            </div>
-            <div class="written-review">
-                <p> Can't live without this product!</p>
-            </div>
-        </div> 
-        <div class="singleReviewContainer">
-            <div class="boxheader">
-                <div class="user_first_name">
-                    <h2>Tseten</h2>
-                    <span>@tsetie</span>
-                </div>
-            </div>
-            <div class="written-review">
-                <p> The product was amazing and it has become my new holy grail! I cant live without this in my routin! Buy it now!</p>
-            </div>
-        </div>  
     </div>
-
-
-
+    {% endif %}
+    <h2 id="no_review_msg"> No reviews yet.</h2>
 {% endblock %}

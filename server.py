@@ -467,8 +467,7 @@ def get_user_routine():
     # Get username
     username = user_details['nickname']
 
-    # Call database function to get all of user's routine products that are
-    # categorized as 'product_category'
+    # Call database function to get all of user's routine products that are categorized as 'product_category'
     product_category = None
     user_products = db.get_user_routine_by_type(product_category, username)
     

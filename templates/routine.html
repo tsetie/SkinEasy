@@ -62,6 +62,9 @@
         <!-- Container for all product rows -->
         <div class="productContainer">
 
+
+            <!-- Login message -->
+            <!-- Show non-logged in users that they should login to build wishlist -->
             {% if (is_user_logged_in == false) %} 
             <div class="pure-u-1-1">
                 <p>Some message about logging in to utilize routine system</p>
@@ -76,38 +79,37 @@
                     <h2 class="content-subhead">Cleansers</h2>       <!-- Cleanser section header -->
                     <p> 1 - 3 times a week: AM </p>                  <!-- Time schedule caption -->
 
-                    <!-- Cleanser product card container -->
+                    <!-- Product row -->
                     <div class="stepContainers" id="product-container">
                         <!-- Loop through each product from the database function and display -->
                         {% for product in user_cleansers %}
                             {% set product = product[0] %}
                                 
-                            <!-- Card container -->
-                            <div class="pure-u-1-5 product-card">
-                                
-                                <!-- Product referral link -->
-                                <div class="product-img-referral">
-                                    <a href="{{ product['product_url'] }}">
-                                        <!-- Product image -->
-                                        <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="skincare product image">
-                                    </a>
-                                </div>
+                           <!-- Card container ---------------------------->
+                           <div class="pure-u-1-5 product-card">
 
-                                <!-- Product name -->
-                                <div class="product-name">
-                                    <p> {{ product['product_name'] }} </p>
-                                </div>
-                                
-                                <!-- Product price & review information -->
-                                <div class="product-reviews-selector">
-                                    <p>$19.99</p>
-                                    <a href="/reviews">Reviews</a>
-                                </div>
+                            <!-- Product referral link -->
+                            <a href="{{ product['product_url'] }}">                                                    
+                                <!-- Product image -->
+                                <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of cleanser">
+                            </a>
 
-                                <!-- Remove product button -->
-                                <button class="remove-from-routine-btn"> Remove from routine </button>
-
+                            <!-- Product name -->
+                            <div class="product-name">
+                                <p> {{ product['product_name'] }} </p>
                             </div>
+
+                            <!-- Product price & review information -->
+                            <div class="product-reviews-selector">
+                                <p> ${{ product['price'] }} <a href="/reviews"> Reviews </a></p>
+                            </div>
+
+                            <!-- Remove product button -->
+                            <button class="remove-from-routine-btn"> Remove from routine </button>
+
+                        </div>
+                        <!---------------------------------------------->
+
                         {% endfor %}
                     </div>
                 </div>
@@ -119,41 +121,40 @@
             <!-- NOTE: Show any exfoliants user has in their wishlist -->
             {% if user_exfoliants %}
                 <div id="exfoliant-container">
-                    <h2 class="content-subhead">Exfoliants</h2>      <!-- Exfoilant section header -->
+                    <h2 class="content-subhead">Exfoliants</h2>      <!-- Section header -->
                     <p> 1 - 3 times a week: AM </p>                  <!-- Time schedule caption -->
 
-                    <!-- Cleanser product card container -->
+                    <!-- Product row -->
                     <div class="stepContainers" id="product-container">
                         <!-- Loop through each product from the database function and display -->
                         {% for product in user_exfoliants %}
                             {% set product = product[0] %}
                                 
-                            <!-- Card container -->
+                            <!-- Card container ---------------------------->
                             <div class="pure-u-1-5 product-card">
-                                
+
                                 <!-- Product referral link -->
-                                <div class="product-img-referral">
-                                    <a href="{{ product['product_url'] }}">
-                                        <!-- Product image -->
-                                        <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="skincare product image">
-                                    </a>
-                                </div>
+                                <a href="{{ product['product_url'] }}">                                                    
+                                    <!-- Product image -->
+                                    <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of exfoliant">
+                                </a>
 
                                 <!-- Product name -->
                                 <div class="product-name">
                                     <p> {{ product['product_name'] }} </p>
                                 </div>
-                                
+
                                 <!-- Product price & review information -->
                                 <div class="product-reviews-selector">
-                                    <p>$19.99</p>
-                                    <a href="/reviews">Reviews</a>
+                                    <p> ${{ product['price'] }} <a href="/reviews"> Reviews </a></p>
                                 </div>
 
                                 <!-- Remove product button -->
                                 <button class="remove-from-routine-btn"> Remove from routine </button>
 
                             </div>
+                            <!---------------------------------------------->
+
                         {% endfor %}
                     </div>
                 </div>
@@ -165,41 +166,40 @@
             <!-- NOTE: Show toners if user has any in their wishlist -->
             {% if user_toners %}
                 <div id="toner-container">
-                    <h2 class="content-subhead">Toners</h2>             <!-- Toner section header -->
+                    <h2 class="content-subhead">Toners</h2>             <!-- Section header -->
                     <p> Daily: AM & PM </p>                             <!-- Time schedule caption -->
 
-                    <!-- Cleanser product card container -->
+                    <!-- Product row -->
                     <div class="stepContainers" id="product-container">
                         <!-- Loop through each product from the database function and display -->
                         {% for product in user_toners %}
                             {% set product = product[0] %}
                                 
-                            <!-- Card container -->
+                            <!-- Card container ---------------------------->
                             <div class="pure-u-1-5 product-card">
-                                
+
                                 <!-- Product referral link -->
-                                <div class="product-img-referral">
-                                    <a href="{{ product['product_url'] }}">
-                                        <!-- Product image -->
-                                        <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="skincare product image">
-                                    </a>
-                                </div>
+                                <a href="{{ product['product_url'] }}">                                                    
+                                    <!-- Product image -->
+                                    <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of toner">
+                                </a>
 
                                 <!-- Product name -->
                                 <div class="product-name">
                                     <p> {{ product['product_name'] }} </p>
                                 </div>
-                                
+
                                 <!-- Product price & review information -->
                                 <div class="product-reviews-selector">
-                                    <p>$19.99</p>
-                                    <a href="/reviews">Reviews</a>
+                                    <p> ${{ product['price'] }} <a href="/reviews"> Reviews </a></p>
                                 </div>
 
                                 <!-- Remove product button -->
                                 <button class="remove-from-routine-btn"> Remove from routine </button>
 
                             </div>
+                            <!---------------------------------------------->
+
                         {% endfor %}
                     </div>
                 </div>
@@ -211,42 +211,41 @@
             <!-- NOTE: Show serums if user has any in their wishlist -->
             {% if user_serums %}
                 <div id="serum-container">
-                    <h2 class="content-subhead">Serums</h2>             <!-- Serum section header -->
+                    <h2 class="content-subhead">Serums</h2>             <!-- Section header -->
                     <p> Daily: AM & PM </p>                             <!-- Time schedule caption -->
 
-                    <!-- Cleanser product card container -->
+                    <!-- Products row -->
                     <div class="stepContainers" id="product-container">
                         <!-- Loop through each product from the database function and display -->
                         {% for product in user_serums %}
                             {% set product = product[0] %}
                                 
-                            <!-- Card container -->
+                            <!-- Card container ---------------------------->
                             <div class="pure-u-1-5 product-card">
-                                
+
                                 <!-- Product referral link -->
-                                <div class="product-img-referral">
-                                    <a href="{{ product['product_url'] }}">
-                                        <!-- Product image -->
-                                        <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="skincare product image">
-                                    </a>
-                                </div>
+                                <a href="{{ product['product_url'] }}">                                                    
+                                    <!-- Product image -->
+                                    <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of serum">
+                                </a>
 
                                 <!-- Product name -->
                                 <div class="product-name">
                                     <p> {{ product['product_name'] }} </p>
                                 </div>
-                                
+
                                 <!-- Product price & review information -->
                                 <div class="product-reviews-selector">
-                                    <p>$19.99</p>
-                                    <a href="/reviews">Reviews</a>
+                                    <p> ${{ product['price'] }} <a href="/reviews"> Reviews </a></p>
                                 </div>
 
                                 <!-- Remove product button -->
                                 <button class="remove-from-routine-btn"> Remove from routine </button>
 
                             </div>
-                        {% endfor %}
+                            <!---------------------------------------------->
+
+                            {% endfor %}
                     </div>
                 </div>
                 <hr>  <!-- Horizontal line -->
@@ -257,41 +256,40 @@
             <!-- NOTE: Show moisturizers if user has any in their wishlist -->
             {% if user_moisturizers %}
                 <div id="moisturizer-container">
-                    <h2 class="content-subhead">Moisturizers</h2>      <!-- Moisturizers section header -->
-                    <p> Daily: AM & PM </p>                  <!-- Time schedule caption -->
+                    <h2 class="content-subhead">Moisturizers</h2>      <!-- Section header -->
+                    <p> Daily: AM & PM </p>                            <!-- Time schedule caption -->
 
-                    <!-- Cleanser product card container -->
+                    <!-- Products row -->
                     <div class="stepContainers" id="product-container">
                         <!-- Loop through each product from the database function and display -->
                         {% for product in user_moisturizers %}
                             {% set product = product[0] %}
                             
-                            <!-- Card container -->
+                            <!-- Card container ---------------------------->
                             <div class="pure-u-1-5 product-card">
-                                
+
                                 <!-- Product referral link -->
-                                <div class="product-img-referral">
-                                    <a href="{{ product['product_url'] }}">
-                                        <!-- Product image -->
-                                        <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="skincare product image">
-                                    </a>
-                                </div>
+                                <a href="{{ product['product_url'] }}">                                                    
+                                    <!-- Product image -->
+                                    <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of moisturizer">
+                                </a>
 
                                 <!-- Product name -->
                                 <div class="product-name">
                                     <p> {{ product['product_name'] }} </p>
                                 </div>
-                                
+
                                 <!-- Product price & review information -->
                                 <div class="product-reviews-selector">
-                                    <p>$19.99</p>
-                                    <a href="/reviews">Reviews</a>
+                                    <p> ${{ product['price'] }} <a href="/reviews"> Reviews </a></p>
                                 </div>
 
                                 <!-- Remove product button -->
                                 <button class="remove-from-routine-btn"> Remove from routine </button>
 
                             </div>
+                            <!---------------------------------------------->
+
                         {% endfor %}
                     </div>
                 </div>
@@ -303,27 +301,39 @@
             <!-- NOTE: Show sunscreens if user has any in their wishlist -->
             {% if user_suncreens %}
                 <div id="sunscreen-container">
-                    <h2 class="content-subhead">Sunscreens</h2>      <!-- Moisturizers section header -->
+                    <h2 class="content-subhead">Sunscreens</h2>      <!-- Section header -->
                     <p> Daily: AM & PM </p>                          <!-- Time schedule caption -->
 
-                    <!-- Cleanser product card container -->
+                    <!-- Products row -->
                     <div class="stepContainers" id="product-container">
                         <!-- Loop through each product from the database function and display -->
-                        {% for sunscreen in user_suncreens %}
-                            {% set sunscreen = sunscreen[0] %}
+                        {% for product in user_suncreens %}
+                            {% set product = product[0] %}
 
-                            <!-- Card container -->
+                            <!-- Card container ---------------------------->
                             <div class="pure-u-1-5 product-card">
+
                                 <!-- Product referral link -->
-                                <a href="{{ sunscreen['product_url'] }}">                                                    
+                                <a href="{{ product['product_url'] }}">                                                    
                                     <!-- Product image -->
-                                    <img class="pure-img-responsive" src="{{ sunscreen['image_path'] }}" alt="image of a moisturizer">
+                                    <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of sunscreen">
                                 </a>
+
                                 <!-- Product name -->
-                                <p> {{ sunscreen['product_name'] }} </p>
+                                <div class="product-name">
+                                    <p> {{ product['product_name'] }} </p>
+                                </div>
+
                                 <!-- Product price & review information -->
-                                <p> {{ sunscreen['price'] }} <a href="/reviews"> Reviews </a></p>
+                                <div class="product-reviews-selector">
+                                    <p> ${{ product['price'] }} <a href="/reviews"> Reviews </a></p>
+                                </div>
+
+                                <!-- Remove product button -->
+                                <button class="remove-from-routine-btn"> Remove from routine </button>
+
                             </div>
+                            <!---------------------------------------------->
 
                         {% endfor %}
                     </div>
