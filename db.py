@@ -354,6 +354,24 @@ def search_bar_filtering(query, product_type):
         cur.execute(sql)
         return cur.fetchall()
 
+# *****************************************************************
+# Select a category with no filters for the search functionality
+# *****************************************************************
+def get_product_with_no_filters(product_type):
+    with get_db_cursor(True) as cur:    
+
+        # Build SQL string with product_type
+        sql = (
+            "SELECT row_to_json(row) "
+            "FROM (SELECT * , to_char(price::numeric, 'FM9999D00') display_price FROM skineasy_skincare_products ) row "
+            "WHERE %s IS TRUE" % product_type
+        )
+
+        # Execute sql statement with data
+        cur.execute(sql)
+        return cur.fetchall()
+
+
 
 # ************************************************************************************************
 # H) Function to get product id based on product name string
