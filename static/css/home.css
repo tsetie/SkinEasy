@@ -308,15 +308,15 @@ input[type=text] {
   border-radius: 4px;
 }
 
-input[type=email] {
+input[type=subject] {
   border: 2px solid #b8bab3 ;
   border-radius: 4px;
 }
 
-textarea[name = Contact-Message] {
+textarea[name = Message] {
   border: 2px solid #b8bab3 ;
   border-radius: 4px;
-  width: 1137px;
+  width: 1145px;
   height: 196px;
 }
 
