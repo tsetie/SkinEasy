@@ -633,12 +633,14 @@ def get_user_routine(username):
         user_id = get_user_id_from_username(username)
 
         # Get all product IDs that are associated with user's ID
-        # * Reference on SQL joining w/ WHERE clause: https://mode.com/sql-tutorial/sql-joins-where-vs-on/
+        # * Reference on SQL joining w/ sub queries: https://www.tutorialspoint.com/postgresql/postgresql_sub_queries.htm
         get_user_products_sql = '''
             SELECT row_to_json(row) 
-            FROM (SELECT * , to_char(price::numeric, 'FM9999D00') display_price FROM skineasy_skincare_products ) row 
-            INNER JOIN skineasy_routines ON skineasy_routines.product_id = skineasy_skincare_products.product_id
-            WHERE skineasy_routines.user_id = %s;
+            FROM (
+                SELECT * , to_char(price::numeric, 'FM9999D00') display_price FROM skineasy_skincare_products 
+                WHERE skineasy_skincare_products.product_id in (
+                SELECT product_id FROM skineasy_routines WHERE skineasy_routines.user_id = %s)
+                ) row;
             ''' % user_id
 
         cur.execute(get_user_products_sql)
