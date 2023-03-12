@@ -205,15 +205,34 @@ def search_bar_filtering():
   # Store the users search into query var
   query = request.args['search']
 
-  # Call db function on each product to get all products that match users search 
-  cleanser_list = db.search_bar_filtering(query, "cleanser")
-  exfoliant_list = db.search_bar_filtering(query, "exfoliant")
-  toner_list = db.search_bar_filtering(query, "toner")
-  serum_list = db.search_bar_filtering(query, "serum")
-  moisturizer_list = db.search_bar_filtering(query, "moisturizer")
-  sunscreen_list = db.search_bar_filtering(query, "sunscreen")
+  cleanser_list     = []
+  exfoliant_list    = []
+  toner_list        = []
+  serum_list        = []
+  moisturizer_list  = []
+  sunscreen_list    = []
 
-  print(moisturizer_list)
+  # If the query was a category name or similar to category name then call get_product_with_no_filtersroducts function
+  if query in ('cleanser','cleansers'):
+    cleanser_list = db.get_product_with_no_filters('cleanser')
+  elif query in ('exfoliant','exfoliator','exfoliators','exfoliants'):
+    exfoliant_list = db.get_product_with_no_filters('exfoliant')
+  elif query in ('toner','toners'):
+    toner_list = db.get_product_with_no_filters('toner')
+  elif query in ('serum', 'serums'):
+    serum_list = db.get_product_with_no_filters('serum')
+  elif query in ('moisturizer', 'moisturizers', 'moisturizing', 'lotion'):
+    moisturizer_list = db.get_product_with_no_filters('moisturizer') 
+  elif query in ('sunscreen', 'sunscreens', 'spf', 'lotion'):
+    sunscreen_list = db.get_product_with_no_filters('sunscreen')
+  else:
+    # Call db function on each product to get all products that match users search 
+    cleanser_list = db.search_bar_filtering(query, "cleanser")
+    exfoliant_list = db.search_bar_filtering(query, "exfoliant")
+    toner_list = db.search_bar_filtering(query, "toner")
+    serum_list = db.search_bar_filtering(query, "serum")
+    moisturizer_list = db.search_bar_filtering(query, "moisturizer")
+    sunscreen_list = db.search_bar_filtering(query, "sunscreen")
 
   return render_template('/products.html',session=session.get('user'), cleanser_list=cleanser_list, exfoliant_list=exfoliant_list, toner_list=toner_list, serum_list=serum_list, moisturizer_list=moisturizer_list, sunscreen_list=sunscreen_list, query_dict=query )
 
