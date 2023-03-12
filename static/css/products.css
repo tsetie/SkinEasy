@@ -133,12 +133,14 @@ h3 {
   background-color: rgba(225, 219, 214, 0.619);
   border: none;
   font-size: 1em;
+  margin-bottom: 1em;
 }
 
 #recommendedBtn:hover{
   background-color: rgb(220, 214, 209);
+
 }
 #form_msg{
   margin-left: .5em;
-  margin-top: 2em;
+  margin-top: .1em;
 }

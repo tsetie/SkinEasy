@@ -150,12 +150,7 @@
                 </div>
                 <button class="button-submit pure-button">Filter</button>    
             </form>
-            {% if session %}
-            <form action="/products/recommended" method="GET">
-                <h4 id="form_msg">To filter products based on your quiz, click below.</h4>
-                <button id="recommendedBtn">Personal filter</button>
-            </form>
-            {% endif %}
+
         </div>
  
 
@@ -165,12 +160,16 @@
             <!-- Content headers -->
             <div class="header">
                 <h1>Products</h1>                   <!-- Title -->
-                <h3>Your recommended products</h3>  <!-- Subtitle -->
+                {% if session %}
+                <form action="/products/recommended" method="GET">
+                    <h4 id="form_msg">To filter products based on your quiz, click below.</h4>
+                    <button id="recommendedBtn">Personal filter</button>
+                </form>
+                {% endif %}
             </div>
 
             <!-- Container for all product rows -->
             <div class="productContainer">
-
 
                     <!-- Cleansers -->
                     <!-- NOTE: Show moisturizers if user has any in their wishlist -->
