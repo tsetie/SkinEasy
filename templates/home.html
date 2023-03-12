@@ -30,10 +30,19 @@
             <p class="splash-subhead">
                 take our skin care quiz to find products that works for you.
             </p>
+            <!-- If user is logged in they can take the quiz -->
+            {% if session %}
             <p>
                 <!-- Pop-up skin-care quiz -->
                 <button id="take-quiz-btn" class="pure-button pure-button-primary">TAKE QUIZ</button>
             </p>
+            {% endif %}
+            <!-- If user is not logged in, it will redirect them to the auth0 login -->
+            {% if session == none %}
+            <p>
+                <a href="/login"><button class="pure-button pure-button-primary" id="fake_take_quiz_btn">TAKE QUIZ</button></a>                
+            </p>
+            {% endif %}
         </div>
     </div>
     </div>

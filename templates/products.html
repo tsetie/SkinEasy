@@ -38,7 +38,7 @@
     <li class="pure-menu-item">
         <form action="/products/search">
         <input type="text" placeholder="Search.." name="search" id="search_bar">
-        <button type="submit" id="search_bar_btn">Submit</button>
+        <button type="submit" id="search_bar_btn" style="display:none">Submit</button>
         </form>
     </li>
 {% endblock %}
@@ -53,11 +53,14 @@
             <span></span>
         </a>
 
+        
+
         <!-- Filter menu -->
         <!-- Keep a checkbox marked reference: https://stackoverflow.com/questions/63702099/how-to-make-a-checkbox-checked-in-jinja2 -->
         <div id="menu" class="pure-g filterContainer">
-            <form id="filterform" action="/products" method="GET">
 
+            <form id="filterform" action="/products" method="GET">
+                
                 <!-- Filter by product category -->
                 <h3>Category</h3>
                 <div>
@@ -147,7 +150,12 @@
                 </div>
                 <button class="button-submit pure-button">Filter</button>    
             </form>
-            
+            {% if session %}
+            <form action="/products/recommended" method="GET">
+                <h4 id="form_msg">To filter products based on your quiz, click below.</h4>
+                <button id="recommendedBtn">Personal filter</button>
+            </form>
+            {% endif %}
         </div>
  
 

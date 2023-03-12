@@ -773,3 +773,17 @@ def get_all_reviews_by_user(user_id):
         # # Execute sql statement with default data
         cur.execute(sql, user_id)
         return cur.fetchall()
+
+
+# DELETE LATER 
+def remove_from_products_table(product_id):
+    with get_db_cursor(True) as cur:
+
+        sql = '''
+            DELETE 
+            FROM skineasy_skincare_products 
+            WHERE product_id = %s
+            '''
+        # Execute sql insertion
+        cur.execute(sql, (product_id,))
+

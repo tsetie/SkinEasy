@@ -97,6 +97,10 @@ input[type="radio"]:checked + label.quiz-btn-label:before {
 
 }
 
+#fake_take_quiz_btn{
+  color: black;
+}
+
 .quiz-btn {
   color: black;
 }
