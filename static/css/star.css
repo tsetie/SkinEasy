@@ -5,6 +5,7 @@
 }
 
 .rating {
+    background-color: red;
     height: 46px;
     padding: 0 10px;
 }
@@ -14,11 +15,11 @@
 }
 .rating:not(:checked) > label {
     float:right;
-    width:1em;
-    overflow:hidden;
-    white-space:nowrap;
-    cursor:pointer;
-    font-size:  3em;
+    width: 1em;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 3em;
     color:#ccc;
 }
 .rating:not(:checked) > label:before {
