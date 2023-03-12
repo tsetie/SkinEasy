@@ -9,35 +9,30 @@
     <h2>Write a review:</h2>
 </div>
 
-<!-- Five stars reference: https://codepen.io/hesguru/pen/BaybqXv -->
 <div id="review-form-container">
     <form id="review-form" class="pure-form pure-form-stacked" action="/add_review" method="POST" enctype="multipart/form-data">
-
         <!------------->
         <!-- Rating --->
         <!------------->
-        <div id="review-title-container" class="add-review-form-entry">
-        <div class="rating">
-            <input type="radio" id="star5" name="rating" value="5" />
-            <label for="star5" title="text"> 5 </label>
-            <input type="radio" id="star4" name="rating" value="4" />
-            <label for="star4" title="text"> 4 </label>
-            <input type="radio" id="star3" name="rating" value="3" />
-            <label for="star3" title="text"> 3 </label>
-            <input type="radio" id="star2" name="rating" value="2" />
-            <label for="star2" title="text"> 2 </label>
-            <input type="radio" id="star1" name="rating" value="1" />
-            <label for="star1" title="text"> 1 </label>
+        <!-- Reference: https://foolishdeveloper.com/5-star-rating-using-html-and-css-code-demo/#:~:text=The%20five%2Dstar%20rating%20HTML,give%20reviews%20about%20that%20product. -->
+        <div id="review-title-container" class="add-review-form-entry"> 
+            <label class="review-entry-label" for="review-title"><h3>Overall Rating</h3></label>
+            <div class="rating">
+                <input type="radio" name="rating" value="5" id="5" required><label for="5">☆</label>
+                <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+                <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+                <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+                <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+            </div>
         </div>
-    </div>
 
 
         <!-------------->
         <!--- Title ---->
         <!-------------->
         <div id="review-title-container" class="add-review-form-entry">
-            <label class="review-entry-label" for="product-img-path"><h3>Review Title</h3></label>
-            <input class="review-entry-input" type="text" id="product-img-path" name="product-img-path" placeholder="Would you like to title your review?" maxlength="255">
+            <label class="review-entry-label" for="review-title"><h3>Review Title</h3></label>
+            <input class="review-entry-input" type="text" id="review-title" name="review-title" placeholder="Would you like to title your review?" maxlength="255">
         </div>
 
         <hr> <!-- Horizontal line-->
@@ -45,9 +40,10 @@
         <!-------------->
         <!--- Media ---->
         <!-------------->
+        <!-- Reference to validate front-end file is image: https://stackoverflow.com/questions/3828554/how-to-allow-input-type-file-to-accept-only-image-files -->
         <div id="review-media" class="add-review-form-entry">
-            <label for="media-review"><h3>Add a photo:</h3></label>
-            <button>Add media</button>
+            <label for="review-media"><h3>Add a photo:</h3></label>
+            <input class="review-entry-input" type="file" name="review-media" accept="image/*">
         </div>
         
         <hr> <!-- Horizontal line-->
@@ -56,18 +52,22 @@
         <!--- Written review ---->
         <!----------------------->
         <div id="written-review-container" class="add-review-form-entry">
-            <label class="review-entry-label" for="written-review"><h3>Written review:</h3></label>
-            <textarea class="review-entry-input" id="written-review" name="written-review" rows="7" cols="75" placeholder="How was this product for you?"></textarea>
+            <label class="review-entry-label" for="review-content"><h3>Written review:</h3></label>
+            <textarea class="review-entry-input" id="review-content" name="review-content" rows="7" cols="75" placeholder="How was this product for you?"></textarea>
         </div>
         
         <hr> <!-- Horizontal line-->
 
+        <!-- Make sure was pass in product ID as well -->
+        {% if product_details and 'product_id' in product_details %}
+            <div id="product-id-cotnainer" style="display: none">
+                <input type="text" name="product-id" value={{ product_details['product_id'] }}>
+            </div>
+        {% endif %}
+
         <!-------------------->
         <!-- Submit button --->
         <!-------------------->
-        <div id="review-media" class="add-review-form-entry">
-            
-        </div>
         <div class="submit-btn">
             <button type="submit" class="" style="width: 20%; height: 40px"><b>Submit</b></button>
         </div>

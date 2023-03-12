@@ -49,7 +49,13 @@ WHERE product_name = 'Drunk Elephant Protini Polypeptide Cream ';
 
 -- Add a new column to table
 ALTER TABLE skineasy_reviews 
-ADD COLUMN media_path      varchar(255)
+ADD COLUMN img_filename    varchar(255),
+ADD COLUMN img_stream      bytea
+
+-- Delete a column from table
+ALTER TABLE skineasy_reviews 
+DROP COLUMN review_img,
+DROP COLUMN media_path
 
 -- Remove products entry from skincare products table
 DELETE FROM skineasy_skincare_products WHERE condition;
@@ -134,8 +140,12 @@ CREATE TABLE skineasy_reviews (
     reviewer_name   varchar(255) NOT NULL,
     title           varchar (255),
     content         varchar(255),
+    
+    img_filename    varchar(255),
     media_path      varchar(255),
-    rating          integer,
+    review_img      bytea,
+
+    rating          integer NOT NULL CHECK (rating > 0 AND rating < 6),
     published_date  timestamp DEFAULT CURRENT_TIMESTAMP,
 
     PRIMARY KEY (review_id),
@@ -151,6 +161,41 @@ CREATE TABLE skineasy_reviews (
         ON DELETE CASCADE,
 
     UNIQUE(user_id, product_id)
+);
+
+
+------------------------------------------------------------
+-- 5) Image table
+------------------------------------------------------------
+CREATE TABLE skineasy_images (
+    image_id        serial NOT NULL,
+    user_id         integer,
+    product_id      integer,
+    review_id       integer,
+
+    file_name       varchar(255),
+    image_url       varchar(255),
+    byte_stream     bytea,
+
+
+    PRIMARY KEY (image_id),
+
+    CONSTRAINT user_id
+        FOREIGN KEY (user_id)
+        REFERENCES skineasy_users(user_id)
+        ON DELETE CASCADE,
+    
+    CONSTRAINT product_id
+        FOREIGN KEY (product_id)
+        REFERENCES skineasy_skincare_products(product_id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT review_id
+        FOREIGN KEY (review_id)
+        REFERENCES skineasy_reviews(review_id)
+        ON DELETE CASCADE,
+
+    UNIQUE(file_name)
 );
 
 

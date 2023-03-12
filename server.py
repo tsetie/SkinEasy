@@ -17,7 +17,10 @@ from dotenv import find_dotenv, load_dotenv
 from flask import Flask, redirect, render_template, session, url_for
 from jinja2 import TemplateNotFound
 
+from werkzeug.utils import secure_filename
+
 import db
+import io
 
 #########################################################
 # App setup and authorization
@@ -26,8 +29,12 @@ ENV_FILE = find_dotenv()
 if ENV_FILE:
     load_dotenv(ENV_FILE)
 
+
 app = Flask(__name__)
 app.secret_key = env.get("APP_SECRET_KEY")
+app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024  # Reference to limit file size of user uploads: https://blog.filestack.com/thoughts-and-knowledge/secure-file-upload-flask-python/
+app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.png']
+# app.config['UPLOAD_PATH']
 
 oauth = OAuth(app)
 
@@ -180,7 +187,7 @@ def products():
 
   # No category or skintype selected, but filter form got submmited SO get ALL PRODUCTS with specified price
   # By default the price will be 'all' so dictionary will have "price : price all" which will be the only item in the dictinoary
-  if (cleanser_filter == False and  exfoliant_filter == False and toner_filter == False and serum_filter == False and moisturizer_filter == False and sunscreen_filter == False):
+  if (cleanser_filter == False and exfoliant_filter == False and toner_filter == False and serum_filter == False and moisturizer_filter == False and sunscreen_filter == False):
     cleanser_list     = db.get_products(num_of_skintype_filters_selected, normal_skin_filter, dry_skin_filter, oily_skin_filter, show_all_filter,num_of_targets,sensitive_target, mature_target, price_filter, "cleanser")
     exfoliant_list    = db.get_products(num_of_skintype_filters_selected, normal_skin_filter, dry_skin_filter, oily_skin_filter, show_all_filter,num_of_targets,sensitive_target, mature_target, price_filter, "exfoliant")
     toner_list        = db.get_products(num_of_skintype_filters_selected, normal_skin_filter, dry_skin_filter, oily_skin_filter, show_all_filter,num_of_targets,sensitive_target, mature_target, price_filter, "toner")
@@ -330,7 +337,7 @@ def reviews():
   if product_id == None:
     abort(404)  
 
-  #TODO: handle  if user types in fake product id
+  #TODO: handle if user types in fake product id
 
   # Call db function yo get all the reviews for the product
   review_list = db.get_all_reviews_for_product(product_id)
@@ -348,12 +355,85 @@ def reviews():
 # ****************************************************************
 # Add a review after selecting 'add a review' option to a product
 # ****************************************************************
-@app.route('/add_review', methods=["GET"])
-def write_review():
-  try:
-    return render_template('add_review.html',session=session.get('user'))
+@app.route('/add_review', methods=["POST"])
+def add_review():
+
+  # TODO: ENSURE FILE MEDIA IS AN IMAGE
+
+  # Ensure only logged in users can make reviews
+  user_details = session
+  if ('nickname' not in user_details):
+    print('Error at route "/add_review". User not logged in.')
+    return
+
+  # Check for required user rating
+  if ('rating' not in request.form):
+    print('Error at route "/add_review". Rating not provided.')
+    return
+
+  # Initialize passable review data to send to HTML and replace with any form data after
+  # --- Review variables ---
+  user_id     = None
+  product_id  = None
+  content     = None
+  rating      = None
+
+  # --- Image variables ---
+  img            = None
+  img_filename   = None
+  img_stream     = None
+
+
+  # Initialize any existing values passed in from form
+  username = user_details['nickname']
+  user_id = db.get_user_id_from_username(username)
+  rating = request.form['rating']
+
+  # Check for optional review title
+  if ('review-title' in request.form):
+    title = request.form['review-title']
+
+  # Check for optional written review content
+  if ('review-content' in request.form):
+    content = request.form['review-content']
+
+  # Check for product ID
+  if ('product-id' in request.form):
+    product_id = request.form['product-id']
+
+  # Check for optional user-submitted image
+  if ('review-media' in request.files):
+    img             = request.files['review-media']
+    img_filename    = secure_filename(img.filename)
+    img_stream      = img.read()
+    
+
+  try:  # Try to add review to database
+    db.add_review(username, user_id, product_id, title, content, rating, img_filename, img_stream)
+  except:
+    print('Error at route "/add_review". DB function to add review failed.')
+
+  try:  # Render back to product review page user was previously on
+    return redirect('/reviews?product_id=' + product_id )
   except TemplateNotFound:
     abort(404)
+
+
+# *************************************************
+# Function to get review image from reviews table
+# *************************************************
+@app.route('/get_review_image', methods=["GET"])
+def get_review_image():
+  # Store the review_id
+  review_id = request.args.get('review_id')
+
+  # If you go to reviews page without review_id then 404 
+  if review_id == None:
+    abort(404)
+
+  return db.decode_review_image(review_id)
+  
+
 
 
 
@@ -388,9 +468,7 @@ def account():
     abort(404)
 
 
-####################################
-# Editing Quiz Selection Routes
-####################################
+# Account related - Editing Quiz Selection Routes
 # ***************************************************************************************************
 # Edit user preferences route
 # ***************************************************************************************************
@@ -434,6 +512,7 @@ def edit_user_preferences():
     abort(404)
 
 
+  
 #########################################################
 # TEST routes
 #########################################################
@@ -475,7 +554,6 @@ def get_user_routine():
     
   # Render routine page with the skincare products on their wishlist
   return user_products
-
 
 
 
@@ -560,7 +638,6 @@ def changeType():
 #########################################################
 # APIs
 #########################################################
-
 # *******************************************************
 # Gets skincare products from database formatted as JSON
 # *******************************************************
@@ -568,10 +645,10 @@ def changeType():
 def get_products_json():
 
   # Call database function to get skincare products
-  db_products = db.get_skincare_products_json()
+  products = db.get_skincare_products_json()
   
   # Return JSON format of skincare products
-  return (db_products)
+  return (products)
 
 
 # ******************************************
@@ -581,10 +658,10 @@ def get_products_json():
 def get_users_json():
 
   # Call database function to get skincare products
-  db_users = db.get_users_json()
+  users = db.get_users_json()
   
   # Return JSON format of skincare products
-  return (db_users)
+  return (users)
 
 
 # *********************************************
@@ -594,24 +671,36 @@ def get_users_json():
 def get_routines_json():
 
   # Call database function to get skincare products
-  db_users = db.get_routines_json()
+  routines = db.get_routines_json()
   
   # Return JSON format of skincare products
-  return (db_users)
+  return (routines)
 
 
 # ****************************************
-# Gets users review from database as JSON
+# Gets users reviews from database as JSON
 # ****************************************
 @app.route('/api/get-reviews-json', methods=["GET"])
 def get_reviews_json():
 
   # Call database function to get user reviews
-  db_users = db.get_reviews_json()
+  reviews = db.get_reviews_json()
   
   # Return JSON format of user reviews
-  return (db_users)
+  return (reviews)
 
+
+# ****************************************
+# Gets all images from database as JSON
+# ****************************************
+@app.route('/api/get-images-json', methods=["GET"])
+def get_images_json():
+
+  # Call database function to get user reviews
+  images = db.get_images_json()
+  
+  # Return JSON format of user reviews
+  return (images)
 
 
 
