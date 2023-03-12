@@ -355,6 +355,24 @@ def search_bar_filtering(query, product_type):
         cur.execute(sql)
         return cur.fetchall()
 
+# *****************************************************************
+# Select a category with no filters for the search functionality
+# *****************************************************************
+def get_product_with_no_filters(product_type):
+    with get_db_cursor(True) as cur:    
+
+        # Build SQL string with product_type
+        sql = (
+            "SELECT row_to_json(row) "
+            "FROM (SELECT * , to_char(price::numeric, 'FM9999D00') display_price FROM skineasy_skincare_products ) row "
+            "WHERE %s IS TRUE" % product_type
+        )
+
+        # Execute sql statement with data
+        cur.execute(sql)
+        return cur.fetchall()
+
+
 
 # ************************************************************************************************
 # H) Function to get product id based on product name string
@@ -631,12 +649,14 @@ def get_user_routine(username):
         user_id = get_user_id_from_username(username)
 
         # Get all product IDs that are associated with user's ID
-        # * Reference on SQL joining w/ WHERE clause: https://mode.com/sql-tutorial/sql-joins-where-vs-on/
+        # * Reference on SQL joining w/ sub queries: https://www.tutorialspoint.com/postgresql/postgresql_sub_queries.htm
         get_user_products_sql = '''
-            SELECT row_to_json(skineasy_skincare_products)
-            FROM skineasy_skincare_products
-            INNER JOIN skineasy_routines ON skineasy_routines.product_id = skineasy_skincare_products.product_id
-            WHERE skineasy_routines.user_id = %s;
+            SELECT row_to_json(row) 
+            FROM (
+                SELECT * , to_char(price::numeric, 'FM9999D00') display_price FROM skineasy_skincare_products 
+                WHERE skineasy_skincare_products.product_id in (
+                SELECT product_id FROM skineasy_routines WHERE skineasy_routines.user_id = %s)
+                ) row;
             ''' % user_id
 
         cur.execute(get_user_products_sql)
@@ -747,6 +767,7 @@ def add_review(reviewer_name, user_id, product_id, title, content, rating, img_f
         # Execute sql statement with default data
         cur.execute(insert_sql, (reviewer_name, user_id, product_id, title, content, rating, img_filename, img_stream, title, content, rating, img_filename, img_stream, user_id, product_id))
         current_app.logger.info('Attempted to add entry to skincare reviews table')
+
         return
 
 
@@ -785,10 +806,11 @@ def get_review_from_user_product_ids(user_id, product_id):
 def get_all_reviews_for_product(product_id):
     with get_db_cursor(True) as cur: 
    
+        # Source that showed how to convert CURRENT_TIMESTAMP to a string
         # Build SQL statement to get all reviews for a product with the product_id
         sql = '''
-            SELECT * 
-            FROM skineasy_reviews 
+            SELECT row_to_json(rows)
+            FROM (SELECT * , TO_CHAR(published_date,'Month DD, YYYY') FROM skineasy_reviews ) rows
             WHERE product_id = %s
             '''
         # Execute sql statement with default data
@@ -813,52 +835,6 @@ def get_all_reviews_by_user(user_id):
         cur.execute(sql, user_id)
         return cur.fetchall()
 
-
-
-###################################################################################################
-# 5) IMAGE TABLE functions
-###################################################################################################
-# ***********************************************************
-# A) Function to get all entries from images table as JSON
-# ***********************************************************
-def get_images_json():
-    with get_db_cursor() as cur:
-
-        # Make SQL statement asking database for all entries in images table
-        sql = "SELECT row_to_json(skineasy_images) FROM skineasy_images ORDER BY image_id ASC"
-        cur.execute(sql)
-
-        return cur.fetchall()
-
-
-# ***********************************************************
-# B) Function to get an entry from images table from image ID
-# Input(s): image_id (int)
-# ***********************************************************
-def get_image_from_id(image_id):
-    with get_db_cursor(True) as cur: 
-        cur.execute("SELECT * FROM skineasy_images where image_id=%s", (image_id,))
-        image_row = cur.fetchone()
-        
-        # Get stored python IO stream
-        stream = io.BytesIO(image_row["byte_stream"])
-            
-        # use special "send_file" function
-        return send_file(stream, attachment_filename=image_row["filename"])
-
-
-
-# # ***********************************************************
-# # C) Function to add an image to database 
-# # ***********************************************************
-# def add_image(id, file_name, image_url, byte_stream):
-#     with get_db_cursor(True) as cur:
-
-#         sql = '''
-#             INSERT INTO skineasy_images
-
-#         '''
-
 # ***********************************************************
 # D) Function to read an image from bytea sequence
 # # Input(s): review_id (int)
@@ -875,3 +851,17 @@ def read_image_from_id(review_id):
             
         # use special "send_file" function
         return send_file(stream, download_name=image_row["img_filename"])
+    
+    
+# DELETE LATER 
+def remove_from_products_table(product_id):
+    with get_db_cursor(True) as cur:
+
+        sql = '''
+            DELETE 
+            FROM skineasy_skincare_products 
+            WHERE product_id = %s
+            '''
+        # Execute sql insertion
+        cur.execute(sql, (product_id,))
+

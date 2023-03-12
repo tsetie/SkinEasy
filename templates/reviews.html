@@ -56,7 +56,42 @@
     {% endif %}
 
     {% if review_list %}
- 
+        <div class='pure-g'>
+                <!-- Loop through each review from the database function and display -->
+                {% for review in review_list %}
+                    <!-- NOTE: Each review is stored in a size '1' list for some reason, so just remove the list part by indexing first element -->
+                    {% set review = review[0] %}
+                    <div class='pure-u-1' id="review_container">
+                        <div class="boxheader">
+                            <h3>{{ review['reviewer_name'] }}</h3>
+                            <br>
+                            {% for i in range(0, 5)  %}
+                                {% if review['rating'] > i %}
+                                    <span class="fa fa-star checked star"></span>
+                                {% else %}
+                                    <span class="fa fa-star star"></span>
+                                {% endif %}
+                            {% endfor %}
+                            <h4 id="content_title">{{ review['title'] }}</h4>
+                            <h4>{{ review['to_char'] }}</h4>
+                            <div id="review_content">
+                                <p>
+                                {{ review['content'] }}
+                                </p>
+                            </div>
+                        </div>
+                        <hr>
+                {% endfor %}
+            </div>
+            <div pure-u-1>
+
+            </div>
+        </div>
     {% endif %}
+
+    <!-- Only show this meesage if theres no reviews for the product yet  -->
+    {% if review_list == false %}
     <h2 id="no_review_msg"> No reviews yet.</h2>
+    {% endif %}
+
 {% endblock %}

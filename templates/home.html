@@ -30,10 +30,19 @@
             <p class="splash-subhead">
                 take our skin care quiz to find products that works for you.
             </p>
+            <!-- If user is logged in they can take the quiz -->
+            {% if session %}
             <p>
                 <!-- Pop-up skin-care quiz -->
                 <button id="take-quiz-btn" class="pure-button pure-button-primary">TAKE QUIZ</button>
             </p>
+            {% endif %}
+            <!-- If user is not logged in, it will redirect them to the auth0 login -->
+            {% if session == none %}
+            <p>
+                <a href="/login"><button class="pure-button pure-button-primary" id="fake_take_quiz_btn">TAKE QUIZ</button></a>                
+            </p>
+            {% endif %}
         </div>
     </div>
     </div>
@@ -236,23 +245,24 @@
         <div class="content">
             <h2 class="content-head is-center">Contact Us</h2>
 
-            <!-- <div class="pure-g">
-                <div class="l-box-lrg pure-u-1 pure-u-md-2-5">
-                    <form class="pure-form pure-form-stacked">
-                        <fieldset>
-                            <label for="name">Your Name</label>
-                            <input id="name" type="text" placeholder="Your Name">
-                            <label for="email">Your Email</label>
-                            <input id="email" type="email" placeholder="Your Email">
-                            <button type="submit" class="pure-button">Sign Up</button>
-                        </fieldset>
-                    </form>
-                </div> -->
+            <form action="mailto: skineasyhelp@gmail.com"
+            method="POST"
+            enctype="text/plain"
+            name="EmailForm">
+                Name:<br>
+                <input type="text" size="19" name="Name"><br><br>
+                Subject:<br>
+                <input type="subject" name="Subject"><br><br> 
+                Message:<br> 
+                <textarea name="Message">
+                </textarea><br><br> 
+                <button type="submit" value="Submit">Send</button>
+            </form>  
 
                 <div class="l-box-lrg pure-u-1 pure-u-md-1">
                     <!-- <h4>Contact Us Directly</h4> -->
-                    <p>Email: skineasy@gmail.com </p>
-                    <p>Phone Number: (999)-999-999 </p>
+                    <p name="Emailbot" >Email: skineasyhelp@gmail.com</p>
+                
                     
             
 

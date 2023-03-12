@@ -1,0 +1,10 @@
+#log_in_message_container{
+  text-align: center;
+  background-color: rgba(185, 174, 159, 0.155);
+  border-radius: 1em;
+  margin-top: 2em;
+}
+
+h2 {
+  color: rgb(120, 112, 99);
+}

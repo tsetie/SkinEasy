@@ -60,7 +60,7 @@ h3 {
   border-style:none;
   border-radius: .5em;
   height: 1.8em;
-  width: 14em;  
+  width: 18em;  
   background-color: rgb(212, 206, 195);
 }
 
@@ -68,14 +68,6 @@ h3 {
   background-color: rgba(255, 255, 255, 0.609);
 }
 
-#search_bar_btn{
-  border-radius: .5em;
-  border-style: none;
-  background-color: rgb(212, 206, 195);
-  color: gray;
-  height: 1.8em;
-  width: 5em;
-}
 #search_bar_btn:hover{
   background-color: rgba(255, 255, 255, 0.609);}
 
@@ -83,6 +75,10 @@ h3 {
   overflow-x:scroll;
   overflow-y: hidden;
   white-space: nowrap;
+}
+
+.stepContainers::-webkit-scrollbar{
+  display:none;
 }
 
 .product-card{
@@ -125,4 +121,24 @@ h3 {
 }
 .add-to-routine-btn:hover{
   background-color: rgba(129, 129, 129, 0.319);
+}
+
+#recommendedBtn{
+  border-radius: .5em;
+  border-style: solid;
+  border-width: 1px;
+  width: 8.5em;
+  height: 3em;
+  margin-left:.5em;
+  background-color: rgba(225, 219, 214, 0.619);
+  border: none;
+  font-size: 1em;
+}
+
+#recommendedBtn:hover{
+  background-color: rgb(220, 214, 209);
+}
+#form_msg{
+  margin-left: .5em;
+  margin-top: 2em;
 }

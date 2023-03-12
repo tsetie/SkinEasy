@@ -303,6 +303,41 @@ a.pure-button-primary {
 
 }
 
+input[type=text] {
+  border: 2px solid #b8bab3 ;
+  border-radius: 4px;
+}
+
+input[type=subject] {
+  border: 2px solid #b8bab3 ;
+  border-radius: 4px;
+}
+
+textarea[name = Message] {
+  border: 2px solid #b8bab3 ;
+  border-radius: 4px;
+  width: 1145px;
+  height: 196px;
+}
+
+.l-box-lrg{
+
+  text-align: left;
+
+}
+
+p[name = Emailbot] {
+  display: block;
+  margin-block-start: 0em;
+  margin-block-end: 0em;
+  margin-inline-start: -30px;
+  margin-inline-end: 0px;
+}
+
+h3[class = content-subhead] {
+  margin-inline-start: -10px;
+}
+
 /*
 * -- DESKTOP (AND UP) MEDIA QUERIES --
 * On desktops and other large devices, we want to over-ride some

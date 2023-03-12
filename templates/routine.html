@@ -23,6 +23,8 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/static/css/home.css">
     <link rel="stylesheet" href="/static/css/products.css">
+    <link rel="stylesheet" href="/static/css/your_routine.css">
+
 
     <!-- Javascipt -->
     <script type="text/javascript" async defer src="https://purecss.io/js/ui.js"></script>
@@ -62,12 +64,17 @@
         <!-- Container for all product rows -->
         <div class="productContainer">
 
-
             <!-- Login message -->
             <!-- Show non-logged in users that they should login to build wishlist -->
             {% if (is_user_logged_in == false) %} 
-            <div class="pure-u-1-1">
-                <p>Some message about logging in to utilize routine system</p>
+            <div class="pure-g" id="log_in_message_container">
+                <div class="pure-u-1">
+                    <h2>Oh no, you're not logged in!</h2>                    
+                </div>
+                <div class="pure-u-1">
+                    <h2>Log in to keep track of the products you love and to add stuff to your routine!</h2>
+                    <li class="pure-u-1"><a href="/login" class="pure-menu-link">Sign Up Today!</a></li>
+                </div>
             </div>
             {% endif %}
 
@@ -101,7 +108,7 @@
 
                             <!-- Product price & review information -->
                             <div class="product-reviews-selector">
-                                <p> ${{ product['price'] }} <a href="/reviews?product_id={{product['product_id']}}"> Reviews </a> </p>
+                                <p> ${{ product['display_price'] }} <a href="/reviews?product_id={{product['product_id']}}"> Reviews </a> </p>
                             </div>
 
                             <!-- Remove product button -->
@@ -146,7 +153,7 @@
 
                                 <!-- Product price & review information -->
                                 <div class="product-reviews-selector">
-                                    <p> ${{ product['price'] }} <a href="/reviews?product_id={{product['product_id']}}"> Reviews </a> </p>
+                                    <p> ${{ product['display_price'] }} <a href="/reviews?product_id={{product['product_id']}}"> Reviews </a> </p>
                                 </div>
 
                                 <!-- Remove product button -->
@@ -191,7 +198,7 @@
 
                                 <!-- Product price & review information -->
                                 <div class="product-reviews-selector">
-                                    <p> ${{ product['price'] }} <a href="/reviews?product_id={{product['product_id']}}"> Reviews </a> </p>
+                                    <p> ${{ product['display_price'] }} <a href="/reviews?product_id={{product['product_id']}}"> Reviews </a> </p>
                                 </div>
 
                                 <!-- Remove product button -->
@@ -236,7 +243,7 @@
 
                                 <!-- Product price & review information -->
                                 <div class="product-reviews-selector">
-                                    <p> ${{ product['price'] }} <a href="/reviews?product_id={{product['product_id']}}"> Reviews </a> </p>
+                                    <p> ${{ product['display_price'] }} <a href="/reviews?product_id={{product['product_id']}}"> Reviews </a> </p>
                                 </div>
 
                                 <!-- Remove product button -->
@@ -281,7 +288,7 @@
 
                                 <!-- Product price & review information -->
                                 <div class="product-reviews-selector">
-                                    <p> ${{ product['price'] }} <a href="/reviews?product_id={{product['product_id']}}"> Reviews </a> </p>
+                                    <p> ${{ product['display_price'] }} <a href="/reviews?product_id={{product['product_id']}}"> Reviews </a> </p>
                                 </div>
 
                                 <!-- Remove product button -->
@@ -326,7 +333,7 @@
 
                                 <!-- Product price & review information -->
                                 <div class="product-reviews-selector">
-                                    <p> ${{ product['price'] }} <a href="/reviews?product_id={{product['product_id']}}"> Reviews </a> </p>
+                                    <p> ${{ product['display_price'] }} <a href="/reviews?product_id={{product['product_id']}}"> Reviews </a> </p>
                                 </div>
 
                                 <!-- Remove product button -->
