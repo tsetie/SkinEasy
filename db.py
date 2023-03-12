@@ -864,22 +864,14 @@ def get_image_from_id(image_id):
 # # Input(s): review_id (int)
 # Reference:
 # ***********************************************************
-def decode_review_image(review_id):
+def read_image_from_id(review_id):
     with get_db_cursor(True) as cur:
 
-        # Get image stream from review ID
-        sql = "SELECT row_to_json(skineasy_reviews) FROM skineasy_reviews WHERE review_id = '%s'" % (review_id)
-        cur.execute(sql)
+        cur.execute("SELECT * FROM skineasy_reviews where review_id=%s", (review_id,))
+        image_row = cur.fetchone() # just another way to interact with cursors
         
-        image_row = cur.fetchone()[0]
-    
-        print(image_row)
-
-        # In-memory python IO stream
-        img_filename   = image_row["img_filename"]
-        stream         = io.BytesIO(image_row["img_stream"])
-
-        print(stream)
-
-        # Send image file back
-        return send_file(stream, download_name=img_filename, mimetype='image/png')
+        # in memory pyhton IO stream
+        stream = io.BytesIO(image_row["img_stream"])
+            
+        # use special "send_file" function
+        return send_file(stream, download_name=image_row["img_filename"])

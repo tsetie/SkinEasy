@@ -432,9 +432,15 @@ def get_review_image():
     abort(404)
 
   return db.decode_review_image(review_id)
-  
 
 
+# *********************************
+# GET THE IMAGE FOR GODS SAKE
+# *********************************
+@app.route('/images/<int:review_id>',  methods=["GET"])
+def get_image(review_id):
+  img_file = db.read_image_from_id(review_id)
+  return img_file
 
 
 ######################################
@@ -533,27 +539,7 @@ def child():
   return render_template('child.html')
 
 
-# *********************************
-# Test page (For testing)
-# *********************************
-@app.route('/api/get-user-routine-json', methods=["GET"])
-def get_user_routine():
 
-  # ************************************************
-  # * Only have routine features for logged in users
-  # * Get the users details from session object
-  # ************************************************
-  user_details = session
-  if ('nickname' in user_details):
-    # Get username
-    username = user_details['nickname']
-
-    # Call database function to get all of user's routine products that are categorized as 'product_category'
-    product_category = None
-    user_products = db.get_user_routine_by_type(product_category, username)
-    
-  # Render routine page with the skincare products on their wishlist
-  return user_products
 
 
 
