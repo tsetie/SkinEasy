@@ -1,0 +1,48 @@
+/* review_form.css */
+
+.review-header {
+    font-size: larger;
+    padding: 2%;
+}
+
+#add-review-form-container {
+    /* display: none; */
+    background-color: rgb(34, 34, 34);
+}
+
+
+#add-review-form-container {
+    margin: 2%;
+    padding: 2%;
+
+}
+
+.add-review-form-entry {
+    background-color: rgba(76, 64, 76, 0);
+    margin: 2%;
+    padding: 1%;
+}
+
+
+
+.review-entry-input {
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+/* Submit button */
+#review-form .submit-btn {
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    margin: 2%;
+}
+
+/* Reference: https://stackoverflow.com/questions/4151743/how-can-i-change-the-thickness-of-my-hr-tag */
+hr {
+    border: none;
+    height: 2px;
+    /* Set the hr color */
+    color: #333; /* old IE */
+    background-color: #333; /* Modern Browsers */
+}

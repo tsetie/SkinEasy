@@ -115,7 +115,7 @@ def get_product_id_from_product_name(product_name):
 
 
 # *****************************************************************************************
-# C) Function to get all product with product_id
+# C) Function to get all products with product_id
 # Input(s):  product_id (integer):   ID from products table found using product name parameter
 # Returns:   product_name (string):  text name of product we get from ID
 # *****************************************************************************************
@@ -132,6 +132,27 @@ def get_product_name(product_id):
         # Execute sql statement with data
         cur.execute(sql)
         return cur.fetchall()
+
+
+# *****************************************************************************************
+# D) Function to get a product's details based on product ID
+# Input(s):  product_id (integer):   ID from products table found using product name parameter
+# Returns:   JSON (dictionary):      column key and pair values from product table
+# *****************************************************************************************
+def get_product_details_from_id(product_id):
+    with get_db_cursor(True) as cur:    
+
+        # Build SQL string to get product details from product ID 
+        sql = '''
+            SELECT row_to_json(skineasy_skincare_products)
+            FROM skineasy_skincare_products
+            WHERE product_id = %s
+        '''
+
+        # Execute sql statement with data
+        cur.execute(sql, (product_id))
+        return cur.fetchall()
+    
     
 
 # *****************************************************************************
@@ -334,6 +355,20 @@ def search_bar_filtering(query, product_type):
         return cur.fetchall()
 
 
+# ************************************************************************************************
+# H) Function to get product id based on product name string
+# Input(s):     product_name (string):  text representing which product name we want the ID of
+# Returns:      product_id (integer):   ID from products table found using product name parameter
+# ************************************************************************************************
+def get_product_id_from_product_name(product_name):
+    with get_db_cursor(True) as cur:
+        
+        get_product_sql = "SELECT %s FROM %s WHERE %s = '%s'" % ('product_id', 'skineasy_skincare_products', 'product_name', product_name)
+        cur.execute(get_product_sql)
+        product_id = cur.fetchall()[0][0]
+        return product_id
+
+
 
 ###################################################################################################
 # 2) USER TABLE functions
@@ -489,6 +524,7 @@ def get_all_user_ids_and_names():
         return cur.fetchall()
 
 
+
     
 ###################################################################################################
 # 3) ROUTINE TABLE functions
@@ -505,22 +541,9 @@ def get_routines_json():
         return cur.fetchall()
 
 
-# ************************************************************************************************
-# B) Function to get product id based on product name string
-# Input(s):     product_name (string):  text representing which product name we want the ID of
-# Returns:      product_id (integer):   ID from products table found using product name parameter
-# ************************************************************************************************
-def get_product_id_from_product_name(product_name):
-    with get_db_cursor(True) as cur:
-        
-        get_product_sql = "SELECT %s FROM %s WHERE %s = '%s'" % ('product_id', 'skineasy_skincare_products', 'product_name', product_name)
-        cur.execute(get_product_sql)
-        product_id = cur.fetchall()[0][0]
-        return product_id
-
 
 # **************************************************************************************************************************
-# C) Function to add an entry to routines table given a dictionary with username and product name
+# B) Function to add an entry to routines table given a dictionary with username and product name
 # Input(s): user_product_info (dictionary):     two-key dictionary with { username: (string), product name: (string) } keys
 # Returns:  void
 # **************************************************************************************************************************
@@ -550,7 +573,7 @@ def add_to_routine(user_product_info):
 
 
 # ****************************************************
-# Function to add an entry to routines table given a dictionary with username and product name
+# C) Function to add an entry to routines table given a dictionary with username and product name
 # Input(s):     user_
 # Returns:      void
 # ****************************************************
@@ -581,7 +604,7 @@ def remove_from_routine(user_product_info):
 
 
 # ****************************************************
-# Function to get a user's respective routine products
+# D) Function to get a user's respective routine products
 # Input(s):     username (string)
 # Returns:      
 # ****************************************************
@@ -605,7 +628,7 @@ def get_user_routine(username):
         
 
 # ********************************************************************************************************
-# Function to get a get a specific product type based on type (string) and username (string)
+# E) Function to get a get a specific product type based on type (string) and username (string)
 # Input(s):
 # Returns:
 # ********************************************************************************************************
@@ -649,7 +672,7 @@ def get_user_routine_by_type(product_type=None, username=None):
 # 4) REVIEWS TABLE functions
 ###################################################################################################
 # *********************************************************
-# Function to get all reviews from the review table as JSON
+# A) Function to get all reviews from the review table as JSON
 # Returns: 
 # *********************************************************
 def get_reviews_json():
@@ -664,7 +687,7 @@ def get_reviews_json():
     
 
 # ****************************************************
-# Function to add a review to the review table
+# B) Function to add a review to the review table
 # Input(s):
 #   * user_details (dictionary)
 #   * content ()
@@ -697,7 +720,7 @@ def add_review(user_details, content, product_id, rating):
 
 
 # ****************************************************
-# Function to show all reviews for a certain product
+# C) Function to show all reviews for a certain product
 # ****************************************************
 def get_all_reviews_for_product(product_id):
     with get_db_cursor(True) as cur: 
@@ -714,7 +737,7 @@ def get_all_reviews_for_product(product_id):
 
 
 # ********************************************************
-# Function to show all reviews written by a specific user
+# D) Function to show all reviews written by a specific user
 # Input(s): 
 # ********************************************************
 def get_all_reviews_by_user(user_id):
