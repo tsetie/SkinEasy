@@ -1,43 +1,44 @@
+/* star.css */
 
-*{
-    margin: 0;
-    padding: 0;
-}
+/* Reference: https://foolishdeveloper.com/5-star-rating-using-html-and-css-code-demo/#:~:text=The%20five%2Dstar%20rating%20HTML,give%20reviews%20about%20that%20product. */
 
-.rating {
-    background-color: red;
-    height: 46px;
-    padding: 0 10px;
-}
-.rating:not(:checked) > input {
-    position:absolute;
-    top:-9999px;
-}
-.rating:not(:checked) > label {
-    float:right;
-    width: 1em;
-    overflow: hidden;
-    white-space: nowrap;
-    cursor: pointer;
-    font-size: 3em;
-    color:#ccc;
-}
-.rating:not(:checked) > label:before {
-    content: '★ ';
-}
-.rating > input:checked ~ label {
-    color: #ffc700;    
-}
-.rating:not(:checked) > label:hover,
-.rating:not(:checked) > label:hover ~ label {
-    color: #deb217;  
-}
-.rating > input:checked + label:hover,
-.rating > input:checked + label:hover ~ label,
-.rating > input:checked ~ label:hover,
-.rating > input:checked ~ label:hover ~ label,
-.rating > label:hover ~ input:checked ~ label {
-    color: #c59b08;
-}
-
-/* Modified from: https://github.com/mukulkant/Star-rating-using-pure-css */
+/* body{
+    background: #222225;
+    color: white;
+    margin: 100px auto;
+    } */
+    
+    .rating {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: center;
+    }
+    
+    .rating > input{ 
+        display: none;
+    }
+    
+    .rating > label {
+        position: relative;
+        width: 1.2em;
+        font-size: 3.0vw;
+        color: #FFD700;
+        cursor: pointer;
+    }
+    
+    .rating > label::before{
+        content: "\2605";
+        position: absolute;
+        opacity: 0;
+    }
+    
+    .rating > label:hover:before,
+    .rating > label:hover ~ label:before {
+        opacity: 1 !important;
+    }
+    
+    .rating > input:checked ~ label:before{
+        opacity:1;
+    }
+    
+    .rating:hover > input:checked ~ label:before{ opacity: 0.4; }

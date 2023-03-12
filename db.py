@@ -14,12 +14,13 @@ from contextlib import contextmanager
 import logging
 import os
 
-from flask import current_app, g
+from flask import current_app, g, redirect, render_template, request, send_file, session, url_for
 
 import psycopg2
 from psycopg2.pool import ThreadedConnectionPool
 from psycopg2.extras import DictCursor
 
+import io
 
 ##################################################################
 # Connection pool setup
@@ -67,7 +68,7 @@ def get_db_cursor(commit=False):
 # Input(s):   product_name (string):  text name of product we want to find the 'product_id' of
 # Returns:    product_id (integer):   ID from products table of product name parameter
 # ****************************************************
-def add_skincare_product(product_name, product_url, product_brand, image_path, cleanser=False, exfoliant=False, toner=False, serum=False, moisturizer=False, sunscreen=False, sensitive_target=False, mature_target=False, none_target=False, normal_skin=False, oily_skin=False, dry_skin=False, is_all=False, price=None):
+def add_skincare_product(product_name, product_url, product_brand, image_path, cleanser=False, exfoliant=False, toner=False, serum=False, moisturizer=False, sunscreen=False, sensitive_target=False, mature_target=False, none_target=False, normal_skin=False, dry_skin=False, oily_skin=False, is_all=False, price=None):
     with get_db_cursor(True) as cur:
 
         # Build SQL insertion statement for each column in products table
@@ -418,9 +419,24 @@ def get_user_id_from_username(username):
         return user_id
 
 
+# *******************************************************************************************
+# B) Function to get username based on user ID
+# Input(s):   user_id (integer): ID from users table
+# Returns:    username (string): user unique text identifier found using user_id parameter
+# *******************************************************************************************
+def get_username_from_id(user_id):
+    with get_db_cursor(True) as cur:
+        
+        # Make SQL statement asking for username using provided user ID
+        get_user_sql = "SELECT %s FROM %s WHERE %s = '%s'" % ('username', 'skineasy_users', 'user_id', user_id)
+        cur.execute(get_user_sql)
+        username = cur.fetchall()[0][0]
+        return username
+
+
 # *************************************************************************************************************************************************************************************
 # C) Function to add a user to the users table when logging in for the first time
-# Input(s):   user_details (dictionary):  two-key dictionary with { username: (string), email: (string) } keys
+# Input(s):   user_details (dictionary):  two-key dictionary with { username: (string), email: (string) } as keys
 # Returns:    nothing
 # References: 
 #   * Reference to check if a key exists within a python dict:    https://www.geeksforgeeks.org/python-check-whether-given-key-already-exists-in-a-dictionary/
@@ -696,7 +712,6 @@ def get_user_routine_by_type(product_type=None, username=None):
 # Returns: 
 # *********************************************************
 def get_reviews_json():
-    ''' note -- result can be used as list of dictionaries'''
     with get_db_cursor() as cur:
 
         # Make SQL statement asking database for all entries in reviews table
@@ -706,59 +721,105 @@ def get_reviews_json():
         return cur.fetchall()
     
 
-# ****************************************************
+# ****************************************************************************************************************************************************************************
 # B) Function to add a review to the review table
 # Input(s):
-#   * user_details (dictionary)
-#   * content ()
-#   * product_id (integer)
-#   * rating (integer)
+#   * username (string):  name of user who made review
+#   * user_id (int):      ID of user that made review
+#   * product_id (int):   ID of product that review is about
+#   * title (string):     review header text
+#   * content (string):   written description of review
+#   * rating (integer):   1-5 star score
 # References:
 #   * Reference to check if a key exists within a python dict: https://www.geeksforgeeks.org/python-check-whether-given-key-already-exists-in-a-dictionary/
 #   * Reference on PSQL insertion without duplicates: https://stackoverflow.com/questions/1009584/how-to-emulate-insert-ignore-and-on-duplicate-key-update-sql-merge-with-po
-# ****************************************************
-def add_review(user_details, content, product_id, rating, title):
+# ****************************************************************************************************************************************************************************
+def add_review(reviewer_name, user_id, product_id, title, content, rating, img_filename, img_stream):
     with get_db_cursor(True) as cur: 
    
-        # Only add review if user has a username
-        if ('nickname' in user_details):
-            username = user_details['nickname']
+        # Only add review if we have required parameters
+        if (reviewer_name is None or user_id is None or product_id is None or rating is None):
+            current_app.logger.info("Error: add_review - Function Input(s) invalid.")
+            return
 
-            # Get user_ids from users table to add to the review table 
-            user_id = get_user_id_from_username(username)
+        # Build SQL statement for inserting new review
+        insert_sql = '''
+            INSERT INTO skineasy_reviews (
+                reviewer_name,
+                user_id,
+                product_id,
+                title,
+                content,
+                rating,
+                img_filename,
+                img_stream
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (user_id, product_id) DO 
+            UPDATE
+            SET title = %s,
+                content = %s,
+                rating = %s,
+                img_filename = %s,
+                img_stream = %s
+            WHERE skineasy_reviews.user_id = %s AND skineasy_reviews.product_id = %s;
+            '''
 
+        # Execute sql statement with default data
+        cur.execute(insert_sql, (reviewer_name, user_id, product_id, title, content, rating, img_filename, img_stream, title, content, rating, img_filename, img_stream, user_id, product_id))
+        current_app.logger.info('Attempted to add entry to skincare reviews table')
 
-            # # # Build SQL statement with sessions object and user_id from users table 
-            sql = '''
-                INSERT INTO skineasy_reviews (user_id, product_id, reviewer_name, title, content, rating)
-                VALUES (%s, %s, %s, %s, %s, %s)
-                '''
-
-            # Execute sql statement with default data
-            cur.execute(sql, (user_id, product_id, username, title, content, rating))
         return
 
 
-# ****************************************************
-# C) Function to show all reviews for a certain product
-# ****************************************************
+# *****************************************************************
+# C) Function to get review details based on user_id and product_id
+# Input(s):
+#   * user_id (int):      ID of user that made review
+#   * product_id (int):   ID of product that review is about
+# Returns: JSON of review entry row
+# *****************************************************************
+def get_review_from_user_product_ids(user_id, product_id):
+    with get_db_cursor(True) as cur: 
+
+        # Ensure inputs exist
+        if (user_id is None or product_id is None):
+            current_app.logger.info("Error: get_review_id_from_user_product_ids - Function Input(s) invalid.")
+            return 
+
+        # Make SQL statement string to get review details
+        sql = '''
+            SELECT row_to_json(skineasy_reviews)
+            FROM skineasy_reviews
+            WHERE user_id = %s AND product_id = %s
+        '''
+
+        # # Execute sql statement with default data
+        cur.execute(sql, (user_id, product_id))
+        return cur.fetchall()
+
+
+# ***************************************************************
+# D) Function to show all reviews for a certain product
+# Input(s):  product_id (int):   ID of product that review is about
+# Returns:   all reviews for specified product
+# ***************************************************************
 def get_all_reviews_for_product(product_id):
     with get_db_cursor(True) as cur: 
    
-        # # # Source that showed how to convert CURRENT_TIMESTAMP to a string
-        # # # Build SQL statement to get all reviews for a product with the product_id
+        # Source that showed how to convert CURRENT_TIMESTAMP to a string
+        # Build SQL statement to get all reviews for a product with the product_id
         sql = '''
             SELECT row_to_json(rows)
             FROM (SELECT * , TO_CHAR(published_date,'Month DD, YYYY') FROM skineasy_reviews ) rows
             WHERE product_id = %s
             '''
-        # # Execute sql statement with default data
+        # Execute sql statement with default data
         cur.execute(sql, product_id)
         return cur.fetchall()
 
 
 # ********************************************************
-# D) Function to show all reviews written by a specific user
+# E) Function to show all reviews written by a specific user
 # Input(s): 
 # ********************************************************
 def get_all_reviews_by_user(user_id):
@@ -774,7 +835,24 @@ def get_all_reviews_by_user(user_id):
         cur.execute(sql, user_id)
         return cur.fetchall()
 
+# ***********************************************************
+# D) Function to read an image from bytea sequence
+# # Input(s): review_id (int)
+# Reference:
+# ***********************************************************
+def read_image_from_id(review_id):
+    with get_db_cursor(True) as cur:
 
+        cur.execute("SELECT * FROM skineasy_reviews where review_id=%s", (review_id,))
+        image_row = cur.fetchone() # just another way to interact with cursors
+        
+        # in memory pyhton IO stream
+        stream = io.BytesIO(image_row["img_stream"])
+            
+        # use special "send_file" function
+        return send_file(stream, download_name=image_row["img_filename"])
+    
+    
 # DELETE LATER 
 def remove_from_products_table(product_id):
     with get_db_cursor(True) as cur:
