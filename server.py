@@ -335,12 +335,12 @@ def reviews():
   # Call db function yo get all the reviews for the product
   review_list = db.get_all_reviews_for_product(product_id)
 
-  # Get the product name
-  product_name = db.get_product_name(product_id)
-  product_name = product_name[0][0].get('product_name')
+  # Get current product details
+  product_details = db.get_product_details_from_id(product_id)
+  product_details = product_details[0][0]  # Remove any unecessary list nesting
 
   try:
-    return render_template('reviews.html', session=session.get('user'), review_list=review_list, product_name=product_name)
+    return render_template('reviews.html', session=session.get('user'), review_list=review_list, product_details=product_details)
   except TemplateNotFound:
     abort(404)
   
@@ -348,7 +348,7 @@ def reviews():
 # ****************************************************************
 # Add a review after selecting 'add a review' option to a product
 # ****************************************************************
-@app.route('/add-review', methods=["GET"])
+@app.route('/add_review', methods=["GET"])
 def write_review():
   try:
     return render_template('add_review.html',session=session.get('user'))

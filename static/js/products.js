@@ -85,8 +85,6 @@ function checkUserClicks(e) {
           .catch((error) => {
             console.error("Error:", error);
           });
-
-          console.log("AYE")
     }
 
 

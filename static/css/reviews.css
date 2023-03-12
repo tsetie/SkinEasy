@@ -1,12 +1,12 @@
 /* reviews.css */
-#reviewsContainer{
+#reviewsContainer {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
   width: 100%;
 }
 
-.singleReviewContainer{
+.singleReviewContainer {
  width: 500px;
  box-shadow: 2px 2px 30px rgba(187, 185, 171, 0.55);
  background-color: rgb(254, 254, 254);
@@ -14,22 +14,22 @@
  margin: 15px;
 }
 
-.user_first_name{
+.user_first_name {
  flex-direction: column;
 }
 
-h3{
+h3 {
  color: rgb(74, 70, 70);
  letter-spacing: .8px;
  margin-bottom: .1px;
 }
 
-.written-review{
+.written-review {
  color:rgb(142, 138, 135);
 }
 
 /* Write Review Btn Stuff  */
-#writeReviewBtn{
+#writeReviewBtn {
  border-radius: 1em;
  border-width: 1px;
  border-color: rgb(212, 202, 191);
@@ -37,14 +37,14 @@ h3{
  height: 2em;
 }
 
-#writeReviewBtn:hover{
+#writeReviewBtn:hover {
  background-color: rgba(143, 135, 125, 0.263);
 }
 
-#addReviewDiv{
- margin-left: 47%;
- margin-top: 3em;
- margin-bottom: 1em;
+#addReviewDiv {
+ display: flex;
+ justify-content: center;
+ margin: 5em;
 }
 
 /* checked review stars */
@@ -52,22 +52,36 @@ h3{
  color: rgb(229, 222, 193);
 }
 
-h4{
+h4 {
  margin-top: .5em;
 }
 
-#content_title{
+#content_title {
  display: inline;
  margin-left: 1em;
  color: black;
 }
 
-#review_container{
+#review_container {
  width: 50em;
  margin: auto;
 }
 
-#no_review_msg{
+#no_review_msg {
  margin-left: 45%;
  margin-top: 10em;
+}
+
+
+
+
+/* Review images */
+.product-img-container {
+  /* background-color: red; */
+  margin: 1%;
+  padding: 1%;
+}
+
+.review-img {
+  max-width: 20%;
 }
