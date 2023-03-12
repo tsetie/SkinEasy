@@ -697,7 +697,7 @@ def get_reviews_json():
 #   * Reference to check if a key exists within a python dict: https://www.geeksforgeeks.org/python-check-whether-given-key-already-exists-in-a-dictionary/
 #   * Reference on PSQL insertion without duplicates: https://stackoverflow.com/questions/1009584/how-to-emulate-insert-ignore-and-on-duplicate-key-update-sql-merge-with-po
 # ****************************************************
-def add_review(user_details, content, product_id, rating):
+def add_review(user_details, content, product_id, rating, title):
     with get_db_cursor(True) as cur: 
    
         # Only add review if user has a username
@@ -707,15 +707,15 @@ def add_review(user_details, content, product_id, rating):
             # Get user_ids from users table to add to the review table 
             user_id = get_user_id_from_username(username)
 
+
             # # # Build SQL statement with sessions object and user_id from users table 
             sql = '''
-                INSERT INTO skineasy_reviews (user_id, product_id, reviewer_name, content, rating)
-                VALUES (%s, %s, %s, %s, %s)
-                ON CONFLICT (user_id, product_id, reviewer_name, content, rating) DO NOTHING;
+                INSERT INTO skineasy_reviews (user_id, product_id, reviewer_name, title, content, rating)
+                VALUES (%s, %s, %s, %s, %s, %s)
                 '''
 
             # Execute sql statement with default data
-            cur.execute(sql, (user_id, product_id, user, content, rating))
+            cur.execute(sql, (user_id, product_id, username, title, content, rating))
         return
 
 
@@ -725,10 +725,11 @@ def add_review(user_details, content, product_id, rating):
 def get_all_reviews_for_product(product_id):
     with get_db_cursor(True) as cur: 
    
+        # # # Source that showed how to convert CURRENT_TIMESTAMP to a string
         # # # Build SQL statement to get all reviews for a product with the product_id
         sql = '''
-            SELECT * 
-            FROM skineasy_reviews 
+            SELECT row_to_json(rows)
+            FROM (SELECT * , TO_CHAR(published_date,'Month DD, YYYY') FROM skineasy_reviews ) rows
             WHERE product_id = %s
             '''
         # # Execute sql statement with default data
