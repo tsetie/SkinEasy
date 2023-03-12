@@ -635,8 +635,8 @@ def get_user_routine(username):
         # Get all product IDs that are associated with user's ID
         # * Reference on SQL joining w/ WHERE clause: https://mode.com/sql-tutorial/sql-joins-where-vs-on/
         get_user_products_sql = '''
-            SELECT row_to_json(skineasy_skincare_products)
-            FROM skineasy_skincare_products
+            SELECT row_to_json(row) 
+            FROM (SELECT * , to_char(price::numeric, 'FM9999D00') display_price FROM skineasy_skincare_products ) row 
             INNER JOIN skineasy_routines ON skineasy_routines.product_id = skineasy_skincare_products.product_id
             WHERE skineasy_routines.user_id = %s;
             ''' % user_id
