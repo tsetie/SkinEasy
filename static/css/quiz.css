@@ -3,12 +3,15 @@
   display: none;
   position: fixed;
   margin-top: 5%;
-  margin-left: 10%;
-  height: 86%;
-  width: 80%;
+  margin-left: 20%;
+  height: auto;
+  width: 60%;
   border: 3px solid #727066;
   z-index: 9;
   overflow: scroll;
+  background-color: white;
+  font-size: 1.5em;
+  
 }
 
 /* Add styles to the form container */
@@ -16,10 +19,7 @@
   width: 100%;
   height: 100%;
   padding: 10px;
-  background-color: #ffffff;
 }
-
-
 
 /* Customizeed CSS radio butotns */
 .radio-container {
@@ -31,17 +31,18 @@
 }
 
 /* Quiz buttons */
-input[type="radio"] {
+.form-container input[type="radio"] {
     display: none;
 }
+
 label.quiz-btn-label {
   position: relative;
   color: rgb(85, 81, 75);
   font-size: 15px;
   border: 2px solid rgb(111, 111, 101);
   border-radius: 5px;
-  padding: 10px 50px;
-  margin: 5px;
+  padding: 10px 40px;
+
   display: flex;
   align-items: center;
 }
@@ -58,8 +59,8 @@ input[type="radio"]:checked + label.quiz-btn-label {
   color: rgb(48, 48, 47);
 }
 input[type="radio"]:checked + label.quiz-btn-label:before {
-  height: 16px;
-  width: 16px;
+  height: 16vh;
+  width: 16vh;
   border: 10px solid white;
   background-color: rgb(199, 199, 199);
 }
@@ -122,7 +123,8 @@ input[type="radio"]:checked + label.quiz-btn-label:before {
 }
 
 .x {
-  background-color: rgb(255, 255, 255);
+  display: block;
+  font-size: .9em;
 }
 
 #quizdiv{
