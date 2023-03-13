@@ -94,6 +94,8 @@ def add_skincare_product(product_name, product_url, product_brand, image_path, c
                 price
             ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             '''
+
+            
         # Execute sql insertion
         cur.execute(sql, (product_name, product_url, product_brand, image_path, cleanser, exfoliant, toner, serum, moisturizer, sunscreen, sensitive_target, mature_target, none_target, normal_skin, oily_skin, dry_skin, is_all, price))
         current_app.logger.info('Attempted to add entry to skincare products table')
@@ -147,11 +149,11 @@ def get_product_details_from_id(product_id):
         sql = '''
             SELECT row_to_json(skineasy_skincare_products)
             FROM skineasy_skincare_products
-            WHERE product_id = %s
+            WHERE product_id = %s;
         '''
 
         # Execute sql statement with data
-        cur.execute(sql, (product_id))
+        cur.execute(sql, (product_id,))
         return cur.fetchall()
     
     
@@ -802,19 +804,20 @@ def get_review_from_user_product_ids(user_id, product_id):
 # D) Function to show all reviews for a certain product
 # Input(s):  product_id (int):   ID of product that review is about
 # Returns:   all reviews for specified product
+# References: 
+#   * Source that showed how to convert CURRENT_TIMESTAMP to a string: https://www.postgresqltutorial.com/postgresql-string-functions/postgresql-to_char/#:~:text=The%20PostgreSQL%20TO_CHAR%20%28%29%20function%20converts%20a%20timestamp%2C,TO_CHAR%20%28%29%20function%20requires%20two%20arguments%3A%201%29%20expression
 # ***************************************************************
 def get_all_reviews_for_product(product_id):
     with get_db_cursor(True) as cur: 
    
-        # Source that showed how to convert CURRENT_TIMESTAMP to a string
         # Build SQL statement to get all reviews for a product with the product_id
         sql = '''
             SELECT row_to_json(rows)
             FROM (SELECT * , TO_CHAR(published_date,'Month DD, YYYY') FROM skineasy_reviews ) rows
             WHERE product_id = %s
             '''
-        # Execute sql statement with default data
-        cur.execute(sql, (product_id))
+        # Execute sql statement
+        cur.execute(sql, (product_id,))
         return cur.fetchall()
 
 

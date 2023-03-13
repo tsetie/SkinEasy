@@ -5,6 +5,7 @@
   margin-left: 5em;
   margin-right: 5em;
   margin-top: 5em;
+  margin-bottom: 5em;
   border-color: rgb(179, 167, 152);
 }
 
@@ -48,8 +49,7 @@ h4{
 }
 
 /* form container */
-
-form{
+form {
   display: inline;
   background-color: rgba(202, 194, 172, 0.173);
   padding-left: 3em;
@@ -102,7 +102,6 @@ button:hover{
 }
 
 /* Reviews written container */
-
 .review-container{
   padding: 5em;
   background-color: red;

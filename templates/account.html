@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="/static/css/account.css">
 
      <!-- JS -->
+     <script type="text/javascript" async defer src="/static/js/products.js"></script>
      <script type="text/javascript" async defer src="/static/js/account.js"></script>
 
 {% endblock %}
@@ -145,8 +146,9 @@
                                                     </div>
 
                                                     <!-- Product price & review information -->
+                                                    <!-- Reference to format price in jinja2: https://documentation.bloomreach.com/engagement/docs/useful-jinja-snippets#:~:text=Display%20price%20with%202%20decimal%20places%20If%20your,%7B%20%22%250.2f%22%20%7C%20format%20%28item.price%20%7C%20float%29%20%7D%7D-->
                                                     <div class="product-reviews-selector">
-                                                        <p> ${{ product['display_price'] }} <a href="/reviews?product_id={{product['product_id']}}"> Reviews </a> </p>
+                                                        <p> ${{  "%0.2f" | format(product['price'] | float) }} <a href="/reviews?product_id={{product['product_id']}}"> Reviews </a> </p>
                                                     </div>
                                             </div>
 
@@ -167,15 +169,15 @@
                                                     <!-- Review title -->
                                                     <h4 id="content_title">
                                                         {{ review['title'] }}
-                                                        <button onclick=""  id="edit-btn"><img id="icons" src="/static/images/UI/editIcon.png" ></button>
-                                                        <button onclick=""  id="remove-btn"><img id="icons" src="/static/images/UI/deleteIcon.png" ></button>
+                                                        <button class="edit-review-btn"><img id="icons" src="/static/images/UI/editIcon.png" ></button>
+                                                        <button class="remove-review-btn"><img id="icons" src="/static/images/UI/deleteIcon.png" ></button>
                                                     </h4>
                                                     <!-- Review date -->
                                                     <h4>{{ review['to_char'] }}</h4>
                                                     <!-- Review image -->
                                                     {% if review['img_stream'] != None %}
                                                         <div class="review-img">
-                                                            <img src="/images/{{ review['review_id'] }}" alt="image of a product">
+                                                            <img class="pure-img-responsive" src="/images/{{ review['review_id'] }}" alt="image of a product">
                                                         </div>
                                                     {% endif %}
                                                     <!-- Review content -->
@@ -201,10 +203,7 @@
                     </div>
                 {% endif %}
                 
-            
         </div>
-
-
     </div>
 
 {% endblock %}

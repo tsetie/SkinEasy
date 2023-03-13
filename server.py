@@ -563,7 +563,6 @@ def add_review():
 ######################################
 @app.route('/account', methods=["GET"])
 def account():
-  
 
   if (session is None):
     print('Error at route "/account". User not logged in so cannot access account page')

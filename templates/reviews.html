@@ -34,12 +34,18 @@
 {% block content %}
 
     <div id="main">
+        <!-- Product displayed at top -->
         <div class="header">
             <h1>Product Reviews</h1>
             <h2> {{ product_details['product_name'] }} </h2>
             <div class="product-img-container">
                 <img class="pure-img-responsive review-img" src="{{ product_details['image_path'] }}" alt="image of a product">
             </div>
+            <!-- Reference to format price in jinja2: https://documentation.bloomreach.com/engagement/docs/useful-jinja-snippets#:~:text=Display%20price%20with%202%20decimal%20places%20If%20your,%7B%20%22%250.2f%22%20%7C%20format%20%28item.price%20%7C%20float%29%20%7D%7D-->
+            <div class="product-reviews-container">
+                <p> ${{  "%0.2f" | format(product_details['price'] | float) }} </p>
+            </div>
+            
         </div>
     <div>
     <!-- Only let user write a review if logged in  -->
@@ -83,9 +89,10 @@
                             <!-- Review image -->
                             {% if review['img_stream'] != None %}
                                 <div class="review-img">
-                                    <img src="/images/{{review['review_id'] }}" alt="image of a product">
+                                    <img class="pure-img-responsive" src="/images/{{review['review_id'] }}" alt="image of a product">
                                 </div>
                             {% endif %}
+
                             <!-- Review content -->
                             <div class="review-content">
                                 <p>
