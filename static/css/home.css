@@ -266,6 +266,7 @@ a.pure-button-primary {
 #quiz-info-div{
   background-image: url('/static/images/background/shadowbackground.jpg');
   background-size: 90em;
+  text-align: center;
 }
 
 #quiz-info-header{
