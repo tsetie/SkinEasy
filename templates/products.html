@@ -25,10 +25,12 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/static/css/home.css">
     <link rel="stylesheet" href="/static/css/products.css">
+    <link rel="stylesheet" href="/static/css/quiz.css">
 
     <!-- Javascipt -->
     <script type="text/javascript" async defer src="https://purecss.io/js/ui.js"></script>
     <script type="text/javascript" async defer src="/static/js/products.js"></script>
+    <script type="text/javascript" async defer src="/static/js/quiz.js"></script>
 {% endblock %}
 
 
@@ -46,15 +48,14 @@
 
 <!-- Page content -->
 {% block content %}
+
     <!-- Page layout  -->
     <div id="layout">
         <a href="#menu" id="menuLink" class="menu-link">
             <!-- Hamburger icon -->
             <span></span>
         </a>
-
         
-
         <!-- Filter menu -->
         <!-- Keep a checkbox marked reference: https://stackoverflow.com/questions/63702099/how-to-make-a-checkbox-checked-in-jinja2 -->
         <div id="menu" class="pure-g filterContainer">
@@ -152,19 +153,119 @@
             </form>
 
         </div>
- 
+            <!-- Hidden quiz form -->
+            <div class="form-popup" id="myForm">
+                <form action="/api/quiz" class="form-container">
+                    
+                    <!-- Pure grid -->
+                    <div class="pure-g">
+                        <div class="pure-u-1 pure-u-md-4-5 y" id="quizdiv">
+                            <h1>Skin Quiz</h1>
+            
+                            <!-- Question 1) -->
+                            <h4 class="">What is your skin type?</h4>
+                            <div class="radio-container">
+                                <!-- Option 1) Normal skin -->
+                                <input type="radio" id="normal-skin" name="skin-type" value="normal-skin">
+                                <label class="quiz-btn-label" for="normal-skin">Normal</label><br>
+                                <!-- Option 2) Dry skin -->
+                                <input type="radio" id="dry-skin" name="skin-type" value="dry-skin">
+                                <label class="quiz-btn-label" for="dry-skin">Dry</label><br>
+                                <!-- Option 3) Oily skin -->
+                                <input type="radio" id="oily-skin" name="skin-type" value="oily-skin">
+                                <label class="quiz-btn-label" for="oily-skin">Oily</label>
+                            </div>
+            
+                            <!-- Question 2 -->
+                            <h4 class="">Are you targeting any of these?</h4>
+                            <div class="radio-container">
+                                <!-- Option 1) Sensitive -->
+                                <input type="radio"id="sensitive-target1" name="target-type" value="sensitive-target">
+                                <label class="quiz-btn-label" for="sensitive-target1">Sensitive</label><br>
+                                <!-- Option 2) Mature -->
+                                <input type="radio" id="mature-target1" name="target-type" value="mature-target">
+                                <label class="quiz-btn-label" for="mature-target1">Mature</label><br>
+                                <!-- Option 3) None -->
+                                <input type="radio" id="none-target" name="target-type" value="none-target">
+                                <label class="quiz-btn-label" for="none-target">None</label>
+                            </div>
+                            
+            
+                            <!-- Question 3 -->
+                            <h4 class="">How many steps would you like in your routine?</h4>
+                            <div class="radio-container">
+                                <!-- Option 1) Redness -->
+                                <input type="radio" id="two-steps" name="number-steps" value="2">
+                                <label class="quiz-btn-label" for="two-steps">2 Steps</label><br>
+                                <!-- Option 2) Acne -->
+                                <input type="radio" id="three-steps" name="number-steps" value="3">
+                                <label class="quiz-btn-label" for="three-steps">3 Steps</label><br>
+                                <!-- Option 3) None -->
+                                <input type="radio" id="three-plus-steps" name="number-steps" value="6">
+                                <label class="quiz-btn-label" for="three-plus-steps">4+ Steps</label>
+                            </div>
+            
+                            <br>
+                            <br>
+                            <br>
+                                    
+                                    <!-- Submit button -->
+                                    <button type="submit" class="btn">Submit</button>
+            
+                                    <!-- Close form popup button -->
+                                    <button id="close-quiz-btn" type="button" class="btn cancel">Close</button>
+                                </div>
+                                
+                                <!-- How to know skin type information section -->
+                                <div class="x pure-u-1 pure-u-md-1-5"ß>
+                                    <h2> How to know your skin type: </h2>
+            
+                                    <!-- Normal skin type info -->
+                                    <div id="normal-if">
+                                        <h3>Normal if:</h3>
+                                        <p>Your skin feels hydrated and comfortable, but not oily. </p>
+                                    </div>
+            
+                                    <!-- Dry skin info -->
+                                    <div id="dry-if">
+                                        <h3>Dry if:</h3>
+                                        <p>Your skin feels tight and flaky or scaly.</p>
+                                    </div>
+                                    
+                                    <!-- Oily skin info -->
+                                    <div id="oily-if">
+                                        <h3>Oily if:</h3>
+                                        <p>Your skin appears shiny.</p>
+                                    </div>
+            
+                                </div>
+                                
+                            </div>
+            
+                            <br>
+                            <br>
+                            <br>
+                </form>
+            </div>
+              
 
         <!-- Main page content -->
         <div id="main">
 
             <!-- Content headers -->
             <div class="header">
-                <h1>Products</h1>                   <!-- Title -->
+                <h1>Products</h1> <!-- Title -->
                 {% if session %}
-                <form action="/products/recommended" method="GET">
-                    <h4 id="form_msg">To filter products based on your quiz, click below.</h4>
-                    <button id="recommendedBtn">Personal filter</button>
-                </form>
+                    {% if took_quiz %}
+                        <form action="/products/recommended" method="GET">
+                            <h4 id="form_msg">To filter products based on your quiz, click below.</h4>
+                            <button class="recommendedBtn">Personal filter</button>
+                        </form>
+                    {% endif %}
+                    {% if took_quiz == false %}
+                        <h4 id="form_msg">You need to take the quiz to get personalized filters.</h4>
+                        <button id="take-quiz-btn" class="recommendedBtn">Take quiz</button>
+                    {% endif %}
                 {% endif %}
             </div>
 
@@ -489,4 +590,5 @@
             </div>
         </div>
     </div>
+
 {% endblock %}

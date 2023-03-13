@@ -81,7 +81,7 @@ def products():
   
   # Get any queries from url
   query_dict = request.args
-
+ 
   # Get product type filters
   cleanser_filter     = False
   exfoliant_filter    = False
@@ -198,7 +198,7 @@ def products():
 
   # Render products page with skincare products
   try:
-    return render_template('products.html', cleanser_list=cleanser_list, exfoliant_list=exfoliant_list, toner_list=toner_list, serum_list=serum_list, moisturizer_list=moisturizer_list, sunscreen_list=sunscreen_list, query_dict=query_dict ,session=session.get('user'))
+    return render_template('products.html', cleanser_list=cleanser_list, exfoliant_list=exfoliant_list, toner_list=toner_list, serum_list=serum_list, moisturizer_list=moisturizer_list, sunscreen_list=sunscreen_list, query_dict=query_dict ,session=session.get('user'), took_quiz=True)
   except:
     abort(404)
 
@@ -243,12 +243,12 @@ def search_bar_filtering():
 
   return render_template('/products.html',session=session.get('user'), cleanser_list=cleanser_list, exfoliant_list=exfoliant_list, toner_list=toner_list, serum_list=serum_list, moisturizer_list=moisturizer_list, sunscreen_list=sunscreen_list, query_dict=query )
 
-# ***********************************
+# *******************************************************
 # Personal filter on filter bar
 # When user is logged in, can filter 
 # products with this button and 
 # get products based on quiz
-# ***********************************
+# *******************************************************
 @app.route('/products/recommended', methods=["GET"])
 def personal_filter():
 
@@ -256,6 +256,8 @@ def personal_filter():
   user_id = db.get_user_id_from_username(username)
   
   query = db.get_user_quiz_selections(user_id)
+  
+  took_quiz = True
 
   cleanser_list     = []
   exfoliant_list    = []
@@ -263,7 +265,7 @@ def personal_filter():
   serum_list        = []
   moisturizer_list  = []
   sunscreen_list    = []
-
+    
   # Always 1 for this route because user can only choose 1 skin type filter for quiz
   num_of_skintype_filters_selected = 1
   
@@ -276,7 +278,8 @@ def personal_filter():
   # In the quiz theres no option to choose price, so by default we should show all products of all prices
   price = 'price-all'
 
-  # Create a dicionary to keep filters 
+  # Create a dicionary to keep filters
+  # the second key val is set to false so if user didnt take quiz and is logged in, it will not show personalized filters button 
   query_dict = {'price': 'price-all'}
 
   if (query[0][0] == 'dry-skin'):
@@ -315,7 +318,23 @@ def personal_filter():
     routine_steps = 3
   elif (query[0][2] == 6):
     routine_steps = 6
-  
+
+  if (query[0][0] == None and query[0][1] == None and query[0][2] == None):
+    routine_steps = 6
+    took_quiz = False
+    num_of_targets = 0
+
+    # Get skin type filters
+    all_skin_type = True
+    normal_skin_type = True
+    dry_skin_type = True
+    oily_skin_type = True
+    num_of_skintype_filters_selected = 4
+
+    # Get target area filters
+    sensitive_target = False
+    mature_target = False
+
   # Depending on num of steps in routine user chose, specific products/categories will be returned
   if (routine_steps == 2):
     cleanser_list     = db.get_products(num_of_skintype_filters_selected,normal_skin_type,dry_skin_type,oily_skin_type,all_skin_type, num_of_targets, sensitive_target, mature_target, price, "cleanser")
@@ -332,7 +351,7 @@ def personal_filter():
     moisturizer_list  = db.get_products(num_of_skintype_filters_selected,normal_skin_type,dry_skin_type,oily_skin_type,all_skin_type, num_of_targets, sensitive_target, mature_target, price, "moisturizer")
     sunscreen_list    = db.get_products(num_of_skintype_filters_selected,normal_skin_type,dry_skin_type,oily_skin_type,all_skin_type, num_of_targets, sensitive_target, mature_target, price, "sunscreen")
 
-  return render_template('/products.html',session=session.get('user'),cleanser_list=cleanser_list, exfoliant_list=exfoliant_list, toner_list=toner_list, serum_list=serum_list, moisturizer_list=moisturizer_list, sunscreen_list=sunscreen_list, query_dict=query_dict)
+  return render_template('/products.html',session=session.get('user'),cleanser_list=cleanser_list, exfoliant_list=exfoliant_list, toner_list=toner_list, serum_list=serum_list, moisturizer_list=moisturizer_list, sunscreen_list=sunscreen_list, query_dict=query_dict, took_quiz=took_quiz)
 
 
 ######################################
@@ -651,39 +670,48 @@ def quiz_results():
         normal_skin_type = False
         oily_skin_type = False
         query_dict['dry'] = True
+        skin_value = value
       elif (value == 'oily-skin'):
         oily_skin_type = True
         normal_skin_type = False
         dry_skin_type = False
         query_dict['oily'] = True
+        skin_value = value
       elif (value == 'normal-skin') :
         normal_skin_type = True
         dry_skin_type = False
         oily_skin_type = False
         query_dict['normal'] = True
+        skin_value = value
     elif (query == 'target-type'):
       if (value == 'mature-target'):
         mature_target = True
         sensitive_target = False
         none_target = False
         query_dict['mature-target'] = True
+        target_value = value
       elif (value =='sensitive-target'):
         sensitive_target = True
         mature_target = False
         none_target = False
-        query_dict['sensitive-target'] = True   
+        query_dict['sensitive-target'] = True  
+        target_value = value 
       elif (value == 'none-target'):
         none_target = True
         sensitive_target = False
         mature_target = False
         num_of_targets -=1
+        target_value = value
     elif (query == 'number-steps'):
-      if (value == 'two-steps'):
+      if (value == '2'):
         routine_steps = 2
-      elif (value == 'three-steps'):
+        routine_value = value
+      elif (value == '3'):
         routine_steps = 3
-      elif (value == 'three-plus-steps'):
+        routine_value = value
+      elif (value == '6'):
         routine_steps = 6
+        routine_value = value
   
   # Depending on num of steps in routine user chose, specific products/categories will be returned
   if (routine_steps == 2):
@@ -701,7 +729,16 @@ def quiz_results():
     moisturizer_list  = db.get_products(num_of_skintype_filters_selected,normal_skin_type,dry_skin_type,oily_skin_type,all_skin_type, num_of_targets, sensitive_target, mature_target, price, "moisturizer")
     sunscreen_list    = db.get_products(num_of_skintype_filters_selected,normal_skin_type,dry_skin_type,oily_skin_type,all_skin_type, num_of_targets, sensitive_target, mature_target, price, "sunscreen")
 
-  return render_template('products.html', cleanser_list=cleanser_list, exfoliant_list=exfoliant_list, toner_list=toner_list, serum_list=serum_list, moisturizer_list=moisturizer_list, sunscreen_list=sunscreen_list, query_dict=query_dict ,session=session.get('user'))
+  user_details = session  # Get users details from session object
+  
+  # Ensure username exists
+  # * Reference to check if a key exists within a python dict: https://www.geeksforgeeks.org/python-check-whether-given-key-already-exists-in-a-dictionary/
+  if ('nickname' in user_details):
+    db.edit_user_preferences(user_details, 'user_skin_type', skin_value)
+    db.edit_user_preferences(user_details, 'user_target', target_value)
+    db.edit_user_preferences(user_details, 'routine_steps', routine_value)
+
+  return render_template('products.html', cleanser_list=cleanser_list, exfoliant_list=exfoliant_list, toner_list=toner_list, serum_list=serum_list, moisturizer_list=moisturizer_list, sunscreen_list=sunscreen_list, query_dict=query_dict ,session=session.get('user'), took_quiz=True)
 
   
 #########################################################
