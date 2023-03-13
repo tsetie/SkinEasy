@@ -1,3 +1,14 @@
+/* account.css */
+.container {
+  border: solid;
+  border-width: 1px;
+  margin-left: 5em;
+  margin-right: 5em;
+  margin-top: 5em;
+  border-color: rgb(179, 167, 152);
+}
+
+
 /* Quiz Selection Containers */
 
 #quizSelectionContainer{
@@ -20,8 +31,7 @@
 }
 
 /* Little Details */
-
-#yourAccountHeaders{
+.account-header {
   margin-left: 1em;
 }
 
@@ -61,11 +71,6 @@ button{
   background-color: transparent;
 }
 
-button{
-  border: none;
-  background-color: transparent;
-}
-
 button:hover{
   border: none;
   background-color: rgba(168, 164, 152, 0.401);
@@ -97,11 +102,31 @@ button:hover{
 
 /* Reviews written container */
 
-#reviewsContainer{
-  border: solid;
-  border-width: 1px;
-  margin-left: 5em;
-  margin-right: 5em;
-  margin-top: 5em;
-  border-color: rgb(179, 167, 152);
+.review-container{
+  padding: 5em;
+  background-color: red;
+}
+
+
+#review-list-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* background-color: blue; */
+}
+
+.review-entry-box {
+  margin: 2em;
+}
+
+hr {
+  width: 100%;
+}
+
+#no-reviews-msg {
+  display: flex;
+  justify-content: center;
+  margin: 2em;
+  padding: 2em;
+  /* text-align: center; */
 }

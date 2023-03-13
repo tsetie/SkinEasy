@@ -34,7 +34,7 @@
     
         <!-- Quiz Selection Container  -->
         <div id="quizSelectionContainer">
-            <h2 id="yourAccountHeaders">Your Quiz Selections:</h2> 
+            <h2 class="account-header">Your Quiz Selections:</h2> 
 
             <!-- Selection Content Container -->
             <div id="quizSelectionsDiv" class="pure-g">
@@ -114,12 +114,69 @@
         
 
         <!-- User reviews section -->
-        <div class= "pure-g" id="reviewsContainer" >
-            <h2 id="yourAccountHeaders">Reviews you have written:</h2>
-            <div id="reviewsWrittenInnerContainer">
+        <div class="container">
+            <h2 class="account-header">Your Reviews:</h2>
+                {% if review_list %}
+                    <div id="review-list-container">
+                                <!-- Loop through each review and show review details -->
+                                <!-- Reference to get list length via jinja2: https://stackoverflow.com/questions/14702917/python-jinja2-template-how-to-count-a-list -->
+                                {% for i in range(0, review_list|count) %}
+                                    {% set review = review_list[i][0] %}
+                                        
+                                        <!-- Review rating -->
+                                        <div class="review-entry-box">
+                                            <h3>{{ review['reviewer_name'] }}</h3>
+                                            <br>
+                                            {% for i in range(0, 5)  %}
+                                                {% if review['rating'] > i %}
+                                                    <span class="fa fa-star checked star"></span>
+                                                {% else %}
+                                                    <span class="fa fa-star star unchecked"></span>
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            <!-- Review title -->
+                                            <h4 id="content_title">
+                                                {{ review['title'] }}
+                                                <button onclick=""  id="edit_target_btn"><img id="icons" src="/static/images/UI/editIcon.png" ></button>
+                                                <button onclick=""  id="edit_target_btn"><img id="icons" src="/static/images/UI/deleteIcon.png" ></button>
+                                            </h4>
+
+                                            <!-- Review date -->
+                                            <h4>{{ review['to_char'] }}</h4>
+                                            
+                                            <!-- Review image -->
+                                            {% if review['img_stream'] != None %}
+                                                <div class="review-img">
+                                                    <img src="/images/{{ review['review_id'] }}" alt="image of a product">
+                                                </div>
+                                            {% endif %}
+
+                                            <!-- Review content -->
+                                            <div class="review-content">
+                                                <p>
+                                                {{ review['content'] }}
+                                                </p>
+                                            </div>
+
+                                        </div>
+
+                                        <hr>
+                              
+                                    
+                                {% endfor %}
+                        
+                    </div>
+
+                {% else %}
+                    <div id="no-reviews-msg">
+                        <h3>You have written no reviews at this time.</h3>
+                    </div>
+                {% endif %}
                 
-            </div>
+            
         </div>
+
 
     </div>
 

@@ -814,7 +814,7 @@ def get_all_reviews_for_product(product_id):
             WHERE product_id = %s
             '''
         # Execute sql statement with default data
-        cur.execute(sql, product_id)
+        cur.execute(sql, (product_id))
         return cur.fetchall()
 
 
@@ -825,18 +825,41 @@ def get_all_reviews_for_product(product_id):
 def get_all_reviews_by_user(user_id):
     with get_db_cursor(True) as cur: 
         
-        # # # Build SQL statement to get all reviews for a product with the product_id
+        # Build SQL statement to get all a user's with user ID
         sql = '''
-            SELECT * 
+            SELECT row_to_json(skineasy_reviews)
             FROM skineasy_reviews 
             WHERE user_id = %s
             '''
         # # Execute sql statement with default data
-        cur.execute(sql, user_id)
+        cur.execute(sql, (user_id,))
         return cur.fetchall()
 
+
+# ********************************************************
+#  F) Function to get all products that a user reviewed
+# ********************************************************
+def get_all_user_review_products_by_user(user_id):
+    with get_db_cursor(True) as cur: 
+
+        # Build SQL statement to get all a user's review products with user ID
+        sql = '''
+            SELECT row_to_json(skineasy_skincare_products)
+            FROM skineasy_skincare_products
+            INNER JOIN skineasy_reviews ON skineasy_reviews.product_id = skineasy_skincare_products.product_id
+            WHERE skineasy_reviews.user_id = %s;
+        ''' % (user_id)
+        
+        cur.execute(sql)
+
+        return cur.fetchall()
+
+
+
+
+
 # ***********************************************************
-# D) Function to read an image from bytea sequence
+# G) Function to read an image from bytea sequence
 # # Input(s): review_id (int)
 # Reference:
 # ***********************************************************
@@ -864,4 +887,42 @@ def remove_from_products_table(product_id):
             '''
         # Execute sql insertion
         cur.execute(sql, (product_id,))
+
+
+# ***********************************************************
+# Function to get any valid table's item from an ID 
+# Input(s):
+#   table (string):     table name
+#   id_type (string):   table type id
+#   id_value (int):     id of item we want
+# ***********************************************************
+def get_table_item_from_id(table, id_type, id_value):
+    with get_db_cursor(True) as cur:
+
+        sql = '''
+            SELECT row_to_json(%s)
+            FROM %s
+            WHERE %s = %s;
+        '''
+        cur.execute(sql, (table, table, id_type, id_value))
+        cur.fetchall()
+
+
+# Function to delete any valid table's item from an ID
+# def delete_table_item_from_id(table, id_type, id_value):
+#     with get_db_cursor(True) as cur:
+#         sql = '''
+#             DELETE row_to_json(%s)
+#             FROM %s
+#             WHERE %s = %s;
+#         '''
+
+
+# Function to edit a review
+# def edit_review():
+#     with get_db_cursor(True) as cur:
+        
+#         sql = '''
+
+#         '''
 
