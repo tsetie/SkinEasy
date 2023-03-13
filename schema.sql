@@ -43,8 +43,8 @@ VALUES (product_name, product_url, product_brand, is_cleanser, is_exfoliant, is_
 
 -- Update existing table data
 UPDATE skineasy_skincare_products
-SET product_name = 'Drunk Elephant Protini Polypeptide Cream'
-WHERE product_name = 'Drunk Elephant Protini Polypeptide Cream ';
+SET product_name = 'Cerave Resurfacing Retinol Serum'
+WHERE product_id = '11';
 
 
 -- Add a new column to table

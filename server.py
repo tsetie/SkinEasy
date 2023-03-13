@@ -574,11 +574,11 @@ def account():
 
   # Get user review products
   # user_reviewed_products = db.
-  products_list = db.get_all_user_review_products_by_user(user_id)[0]
+  product_list = db.get_all_user_review_products_by_user(user_id)
 
   # Render account page
   try:
-    return render_template('account.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4), user_target=skin_target, user_skin_type=skin_type, routine_steps=num_of_steps, review_list=review_list, products_list=products_list)
+    return render_template('account.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4), user_target=skin_target, user_skin_type=skin_type, routine_steps=num_of_steps, review_list=review_list, product_list=product_list)
   except TemplateNotFound:
     abort(404)
 
