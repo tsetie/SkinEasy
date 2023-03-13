@@ -117,7 +117,7 @@
 
         <!-- User reviews section -->
         <div class="container">
-            <h2 class="account-header">Your Reviews:</h2>
+            <h2 class="account-header">Your Reviews: {% if review_list %} {{review_list | count}} {% endif %}</h2>
             <hr>
                 {% if review_list %}
                     <div id="review-list-container">
@@ -155,7 +155,7 @@
 
                                             <div class="half-box-2 review-card">
                                                 <!-- Review header -->
-                                                <div class="product-header"><h3>Review</h3></div>
+                                                <div class="product-header"><h3>Your Review</h3></div>
                                                     <!-- Review rating -->
                                                     {% for i in range(0, 5)  %}
                                                         {% if review['rating'] > i %}

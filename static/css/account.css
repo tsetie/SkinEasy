@@ -142,7 +142,7 @@ hr {
 }
 
 .product-header {
-  padding: 1em;
+  padding-bottom: 1em;
 }
 
 .review-entry-box {
@@ -154,10 +154,30 @@ hr {
 
 .half-box-1 {
   /* background-color: red; */
-  width: 50vh;
+  width: 25%;
+  
+  border: solid;
+  border-width: 1px;
+  border-radius: .4em;
+  display: block;
+  margin-top: 1em;
+  border-color: rgba(173, 169, 159, 0.516);
+  margin: 2em;
+  padding: 2em;
+
 }
 
 .half-box-2 {
   /* background-color: blue; */
-  width: 75%;
+  padding-left: 5em;
+  padding-right: 5em;
+  width: 64%;
+
+  border: solid;
+  border-width: 1px;
+  border-radius: .4em;
+  display: block;
+  border-color: rgba(173, 169, 159, 0.516);
+  margin: 2em;
+  padding: 2em;
 }
