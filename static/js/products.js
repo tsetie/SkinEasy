@@ -137,7 +137,7 @@ function checkUserClicks(e) {
 // * Reference: https://developer.mozilla.org/en-US/docs/Web/API/Node/childNodes
 // * Reference: https://www.javascripttutorial.net/javascript-dom/javascript-get-child-element/
 // *********************************************************************************************
-export function searchSiblingNodes(node, classTargetName) {
+function searchSiblingNodes(node, classTargetName) {
     let parent = node.parentElement;
     let siblings = parent.childNodes;
     let targetSibling = null;

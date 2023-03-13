@@ -1,8 +1,5 @@
 // account.js
 
-// Reference to import JS functions from another JS file: https://stackoverflow.com/questions/51763894/call-javascript-function-from-another-javascript-file
-import { searchSiblingNodes } from './products.js';
-
 function show_skin_type_form() {
   document.getElementById('skin_type_form').style.display = 'block';
   document.getElementById('edit_skin_type_btn').style.display = 'none';
@@ -36,12 +33,13 @@ for (var i = 0; i < remove_buttons_list.length; i++) {
   remove_buttons_list[i].addEventListener('click', remove_review, false);
 }
 // Remove a review
-export function remove_review(e) {
+function remove_review(e) {
   console.log('remove-btn clicked.')
   e = e || window.event;
   let areaClicked = e.target || e.srcElement;
-  console.log(areaClicked);
-  // console.log(searchSiblingNodes(areaClicked.parentElement, 'review-content'))
+  console.log(areaClicked.parentElement);
+  console.log(searchSiblingNodes(areaClicked.parentElement, 'review-content'))
+  
 
 }
 
@@ -53,4 +51,28 @@ for (var i = 0; i < edit_buttons_list.length; i++) {
 // Edit a review
 function edit_review() {
   console.log('edit-btn clicked.')
+}
+
+
+
+// Function that returns a specified sibling node based on a provided start node and a given name
+// **********************************************************************************************
+// * Start by getting parent's child nodes and look through them until we find the
+// * div with the specified classname
+// *
+// * Reference: https://developer.mozilla.org/en-US/docs/Web/API/Node/childNodes
+// * Reference: https://www.javascripttutorial.net/javascript-dom/javascript-get-child-element/
+// *********************************************************************************************
+function searchSiblingNodes(node, classTargetName) {
+  let parent = node.parentElement;
+  let siblings = parent.childNodes;
+  let targetSibling = null;
+  for (var i = 0; i < siblings.length; i++) {
+      // Look for product name in div with the class: 'product-name' 
+      if (siblings[i].className == classTargetName) {
+          targetSibling = siblings[i];
+          return targetSibling;
+      }
+  }
+  return targetSibling;
 }
