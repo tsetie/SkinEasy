@@ -1,3 +1,15 @@
+/* account.css */
+.container {
+  border: solid;
+  border-width: 1px;
+  margin-left: 5em;
+  margin-right: 5em;
+  margin-top: 5em;
+  margin-bottom: 5em;
+  border-color: rgb(179, 167, 152);
+}
+
+
 /* Quiz Selection Containers */
 
 #quizSelectionContainer{
@@ -11,6 +23,7 @@
 #quizSelectionsDiv{
   margin-left: 5em;
   margin-right: 5em;
+  padding: 2em;
   width: 50%;
 }
 
@@ -20,8 +33,7 @@
 }
 
 /* Little Details */
-
-#yourAccountHeaders{
+.account-header {
   margin-left: 1em;
 }
 
@@ -37,8 +49,7 @@ h4{
 }
 
 /* form container */
-
-form{
+form {
   display: inline;
   background-color: rgba(202, 194, 172, 0.173);
   padding-left: 3em;
@@ -54,11 +65,6 @@ form{
 
 #icons{
   width: 20px;
-}
-
-button{
-  border: none;
-  background-color: transparent;
 }
 
 button{
@@ -96,12 +102,81 @@ button:hover{
 }
 
 /* Reviews written container */
+.review-container{
+  padding: 5em;
+  background-color: red;
+}
 
-#reviewsContainer{
+
+#review-list-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* background-color: blue; */
+}
+
+.review-entry-box {
+  margin: 2em;
+}
+
+hr {
+  width: 100%;
+}
+
+#no-reviews-msg {
+  display: flex;
+  justify-content: center;
+  margin: 2em;
+  padding: 2em;
+  /* text-align: center; */
+}
+
+
+/* Product container */
+.product-card{
+  max-width: 20%;
+  max-height: 20%;
+  display: inline-block;
+  white-space: normal;
+}
+
+.product-header {
+  padding-bottom: 1em;
+}
+
+.review-entry-box {
+  display: flex;
+  width: 100%;
+  /* justify-content: center; */
+
+}
+
+.half-box-1 {
+  /* background-color: red; */
+  width: 25%;
+  
   border: solid;
   border-width: 1px;
-  margin-left: 5em;
-  margin-right: 5em;
-  margin-top: 5em;
-  border-color: rgb(179, 167, 152);
+  border-radius: .4em;
+  display: block;
+  margin-top: 1em;
+  border-color: rgba(173, 169, 159, 0.516);
+  margin: 2em;
+  padding: 2em;
+
+}
+
+.half-box-2 {
+  /* background-color: blue; */
+  padding-left: 5em;
+  padding-right: 5em;
+  width: 64%;
+
+  border: solid;
+  border-width: 1px;
+  border-radius: .4em;
+  display: block;
+  border-color: rgba(173, 169, 159, 0.516);
+  margin: 2em;
+  padding: 2em;
 }

@@ -499,12 +499,12 @@ def add_review():
   user_details = session
   if ('nickname' not in user_details):
     print('Error at route "/add_review". User not logged in.')
-    return
+    return redirect('/')
 
   # Check for required user rating
   if ('rating' not in request.form):
     print('Error at route "/add_review". Rating not provided.')
-    return
+    return redirect('/')
 
   # Initialize passable review data to send to HTML and replace with any form data after
   # --- Review variables ---
@@ -561,14 +561,19 @@ def add_review():
 ######################################
 @app.route('/account', methods=["GET"])
 def account():
-  
+
+  if (session is None):
+    print('Error at route "/account". User not logged in so cannot access account page')
+    return redirect('/')
+
   user_details = session  # Get users details from session object
-  
+    
+
   # Ensure username exists
   # * Reference to check if a key exists within a python dict: https://www.geeksforgeeks.org/python-check-whether-given-key-already-exists-in-a-dictionary/
   if ('nickname' not in user_details):
     print('Error at "/account" route. No suitable username provided.')
-    return
+    return redirect('/')
 
   # Get user_ids from users table to add to the review table 
   username = user_details['nickname']  # Get username
@@ -580,9 +585,16 @@ def account():
   skin_target   = quiz_selections_list[0][1]
   num_of_steps  = quiz_selections_list[0][2]
   
+  # Get user review list
+  review_list = db.get_all_reviews_by_user(user_id)
+
+  # Get user review products
+  # user_reviewed_products = db.
+  product_list = db.get_all_user_review_products_by_user(user_id)
+
   # Render account page
   try:
-    return render_template('account.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4),user_target=skin_target, user_skin_type=skin_type, routine_steps=num_of_steps)
+    return render_template('account.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4), user_target=skin_target, user_skin_type=skin_type, routine_steps=num_of_steps, review_list=review_list, product_list=product_list)
   except TemplateNotFound:
     abort(404)
 

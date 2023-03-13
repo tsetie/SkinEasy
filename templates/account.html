@@ -11,17 +11,19 @@
 {% block head %}
   {{ super() }}
  
-    <!-- Pure CSS -->
+    <!-- PureCSS -->
     <link rel="stylesheet" href="https://purecss.io/layouts/side-menu/styles.css">
-
-    <!-- Javascript -->
     <script src="https://purecss.io/js/ui.js"></script>
+
+    <!-- External CSS libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/static/css/home.css">
     <link rel="stylesheet" href="/static/css/account.css">
 
      <!-- JS -->
+     <script type="text/javascript" async defer src="/static/js/products.js"></script>
      <script type="text/javascript" async defer src="/static/js/account.js"></script>
 
 {% endblock %}
@@ -34,7 +36,8 @@
     
         <!-- Quiz Selection Container  -->
         <div id="quizSelectionContainer">
-            <h2 id="yourAccountHeaders">Your Quiz Selections:</h2> 
+            <h2 class="account-header">Your Quiz Selections:</h2>
+            <hr>
 
             <!-- Selection Content Container -->
             <div id="quizSelectionsDiv" class="pure-g">
@@ -114,13 +117,93 @@
         
 
         <!-- User reviews section -->
-        <div class= "pure-g" id="reviewsContainer" >
-            <h2 id="yourAccountHeaders">Reviews you have written:</h2>
-            <div id="reviewsWrittenInnerContainer">
-                
-            </div>
-        </div>
+        <div class="container">
+            <h2 class="account-header">Your Reviews: {% if review_list %} {{review_list | count}} {% endif %}</h2>
+            <hr>
+                {% if review_list %}
+                    <div id="review-list-container">
+                                <!-- Loop through each review and show review details -->
+                                <!-- Reference to get list length via jinja2: https://stackoverflow.com/questions/14702917/python-jinja2-template-how-to-count-a-list -->
+                                {% for i in range(0, review_list|count) %}
+                                    {% set review = review_list[i][0] %}
+                                    {% set product = product_list[i][0] %}
+                                        
+                                        <!-- User's review -->
+                                        <div class="review-entry-box">
+                                            
+                                            <!-- Product they reviewed -->
+                                            <div class="half-box-1 product-card">
+                                                <div class="product-header"><h3>Product</h3></div>
+                                                    <!-- Product referral link -->
+                                                    <a href="{{ product['product_url'] }}">                                                    
+                                                        <!-- Product image -->
+                                                        <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of product">
+                                                    </a>
 
+                                                    <!-- Product name -->
+                                                    <div class="product-name">
+                                                        <p> {{ product['product_name'] }} </p>
+                                                    </div>
+
+                                                    <!-- Product price & review information -->
+                                                    <!-- Reference to format price in jinja2: https://documentation.bloomreach.com/engagement/docs/useful-jinja-snippets#:~:text=Display%20price%20with%202%20decimal%20places%20If%20your,%7B%20%22%250.2f%22%20%7C%20format%20%28item.price%20%7C%20float%29%20%7D%7D-->
+                                                    <div class="product-reviews-selector">
+                                                        <p> ${{  "%0.2f" | format(product['price'] | float) }} <a href="/reviews?product_id={{product['product_id']}}"> Reviews </a> </p>
+                                                    </div>
+                                            </div>
+
+
+                                            <br>
+
+                                            <div class="half-box-2 review-card">
+                                                <!-- Review header -->
+                                                <div class="product-header"><h3>Your Review</h3></div>
+                                                    <!-- Review rating -->
+                                                    {% for i in range(0, 5)  %}
+                                                        {% if review['rating'] > i %}
+                                                            <span class="fa fa-star checked star"></span>
+                                                        {% else %}
+                                                            <span class="fa fa-star star unchecked"></span>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    <!-- Review title -->
+                                                    <h4 id="content_title">
+                                                        {{ review['title'] }}
+                                                        <button class="edit-review-btn"><img id="icons" src="/static/images/UI/editIcon.png" ></button>
+                                                        <button class="remove-review-btn"><img id="icons" src="/static/images/UI/deleteIcon.png" ></button>
+                                                    </h4>
+                                                    <!-- Review date -->
+                                                    <h4>{{ review['to_char'] }}</h4>
+                                                    <!-- Review image -->
+                                                    {% if review['img_stream'] != None %}
+                                                        <div class="review-img">
+                                                            <img class="pure-img-responsive" src="/images/{{ review['review_id'] }}" alt="image of a product">
+                                                        </div>
+                                                    {% endif %}
+                                                    <!-- Review content -->
+                                                    <div class="review-content">
+                                                        <p>
+                                                        {{ review['content'] }}
+                                                        </p>
+                                                    </div>
+                                            </div>
+
+                                        </div>
+
+                                        <hr>
+                              
+                                    
+                                {% endfor %}
+                        
+                    </div>
+
+                {% else %}
+                    <div id="no-reviews-msg">
+                        <h3>You have written no reviews at this time.</h3>
+                    </div>
+                {% endif %}
+                
+        </div>
     </div>
 
 {% endblock %}

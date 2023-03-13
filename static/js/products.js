@@ -126,7 +126,6 @@ function checkUserClicks(e) {
         let productHTMLNode = areaClicked.parentElement;
         productHTMLNode.parentElement.removeChild(productHTMLNode);
     }
-
 }
 
 
@@ -138,7 +137,7 @@ function checkUserClicks(e) {
 // * Reference: https://developer.mozilla.org/en-US/docs/Web/API/Node/childNodes
 // * Reference: https://www.javascripttutorial.net/javascript-dom/javascript-get-child-element/
 // *********************************************************************************************
-function searchSiblingNodes(node, classTargetName) {
+export function searchSiblingNodes(node, classTargetName) {
     let parent = node.parentElement;
     let siblings = parent.childNodes;
     let targetSibling = null;
