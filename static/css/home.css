@@ -162,7 +162,8 @@ a.pure-button-primary {
 */
 
 .splash-container {
-  background: #929083;
+  background-image: url("/static/images/background/backgroundImg.jpg");
+  background-size: 90em;
   z-index: 1;
   overflow: hidden;
   /* The following styles are required for the "scroll-over" effect */
@@ -188,7 +189,7 @@ a.pure-button-primary {
 .splash-head {
   font-size: 20px;
   font-weight: bold;
-  color: white;
+  color: rgb(126, 136, 118);
   border: 3px solid white;
   padding: 1em 1.6em;
   font-weight: 100;
@@ -198,7 +199,7 @@ a.pure-button-primary {
 
 /* This is the subheading that appears on the blue section */
 .splash-subhead {
-  color: white;
+  color: rgb(126, 136, 118);
   letter-spacing: 0.05em;
   opacity: 0.8;
 }

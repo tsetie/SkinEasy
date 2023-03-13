@@ -59,8 +59,6 @@ input[type="radio"]:checked + label.quiz-btn-label {
   color: rgb(48, 48, 47);
 }
 input[type="radio"]:checked + label.quiz-btn-label:before {
-  height: 16vh;
-  width: 16vh;
   border: 10px solid white;
   background-color: rgb(199, 199, 199);
 }
@@ -94,7 +92,7 @@ input[type="radio"]:checked + label.quiz-btn-label:before {
 
 /* Take quiz button */
 #take-quiz-btn {
-  color: black;
+  color: rgb(126, 136, 118);
 
 }
 
