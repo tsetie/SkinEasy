@@ -58,9 +58,10 @@
     {% if review_list %}
         <div class='pure-g'>
                 <!-- Loop through each review from the database function and display -->
-                {% for review in review_list %}
+                <!-- Reference to get list length via jinja2: https://stackoverflow.com/questions/14702917/python-jinja2-template-how-to-count-a-list -->
+                {% for i in range(0, review_list|count) %}
                     <!-- NOTE: Each review is stored in a size '1' list for some reason, so just remove the list part by indexing first element -->
-                    {% set review = review[0] %}
+                    {% set review = review_list[i][0] %}
                     <div class='pure-u-1' id="review_container">
                         <div class="boxheader">
                             <h3>{{ review['reviewer_name'] }}</h3>
@@ -72,15 +73,27 @@
                                     <span class="fa fa-star star"></span>
                                 {% endif %}
                             {% endfor %}
+
+                            <!-- Review title -->
                             <h4 id="content_title">{{ review['title'] }}</h4>
+
+                            <!-- Review date -->
                             <h4>{{ review['to_char'] }}</h4>
-                            <div id="review_content">
+                            
+                            <!-- Review image -->
+                            {% if review['img_stream'] != None %}
+                                <div class="review-img">
+                                    <img src="/images/{{review['review_id'] }}" alt="image of a product">
+                                </div>
+                            {% endif %}
+                            <!-- Review content -->
+                            <div class="review-content">
                                 <p>
                                 {{ review['content'] }}
                                 </p>
                             </div>
-                        </div>
-                        <hr>
+                    </div>
+                    <hr>
                 {% endfor %}
             </div>
             <div pure-u-1>

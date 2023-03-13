@@ -455,11 +455,20 @@ def reviews():
   product_details = db.get_product_details_from_id(product_id)
   product_details = product_details[0][0]  # Remove any unecessary list nesting
 
-  try:
+  try:  # Render reviews page with 
     return render_template('reviews.html', session=session.get('user'), review_list=review_list, product_details=product_details)
   except TemplateNotFound:
     abort(404)
   
+
+# *************************************************
+# Function to get review image from reviews table
+# *************************************************
+@app.route('/images/<int:review_id>',  methods=["GET"])
+def get_image(review_id):
+  img_file = db.read_image_from_id(review_id)
+  return img_file
+
 
 # ****************************************************************
 # Add a review after selecting 'add a review' option to a product
@@ -528,28 +537,6 @@ def add_review():
     abort(404)
 
 
-# *************************************************
-# Function to get review image from reviews table
-# *************************************************
-@app.route('/get_review_image', methods=["GET"])
-def get_review_image():
-  # Store the review_id
-  review_id = request.args.get('review_id')
-
-  # If you go to reviews page without review_id then 404 
-  if review_id == None:
-    abort(404)
-
-  return db.decode_review_image(review_id)
-
-
-# *********************************
-# GET THE IMAGE FOR GODS SAKE
-# *********************************
-@app.route('/images/<int:review_id>',  methods=["GET"])
-def get_image(review_id):
-  img_file = db.read_image_from_id(review_id)
-  return img_file
 
 
 ######################################
@@ -872,19 +859,6 @@ def get_reviews_json():
   
   # Return JSON format of user reviews
   return (reviews)
-
-
-# ****************************************
-# Gets all images from database as JSON
-# ****************************************
-@app.route('/api/get-images-json', methods=["GET"])
-def get_images_json():
-
-  # Call database function to get user reviews
-  images = db.get_images_json()
-  
-  # Return JSON format of user reviews
-  return (images)
 
 
 

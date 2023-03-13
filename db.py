@@ -850,7 +850,7 @@ def read_image_from_id(review_id):
         stream = io.BytesIO(image_row["img_stream"])
             
         # use special "send_file" function
-        return send_file(stream, download_name=image_row["img_filename"])
+        return send_file(stream, download_name=image_row["img_filename"], mimetype='image/png')
     
     
 # DELETE LATER 
