@@ -55,6 +55,7 @@ label {
 }
 
 
+
 /*
 * -- PURE FORM STYLES --
 * Style the form inputs and labels
@@ -161,9 +162,7 @@ a.pure-button-primary {
 */
 
 .splash-container {
-  /* background: #929083; */
-  background-image: url("/static/images/UI/backgroundImg.jpg");
-  background-size: 90em;
+  background: #929083;
   z-index: 1;
   overflow: hidden;
   /* The following styles are required for the "scroll-over" effect */
@@ -189,7 +188,7 @@ a.pure-button-primary {
 .splash-head {
   font-size: 20px;
   font-weight: bold;
-  color: rgb(126, 136, 118);
+  color: white;
   border: 3px solid white;
   padding: 1em 1.6em;
   font-weight: 100;
@@ -199,7 +198,7 @@ a.pure-button-primary {
 
 /* This is the subheading that appears on the blue section */
 .splash-subhead {
-  color: rgb(126, 136, 118);
+  color: white;
   letter-spacing: 0.05em;
   opacity: 0.8;
 }
