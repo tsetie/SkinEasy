@@ -81,10 +81,12 @@
                             <h4>{{ review['to_char'] }}</h4>
                             
                             <!-- Review image -->
-                            {% if review['img_stream'] != None %}
+                            {% if review['img_filename'] != None %}
+                                {% if review['img_filename'] != ''%}
                                 <div class="review-img">
                                     <img src="/images/{{review['review_id'] }}" alt="image of a product">
                                 </div>
+                                {% endif %}
                             {% endif %}
                             <!-- Review content -->
                             <div class="review-content">

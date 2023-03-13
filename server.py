@@ -465,11 +465,9 @@ def reviews():
   if product_id == None:
     abort(404)  
 
-  #TODO: handle if user types in fake product id
-
-  # Call db function yo get all the reviews for the product
+  # Call db function to get all the reviews for the product
   review_list = db.get_all_reviews_for_product(product_id)
-
+  print(review_list)
   # Get current product details
   product_details = db.get_product_details_from_id(product_id)
   product_details = product_details[0][0]  # Remove any unecessary list nesting
