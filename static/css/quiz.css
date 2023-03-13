@@ -94,7 +94,7 @@ input[type="radio"]:checked + label.quiz-btn-label:before {
 
 /* Take quiz button */
 #take-quiz-btn {
-  color: black;
+  color:rgb(126, 136, 118);
 
 }
 
