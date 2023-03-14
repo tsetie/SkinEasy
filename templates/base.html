@@ -35,7 +35,7 @@
 
               <!-- Show username if user logged in -->
               {% if session and session.userinfo %}
-                <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+                <li class="pure-menu-item pure-menu-has-children dropdown-menu pure-menu-allow-hover dropdown">
                     <!-- Show username from server -->
                     <div id="username">
                       {{session.userinfo.nickname}}
@@ -72,7 +72,7 @@
       {% block footer %}
       &copy; Copyright 2010 by <a href="http://domain.invalid/">you</a>.
       {% endblock %}
-    </div> -->
+    </div>
   </body>
 
 

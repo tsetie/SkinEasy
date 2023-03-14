@@ -16,7 +16,9 @@ h3 {
   color:black;
 }
 
-
+.content-subhead{
+  margin: 20px 0 20px 0;
+}
 
 /* Filter-related CSS */
 #filterHeader {
@@ -71,6 +73,8 @@ h3 {
 #search_bar_btn:hover{
   background-color: rgba(255, 255, 255, 0.609);}
 
+/* Step Containers */
+
 .stepContainers{
   overflow-x:scroll;
   overflow-y: hidden;
@@ -88,6 +92,9 @@ h3 {
   white-space: normal;
 }
 
+.pure-img-responsive{
+  max-height: 25vh;
+}
 
 /* Arrow box for viewing products in dynamically moving rows */
 .arrow-div{
@@ -148,4 +155,3 @@ h3 {
 .form-popup{
   margin-left: 5vw;
 }
-

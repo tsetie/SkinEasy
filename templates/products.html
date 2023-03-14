@@ -243,7 +243,7 @@
                     <!-- Cleansers -->
                     <!-- NOTE: Show moisturizers if user has any in their wishlist -->
                     {% if cleanser_list %}
-                        <div id="cleanser-container">
+                        <div id="cleanser-container" class="product_row_container">
                             <h2 class="content-subhead">Cleansers</h2>         <!-- Section header -->
                             <p> Daily: AM & PM </p>                            <!-- Time schedule caption -->
 
@@ -259,7 +259,7 @@
                                         <!-- Add product button -->
                                         <button class="add-to-routine-btn"> ♥ </button>
                                         <!-- Product referral link -->
-                                        <a href="{{ product['product_url'] }}">                                                    
+                                        <a href="{{ product['product_url'] }}" target="_blank">                                                    
                                             <!-- Product image -->
                                             <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of cleanser">
                                         </a>
@@ -296,7 +296,7 @@
                     {% if exfoliant_list %}
                         <div id="exfoliant-container">
                             <h2 class="content-subhead">Exfoliants</h2>        <!-- Section header -->
-                            <p> Daily: AM & PM </p>                            <!-- Time schedule caption -->
+                            <p> Weekly: 1-3x PM </p>                            <!-- Time schedule caption -->
 
                             <!-- Products row -->
                             <div class="stepContainers" id="product-container">
@@ -310,7 +310,7 @@
                                         <!-- Add product button -->
                                         <button class="add-to-routine-btn"> ♥ </button>
                                         <!-- Product referral link -->
-                                        <a href="{{ product['product_url'] }}">                                                    
+                                        <a href="{{ product['product_url'] }}" target="_blank">                                                    
                                             <!-- Product image -->
                                             <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of exfoliant">
                                         </a>
@@ -361,7 +361,7 @@
                                         <!-- Add product button -->
                                         <button class="add-to-routine-btn"> ♥ </button>
                                         <!-- Product referral link -->
-                                        <a href="{{ product['product_url'] }}">                                                    
+                                        <a href="{{ product['product_url'] }}" target="_blank">                                                    
                                             <!-- Product image -->
                                             <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of toner">
                                         </a>
@@ -412,7 +412,7 @@
                                         <!-- Add product button -->
                                         <button class="add-to-routine-btn"> ♥ </button>
                                         <!-- Product referral link -->
-                                        <a href="{{ product['product_url'] }}">                                                    
+                                        <a href="{{ product['product_url'] }}" target="_blank">                                                    
                                             <!-- Product image -->
                                             <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of serum">
                                         </a>
@@ -463,7 +463,7 @@
                                         <!-- Add product button -->
                                         <button class="add-to-routine-btn"> ♥ </button>
                                         <!-- Product referral link -->
-                                        <a href="{{ product['product_url'] }}">                                                    
+                                        <a href="{{ product['product_url'] }}" target="_blank">                                                    
                                             <!-- Product image -->
                                             <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of moisturizer">
                                         </a>
@@ -503,7 +503,7 @@
                     {% if sunscreen_list %}
                         <div id="sunscreen-container">
                             <h2 class="content-subhead">Sunscreens</h2>        <!-- Section header -->
-                            <p> Daily: AM & PM </p>                            <!-- Time schedule caption -->
+                            <p> Daily: PM </p>                            <!-- Time schedule caption -->
 
                             <!-- Products row -->
                             <div class="stepContainers" id="product-container">
@@ -517,7 +517,7 @@
                                         <!-- Add product button -->
                                         <button class="add-to-routine-btn"> ♥ </button>
                                         <!-- Product referral link -->
-                                        <a href="{{ product['product_url'] }}">                                                    
+                                        <a href="{{ product['product_url'] }} " target="_blank">                                                    
                                             <!-- Product image -->
                                             <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of sunscreen">
                                         </a>

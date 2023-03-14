@@ -154,6 +154,13 @@ a.pure-button-primary {
 
 .pure-menu-has-children{
   color: rgb(255, 255, 255);
+  
+}
+
+/* Referenced stackoverflow to get drop down to not go off page */
+.pure-menu-horizontal .dropdown .pure-menu-children {
+  left: auto; 
+  right: 0; 
 }
 
 /*
@@ -185,7 +192,7 @@ a.pure-button-primary {
   text-transform: uppercase;
 }
 
-/* This is the main heading that appears on the blue section */
+/* This is the main heading that appears on home page. Holds the big message */
 .splash-head {
   font-size: 20px;
   font-weight: bold;
@@ -195,6 +202,7 @@ a.pure-button-primary {
   font-weight: 100;
   border-radius: 5px;
   line-height: 1em;
+  background-color: rgba(255, 255, 255, 0.677);
 }
 
 /* This is the subheading that appears on the blue section */
