@@ -23,6 +23,10 @@ transform: scale(.6);
   background-color: rgba(155, 155, 155, 0.191);
 }
 
-.pure-img-responsive{
+/* .pure-img-responsive{
   max-height: 20vh;
+} */
+
+.product-container{
+  padding-left: 3em;
 }

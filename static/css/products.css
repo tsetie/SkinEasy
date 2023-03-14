@@ -166,3 +166,7 @@ font-size: 45px;
   margin-bottom: 1em;
   text-align: center;
 }
+/* Review */
+a span{
+  color: rgb(171, 172, 152);
+}

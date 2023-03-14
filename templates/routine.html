@@ -88,41 +88,40 @@
                 </div>           
             </div>
 
+                <!-- Product row -->
+                <div class="stepContainers" id="product-container">
+                    <!-- Loop through each product from the database function and display -->
+                    {% for product in user_cleansers %}
+                        {% set product = product[0] %}
+                            
+                        <!-- Card container ---------------------------->
+                        <div class="pure-u-1-5 product-card">
+                        <!-- Remove product button -->
+                        <button class="remove-from-routine-btn"></button>
+                        <!-- Product referral link -->
+                        <a href="{{ product['product_url'] }}">                                                    
+                            <!-- Product image -->
+                            <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of cleanser">
+                        </a>
 
-                    <!-- Product row -->
-                    <div class="stepContainers" id="product-container">
-                        <!-- Loop through each product from the database function and display -->
-                        {% for product in user_cleansers %}
-                            {% set product = product[0] %}
-                                
-                           <!-- Card container ---------------------------->
-                           <div class="pure-u-1-5 product-card">
-                            <!-- Remove product button -->
-                            <button class="remove-from-routine-btn"></button>
-                            <!-- Product referral link -->
-                            <a href="{{ product['product_url'] }}">                                                    
-                                <!-- Product image -->
-                                <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of cleanser">
-                            </a>
-
-                            <!-- Product name -->
-                            <div class="product-name">
-                                <p> {{ product['product_name'] }} </p>
-                            </div>
-
-                            <!-- Product price & review information -->
-                            <div class="product-reviews-selector">
-                                <p> ${{ product['display_price'] }} <a href="/reviews?product_id={{product['product_id']}}"> Reviews </a> </p>
-                            </div>
-
+                        <!-- Product name -->
+                        <div class="product-name">
+                            <p> {{ product['product_name'] }} </p>
                         </div>
-                        <!---------------------------------------------->
 
-                        {% endfor %}
+                        <!-- Product price & review information -->
+                        <div class="product-reviews-selector">
+                            <p> ${{ product['display_price'] }} <a href="/reviews?product_id={{product['product_id']}}"> Reviews </a> </p>
+                        </div>
+
                     </div>
+                    <!---------------------------------------------->
+
+                    {% endfor %}
                 </div>
-                <hr>  <!-- Horizontal line -->
-            {% endif %}
+            </div>
+            <hr>  <!-- Horizontal line -->
+        {% endif %}
 
 
             <!-- Exfoliants -->
@@ -350,7 +349,7 @@
                 </div>
                 <hr>  <!-- Horizontal line -->
             {% endif %}
-
+        </div>
          
         </div>
     </div>
