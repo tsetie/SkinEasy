@@ -313,10 +313,21 @@ def personal_filter():
     mature_target = False
     num_of_targets -=1
   if (query[0][2] == 2):
+    query_dict['cleanser'] = True
+    query_dict['sunscreen'] = True
     routine_steps = 2
   elif (query[0][2] == 3):
+    query_dict['cleanser'] = True
+    query_dict['moisturizer'] = True
+    query_dict['sunscreen'] = True
     routine_steps = 3
   elif (query[0][2] == 6):
+    query_dict['cleanser'] = True
+    query_dict['exfoliant'] = True
+    query_dict['toner'] = True
+    query_dict['serum'] = True
+    query_dict['moisturizer'] = True
+    query_dict['sunscreen'] = True
     routine_steps = 6
 
   if (query[0][0] == None and query[0][1] == None and query[0][2] == None):
@@ -704,12 +715,23 @@ def quiz_results():
       if (value == '2'):
         routine_steps = 2
         routine_value = value
+        query_dict['cleanser'] = True
+        query_dict['sunscreen'] = True
       elif (value == '3'):
         routine_steps = 3
         routine_value = value
+        query_dict['cleanser'] = True
+        query_dict['moisturizer'] = True
+        query_dict['sunscreen'] = True
       elif (value == '6'):
         routine_steps = 6
         routine_value = value
+        query_dict['cleanser'] = True
+        query_dict['exfoliant'] = True
+        query_dict['toner'] = True
+        query_dict['serum'] = True
+        query_dict['moisturizer'] = True
+        query_dict['sunscreen'] = True
   
   # Depending on num of steps in routine user chose, specific products/categories will be returned
   if (routine_steps == 2):

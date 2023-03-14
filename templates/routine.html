@@ -79,49 +79,48 @@
             {% endif %}
             
             <!-- Cleansers -->
-            <!-- NOTE: Show cany leansers user has in their wishlist -->
+            <!-- NOTE: Show any cleansers user has in their wishlist -->
             {% if user_cleansers %}
-            <div class="product-header">
                 <div id="cleanser-container">
-                    <h2 class="content-subhead">Cleansers</h2>       <!-- Cleanser section header -->
-                    <p> Daily: AM & PM </p>                  <!-- Time schedule caption -->     
-                </div>           
-            </div>
-
-                <!-- Product row -->
-                <div class="stepContainers" id="product-container">
-                    <!-- Loop through each product from the database function and display -->
-                    {% for product in user_cleansers %}
-                        {% set product = product[0] %}
-                            
-                        <!-- Card container ---------------------------->
-                        <div class="pure-u-1-5 product-card">
-                        <!-- Remove product button -->
-                        <button class="remove-from-routine-btn"></button>
-                        <!-- Product referral link -->
-                        <a href="{{ product['product_url'] }}">                                                    
-                            <!-- Product image -->
-                            <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of cleanser">
-                        </a>
-
-                        <!-- Product name -->
-                        <div class="product-name">
-                            <p> {{ product['product_name'] }} </p>
-                        </div>
-
-                        <!-- Product price & review information -->
-                        <div class="product-reviews-selector">
-                            <p> ${{ product['display_price'] }} <a href="/reviews?product_id={{product['product_id']}}"> Reviews </a> </p>
-                        </div>
-
+                    <div class="product-header">
+                        <h2 class="content-subhead">Cleansers</h2>       <!-- Cleanser section header -->
+                        <p> Daily: AM & PM </p>                  <!-- Time schedule caption -->
                     </div>
-                    <!---------------------------------------------->
+                    <!-- Product row -->
+                    <div class="stepContainers" id="product-container">
+                        <!-- Loop through each product from the database function and display -->
+                        {% for product in user_cleansers %}
+                            {% set product = product[0] %}
+                                
+                           <!-- Card container ---------------------------->
+                           <div class="pure-u-1-5 product-card">
 
-                    {% endfor %}
+                            <!-- Remove product button -->
+                            <button class="remove-from-routine-btn"> Remove from routine </button>
+                            <!-- Product referral link -->
+                            <a href="{{ product['product_url'] }}">                                                    
+                                <!-- Product image -->
+                                <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of cleanser">
+                            </a>
+
+                            <!-- Product name -->
+                            <div class="product-name">
+                                <p> {{ product['product_name'] }} </p>
+                            </div>
+
+                            <!-- Product price & review information -->
+                            <div class="product-reviews-selector">
+                                <p> ${{ product['display_price'] }} <a href="/reviews?product_id={{product['product_id']}}"><span>Reviews</span> </a> </p>
+                            </div>
+
+                        </div>
+                        <!---------------------------------------------->
+
+                        {% endfor %}
+                    </div>
                 </div>
-            </div>
-            <hr>  <!-- Horizontal line -->
-        {% endif %}
+                <hr>  <!-- Horizontal line -->
+            {% endif %}
 
 
             <!-- Exfoliants -->
@@ -130,10 +129,8 @@
                 <div id="exfoliant-container">
                     <div class="product-header">
                         <h2 class="content-subhead">Exfoliants</h2>      <!-- Section header -->
-                        <p> 1 - 3 times a week: PM </p>                  <!-- Time schedule caption -->                        
+                        <p> 1 - 3 times a week: PM </p>                  <!-- Time schedule caption -->
                     </div>
-
-
                     <!-- Product row -->
                     <div class="stepContainers" id="product-container">
                         <!-- Loop through each product from the database function and display -->
@@ -142,8 +139,9 @@
                                 
                             <!-- Card container ---------------------------->
                             <div class="pure-u-1-5 product-card">
+
                                 <!-- Remove product button -->
-                                <button class="remove-from-routine-btn"></button>
+                                <button class="remove-from-routine-btn"> Remove from routine </button>
                                 <!-- Product referral link -->
                                 <a href="{{ product['product_url'] }}">                                                    
                                     <!-- Product image -->
@@ -157,7 +155,7 @@
 
                                 <!-- Product price & review information -->
                                 <div class="product-reviews-selector">
-                                    <p> ${{ product['display_price'] }} <a href="/reviews?product_id={{product['product_id']}}"> Reviews </a> </p>
+                                    <p> ${{ product['display_price'] }} <a href="/reviews?product_id={{product['product_id']}}"> <span>Reviews</span> </a> </p>
                                 </div>
 
                             </div>
@@ -176,10 +174,8 @@
                 <div id="toner-container">
                     <div class="product-header">
                         <h2 class="content-subhead">Toners</h2>             <!-- Section header -->
-                        <p> Daily: AM & PM </p>                             <!-- Time schedule caption -->                        
-                    </div>
-
-
+                        <p> Daily: AM & PM </p>                             <!-- Time schedule caption -->
+                    </div>  
                     <!-- Product row -->
                     <div class="stepContainers" id="product-container">
                         <!-- Loop through each product from the database function and display -->
@@ -188,8 +184,9 @@
                                 
                             <!-- Card container ---------------------------->
                             <div class="pure-u-1-5 product-card">
+
                                 <!-- Remove product button -->
-                                <button class="remove-from-routine-btn"></button>
+                                <button class="remove-from-routine-btn"> Remove from routine </button>
                                 <!-- Product referral link -->
                                 <a href="{{ product['product_url'] }}">                                                    
                                     <!-- Product image -->
@@ -203,7 +200,7 @@
 
                                 <!-- Product price & review information -->
                                 <div class="product-reviews-selector">
-                                    <p> ${{ product['display_price'] }} <a href="/reviews?product_id={{product['product_id']}}"> Reviews </a> </p>
+                                    <p> ${{ product['display_price'] }} <a href="/reviews?product_id={{product['product_id']}}"> <span>Reviews</span> </a> </p>
                                 </div>
 
                             </div>
@@ -222,9 +219,8 @@
                 <div id="serum-container">
                     <div class="product-header">
                         <h2 class="content-subhead">Serums</h2>             <!-- Section header -->
-                        <p> Daily: AM & PM </p>                             <!-- Time schedule caption -->                        
-                    </div>
-
+                        <p> Daily: AM & PM </p>                             <!-- Time schedule caption -->
+                </div>
                     <!-- Products row -->
                     <div class="stepContainers" id="product-container">
                         <!-- Loop through each product from the database function and display -->
@@ -233,8 +229,9 @@
                                 
                             <!-- Card container ---------------------------->
                             <div class="pure-u-1-5 product-card">
+
                                 <!-- Remove product button -->
-                                <button class="remove-from-routine-btn"></button>
+                                <button class="remove-from-routine-btn"> Remove from routine </button>
                                 <!-- Product referral link -->
                                 <a href="{{ product['product_url'] }}">                                                    
                                     <!-- Product image -->
@@ -248,7 +245,7 @@
 
                                 <!-- Product price & review information -->
                                 <div class="product-reviews-selector">
-                                    <p> ${{ product['display_price'] }} <a href="/reviews?product_id={{product['product_id']}}"> Reviews </a> </p>
+                                    <p> ${{ product['display_price'] }} <a href="/reviews?product_id={{product['product_id']}}"> <span>Reviews</span> </a> </p>
                                 </div>
 
                             </div>
@@ -267,9 +264,8 @@
                 <div id="moisturizer-container">
                     <div class="product-header">
                         <h2 class="content-subhead">Moisturizers</h2>      <!-- Section header -->
-                        <p> Daily: AM & PM </p>                            <!-- Time schedule caption -->                        
+                        <p> Daily: AM & PM </p>                            <!-- Time schedule caption -->
                     </div>
-
                     <!-- Products row -->
                     <div class="stepContainers" id="product-container">
                         <!-- Loop through each product from the database function and display -->
@@ -278,8 +274,9 @@
                             
                             <!-- Card container ---------------------------->
                             <div class="pure-u-1-5 product-card">
+
                                 <!-- Remove product button -->
-                                <button class="remove-from-routine-btn"></button>
+                                <button class="remove-from-routine-btn"> Remove from routine </button>
                                 <!-- Product referral link -->
                                 <a href="{{ product['product_url'] }}">                                                    
                                     <!-- Product image -->
@@ -293,7 +290,7 @@
 
                                 <!-- Product price & review information -->
                                 <div class="product-reviews-selector">
-                                    <p> ${{ product['display_price'] }} <a href="/reviews?product_id={{product['product_id']}}"> Reviews </a> </p>
+                                    <p> ${{ product['display_price'] }} <a href="/reviews?product_id={{product['product_id']}}"> <span>Reviews</span> </a> </p>
                                 </div>
 
                             </div>
@@ -312,9 +309,8 @@
                 <div id="sunscreen-container">
                     <div class="product-header">
                         <h2 class="content-subhead">Sunscreens</h2>      <!-- Section header -->
-                        <p> Daily: AM </p>                          <!-- Time schedule caption -->                        
+                        <p> Daily: AM </p>                          <!-- Time schedule caption -->
                     </div>
-
                     <!-- Products row -->
                     <div class="stepContainers" id="product-container">
                         <!-- Loop through each product from the database function and display -->
@@ -323,8 +319,9 @@
 
                             <!-- Card container ---------------------------->
                             <div class="pure-u-1-5 product-card">
+
                                 <!-- Remove product button -->
-                                <button class="remove-from-routine-btn"></button>
+                                <button class="remove-from-routine-btn"> Remove from routine </button>
                                 <!-- Product referral link -->
                                 <a href="{{ product['product_url'] }}">                                                    
                                     <!-- Product image -->
@@ -338,19 +335,19 @@
 
                                 <!-- Product price & review information -->
                                 <div class="product-reviews-selector">
-                                    <p> ${{ product['display_price'] }} <a href="/reviews?product_id={{product['product_id']}}"> Reviews </a> </p>
+                                    <p> ${{ product['display_price'] }} <a href="/reviews?product_id={{product['product_id']}}"> <span>Reviews</span> </a> </p>
                                 </div>
 
                             </div>
                             <!---------------------------------------------->
-
+                        </div>
                         {% endfor %}
                     </div>
-                </div>
+                    
                 <hr>  <!-- Horizontal line -->
             {% endif %}
-        </div>
-         
+
+         </div>
         </div>
     </div>
 {% endblock %}

@@ -193,7 +193,7 @@ a.pure-button-primary {
   text-transform: uppercase;
 }
 
-/* This is the main heading that appears on home page. Holds the big message */
+/* This is the main heading that appears on the blue section */
 .splash-head {
   font-size: 20px;
   font-weight: bold;
@@ -203,7 +203,7 @@ a.pure-button-primary {
   font-weight: 100;
   border-radius: 5px;
   line-height: 1em;
-  background-color: rgba(255, 255, 255, 0.677);
+  background-color: rgba(255, 255, 255, 0.599);
 }
 
 /* This is the subheading that appears on the blue section */

@@ -1,6 +1,5 @@
 /* product.css */
 
-
 /* Product page consistent attributes */
 html {
   scroll-behavior: smooth;
@@ -16,9 +15,6 @@ h3 {
   color:black;
 }
 
-.content-subhead{
-  margin: 20px 0 20px 0;
-}
 
 /* Filter-related CSS */
 #filterHeader {
@@ -73,8 +69,6 @@ h3 {
 #search_bar_btn:hover{
   background-color: rgba(255, 255, 255, 0.609);}
 
-/* Step Containers */
-
 .stepContainers{
   overflow-x:scroll;
   overflow-y: hidden;
@@ -92,9 +86,6 @@ h3 {
   white-space: normal;
 }
 
-.pure-img-responsive{
-  max-height: 20vh;
-}
 
 /* Arrow box for viewing products in dynamically moving rows */
 .arrow-div{
@@ -117,17 +108,17 @@ h3 {
 }
 
 .add-to-routine-btn{
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  color: rgb(144, 140, 135);
+  color:red;
+  border-style: solid;
+  border-radius: 10em;
+  border-width: 1px;
+  border-color: rgb(209, 205, 198);
+  width: 2.2em;
+  height: 2.2em;
+  padding-top:.3em;
 }
-.add-to-routine-btn:active{
-  color:white;
-}
-
-.add-icon{
-font-size: 45px;
+.add-to-routine-btn:hover{
+  background-color: rgba(129, 129, 129, 0.319);
 }
 
 .recommendedBtn{
@@ -155,6 +146,12 @@ font-size: 45px;
 .form-popup{
   margin-left: 5vw;
 }
+
+/* Review */
+a span{
+  color: rgb(187, 188, 167);
+}
+
 .product-header h2{
   padding-top: 4.5px;
 }
@@ -166,7 +163,11 @@ font-size: 45px;
   margin-bottom: 1em;
   text-align: center;
 }
-/* Review */
-a span{
-  color: rgb(171, 172, 152);
+
+.content-subhead {
+  margin: 20px 0 20px 0;
+}
+
+.pure-img-responsive{
+  max-height: 25vh;
 }
