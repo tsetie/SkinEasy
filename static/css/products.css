@@ -117,18 +117,17 @@ h3 {
 }
 
 .add-to-routine-btn{
-  color:rgb(150, 147, 140);
-  border-style: solid;
-  border-radius: 10em;
-  border-width: 1px;
-  border-color: rgb(209, 205, 198);
-  width: 2.2em;
-  height: 2.2em;
-  padding-top:.3em;
+  background-color: transparent;
+  border: none;
   cursor: pointer;
+  color: rgb(144, 140, 135);
 }
-.add-to-routine-btn:hover{
-  background-color: rgba(129, 129, 129, 0.319);
+.add-to-routine-btn:active{
+  color:white;
+}
+
+.add-icon{
+font-size: 45px;
 }
 
 .recommendedBtn{
