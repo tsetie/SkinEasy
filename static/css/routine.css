@@ -21,6 +21,10 @@ The content `<div>` is where all your content goes.
     padding: 2.5em 2em 0;
     border-bottom: 1px solid #eee;
  }
+
+ .header2{
+    background-image: url(/static/images/whitetexture.jpg);
+ }
     .header h1 {
         margin: 0.2em 0;
         font-size: 3em;
@@ -53,3 +57,4 @@ The content `<div>` is where all your content goes.
     /* margin: 2%; */
     /* padding: 1%; */
 /* } */
+

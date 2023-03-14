@@ -8,5 +8,5 @@
   * pipenv shell
 
 6.Once in shell, to run the site:
-  * flask --app app --debug run
+  * flask --app server --debug run
 

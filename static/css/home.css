@@ -119,7 +119,7 @@ a.pure-button-primary {
   box-shadow: 0 1px 1px rgba(0,0,0, 0.10);
 }
 .home-menu {
-  background: #bfb8ae;
+  background: #b0b0a4;
 }
 .pure-menu.pure-menu-fixed {
   /* Fixed menus normally have a border at the bottom. */
@@ -162,8 +162,8 @@ a.pure-button-primary {
 */
 
 .splash-container {
-  background-image: url("/static/images/background/backgroundImg.jpg");
-  background-size: 90em;
+  background-image: url("/static/images/background/homepage-background.jpg");
+  background-size: cover;
   z-index: 1;
   overflow: hidden;
   /* The following styles are required for the "scroll-over" effect */
@@ -223,6 +223,8 @@ a.pure-button-primary {
 /* We want to give the content area some more padding */
 .content {
   padding: 1em 1em 3em;
+  background-color: rgba(255, 255, 255, 0.455);
+  border-radius: 1em;
 }
 
 /* This is the class used for the main content headers (<h2>) */
@@ -261,17 +263,18 @@ a.pure-button-primary {
 }
 
 .quiz-info{
-  color: rgb(95, 80, 54);
+  color: rgba(0, 0, 0, 0.781);
 }
 
 #quiz-info-div{
-  background-image: url('/static/images/background/shadowbackground.jpg');
-  background-size: 90em;
+  background-image: url('/static/images/background/quiz-info-backdrop.jpg');
+  background-size: cover;
   text-align: center;
 }
 
 #quiz-info-header{
-  font-weight: 900;
+  font-weight: 700;
+  color:rgb(0, 0, 0);
 }
 /*
 * -- TABLET (AND UP) MEDIA QUERIES --

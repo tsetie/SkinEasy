@@ -38,8 +38,8 @@ h3 {
 /* Filter section */
 #menu{
   margin-top: 3.55em;
-  background-color: rgba(181, 175, 166, 0.138);
-
+  background-color: rgba(219, 218, 211, 0.21)
+  /* background-image: url(/static/images/background/homepage-background.jpg); */
 }
 
 /* Hamburger icon */
@@ -61,7 +61,7 @@ h3 {
   border-radius: .5em;
   height: 1.8em;
   width: 18em;  
-  background-color: rgb(212, 206, 195);
+  background-color: rgb(204, 205, 192);
 }
 
 #search_bar:hover{
