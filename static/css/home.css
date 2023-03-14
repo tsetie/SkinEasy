@@ -154,13 +154,14 @@ a.pure-button-primary {
 
 .pure-menu-has-children{
   color: rgb(255, 255, 255);
-  
 }
 
 /* Referenced stackoverflow to get drop down to not go off page */
 .pure-menu-horizontal .dropdown .pure-menu-children {
   left: auto; 
   right: 0; 
+  border-radius: .5em;
+  box-shadow: 0 10px 10px #0000009d;
 }
 
 /*

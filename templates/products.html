@@ -240,45 +240,48 @@
             <!-- Container for all product rows -->
             <div class="productContainer">
 
-                    <!-- Cleansers -->
-                    <!-- NOTE: Show moisturizers if user has any in their wishlist -->
-                    {% if cleanser_list %}
-                        <div id="cleanser-container" class="product_row_container">
-                            <h2 class="content-subhead">Cleansers</h2>         <!-- Section header -->
-                            <p> Daily: AM & PM </p>                            <!-- Time schedule caption -->
+            <!-- Cleansers -->
+            <!-- NOTE: Show moisturizers if user has any in their wishlist -->
+            {% if cleanser_list %}
+                <div id="cleanser-container" class="product_row_container">
+                    <div class="product-header">
+                        <h2 class="content-subhead">Cleansers</h2>         <!-- Section header -->
+                        <p> Daily: AM & PM </p>                            <!-- Time schedule caption -->                        
+                    </div>
 
-                            <!-- Products row -->
-                            <div class="stepContainers" id="product-container">
-                                <!-- Loop through each product from the database function and display -->
-                                {% for product in cleanser_list %}
-                                    {% set product = product[0] %}
-                                    
-                                    <!-- Card container ---------------------------->
-                                    <div class="pure-u-1-5 product-card">
 
-                                        <!-- Add product button -->
-                                        <button class="add-to-routine-btn"> ♥ </button>
-                                        <!-- Product referral link -->
-                                        <a href="{{ product['product_url'] }}" target="_blank">                                                    
-                                            <!-- Product image -->
-                                            <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of cleanser">
-                                        </a>
+                    <!-- Products row -->
+                    <div class="stepContainers" id="product-container">
+                        <!-- Loop through each product from the database function and display -->
+                        {% for product in cleanser_list %}
+                            {% set product = product[0] %}
+                            
+                            <!-- Card container ---------------------------->
+                            <div class="pure-u-1-5 product-card">
 
-                                        <!-- Product name -->
-                                        <div class="product-name">
-                                            <p> {{ product['product_name'] }} </p>
-                                        </div>
+                                <!-- Add product button -->
+                                <button class="add-to-routine-btn"> ♥ </button>
+                                <!-- Product referral link -->
+                                <a href="{{ product['product_url'] }}" target="_blank">                                                    
+                                    <!-- Product image -->
+                                    <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of cleanser">
+                                </a>
 
-                                        <!-- Product price & review information -->
-                                        <div class="product-reviews-selector">
-                                            <p> ${{ product['display_price'] }} <a href="/reviews?product_id={{product['product_id']}}"> Reviews </a> </p>
-                                        </div>
+                                <!-- Product name -->
+                                <div class="product-name">
+                                    <p> {{ product['product_name'] }} </p>
+                                </div>
 
-                                    </div>
-                                    <!---------------------------------------------->
+                                <!-- Product price & review information -->
+                                <div class="product-reviews-selector">
+                                    <p> ${{ product['display_price'] }} <a href="/reviews?product_id={{product['product_id']}}"> Reviews </a> </p>
+                                </div>
 
-                                {% endfor %}
                             </div>
+                            <!---------------------------------------------->
+
+                        {% endfor %}
+                    </div>
 
                             <hr>  <!-- Horizontal line -->
                             <!-- Left & Right Arrows  -->
@@ -295,8 +298,11 @@
                     <!-- NOTE: Show moisturizers if user has any in their wishlist -->
                     {% if exfoliant_list %}
                         <div id="exfoliant-container">
-                            <h2 class="content-subhead">Exfoliants</h2>        <!-- Section header -->
-                            <p> Weekly: 1-3x PM </p>                            <!-- Time schedule caption -->
+                            <div class="product-header">
+                                <h2 class="content-subhead">Exfoliants</h2>        <!-- Section header -->
+                                <p> 1 - 3 times a week: PM </p>                            <!-- Time schedule caption -->                                
+                            </div>
+
 
                             <!-- Products row -->
                             <div class="stepContainers" id="product-container">
@@ -323,7 +329,7 @@
                                         <!-- Product price & review information -->
                                         <div class="product-reviews-selector">
                                             <p> ${{ product['display_price'] }} <a href="/reviews?product_id={{product['product_id']}}"> Reviews </a> </p>
-
+                                        </div>
 
                                     </div>
                                     <!---------------------------------------------->
@@ -346,8 +352,11 @@
                     <!-- NOTE: Show moisturizers if user has any in their wishlist -->
                     {% if toner_list %}
                         <div id="toner-container">
-                            <h2 class="content-subhead">Toners</h2>            <!-- Section header -->
-                            <p> Daily: AM & PM </p>                            <!-- Time schedule caption -->
+                            <div class="product-header">
+                                <h2 class="content-subhead">Toners</h2>            <!-- Section header -->
+                                <p> Daily: AM & PM </p>                            <!-- Time schedule caption -->
+                            </div>
+
 
                             <!-- Products row -->
                             <div class="stepContainers" id="product-container">
@@ -397,8 +406,10 @@
                     <!-- NOTE: Show moisturizers if user has any in their wishlist -->
                     {% if serum_list %}
                         <div id="serum-container">
-                            <h2 class="content-subhead">Serums</h2>            <!-- Section header -->
-                            <p> Daily: AM & PM </p>                            <!-- Time schedule caption -->
+                            <div class="product-header"> 
+                                <h2 class="content-subhead">Serums</h2>            <!-- Section header -->
+                                <p> Daily: AM & PM </p>                            <!-- Time schedule caption -->                                
+                            </div>
 
                             <!-- Products row -->
                             <div class="stepContainers" id="product-container">
@@ -448,8 +459,11 @@
                     <!-- NOTE: Show moisturizers if user has any in their wishlist -->
                     {% if moisturizer_list %}
                         <div id="moisturizer-container">
-                            <h2 class="content-subhead">Moisturizers</h2>      <!-- Section header -->
-                            <p> Daily: AM & PM </p>                            <!-- Time schedule caption -->
+                            <div class="product-header">
+                                <h2 class="content-subhead">Moisturizers</h2>      <!-- Section header -->
+                                <p> Daily: AM & PM </p>                            <!-- Time schedule caption -->                                
+                            </div>
+
 
                             <!-- Products row -->
                             <div class="stepContainers" id="product-container">
@@ -502,8 +516,11 @@
                     <!-- NOTE: Show moisturizers if user has any in their wishlist -->
                     {% if sunscreen_list %}
                         <div id="sunscreen-container">
-                            <h2 class="content-subhead">Sunscreens</h2>        <!-- Section header -->
-                            <p> Daily: PM </p>                            <!-- Time schedule caption -->
+                            <div class="product-header">
+                                <h2 class="content-subhead">Sunscreens</h2>        <!-- Section header -->
+                                <p> Daily: PM </p>                            <!-- Time schedule caption -->                                
+                            </div>
+
 
                             <!-- Products row -->
                             <div class="stepContainers" id="product-container">
@@ -534,7 +551,7 @@
 
                                     </div>
                                     <!---------------------------------------------->
-
+                                
                                 {% endfor %}
                             </div>
                             

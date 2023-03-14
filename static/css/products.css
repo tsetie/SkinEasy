@@ -93,7 +93,7 @@ h3 {
 }
 
 .pure-img-responsive{
-  max-height: 25vh;
+  max-height: 20vh;
 }
 
 /* Arrow box for viewing products in dynamically moving rows */
@@ -117,7 +117,7 @@ h3 {
 }
 
 .add-to-routine-btn{
-  color:red;
+  color:rgb(150, 147, 140);
   border-style: solid;
   border-radius: 10em;
   border-width: 1px;
@@ -125,6 +125,7 @@ h3 {
   width: 2.2em;
   height: 2.2em;
   padding-top:.3em;
+  cursor: pointer;
 }
 .add-to-routine-btn:hover{
   background-color: rgba(129, 129, 129, 0.319);
@@ -154,4 +155,15 @@ h3 {
 
 .form-popup{
   margin-left: 5vw;
+}
+.product-header h2{
+  padding-top: 4.5px;
+}
+.product-header{
+  background-color: rgba(213, 213, 213, 0.21);
+  width: 12em;
+  height: 5em;
+  border-radius: 1em;
+  margin-bottom: 1em;
+  text-align: center;
 }
