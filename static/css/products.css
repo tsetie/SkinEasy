@@ -82,8 +82,8 @@ h3 {
 .product-card{
   max-width: 100%;
   max-height: 100%;
-  display: inline-block;
   white-space: normal;
+  align-items: end;
 }
 
 
@@ -108,17 +108,29 @@ h3 {
 }
 
 .add-to-routine-btn{
-  color:red;
-  border-style: solid;
+  color:rgb(0, 0, 0);
   border-radius: 10em;
   border-width: 1px;
   border-color: rgb(209, 205, 198);
-  width: 2.2em;
-  height: 2.2em;
-  padding-top:.3em;
+  width: 1.25em;
+  height: 1.25em;
+  margin-top: 1em;
+  margin-left: 1em;
+  background-color: transparent;
+  border-style: none;
+  font-size: 1em;
+  transform: scale(2)
 }
+
 .add-to-routine-btn:hover{
-  background-color: rgba(129, 129, 129, 0.319);
+  color: rgb(158, 151, 151);
+  background-color: transparent;
+  /* transform: scale(1.5); */
+}
+
+.add-to-routine-btn:active{
+  color: rgb(0, 0, 0);
+  transform: scale(1.5);
 }
 
 .recommendedBtn{
@@ -170,4 +182,8 @@ a span{
 
 .pure-img-responsive{
   max-height: 25vh;
+  min-height: 15vh;
+  width: auto;
+  height: auto;
+  display: block;
 }

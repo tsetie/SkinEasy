@@ -52,10 +52,6 @@ The content `<div>` is where all your content goes.
     padding: 1%;
 }
 
-.remove-from-routine-btn:hover{
-    background-color: rgba(155, 155, 155, 0.191);
-}
-
 .pure-img-responsive{
     max-height: 20vh;
   }
