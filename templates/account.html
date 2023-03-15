@@ -184,11 +184,10 @@
                                                     <div class="product-header"><h3>Your Review</h3></div>
                                                     <!-- Review rating -->
                                                     <div class="review-stars">
+                                
                                                     {% for i in range(0, 5)  %}
                                                         {% if review['rating'] > i %}
                                                             <span class="fa fa-star checked star"></span>
-                                                        {% else %}
-                                                            <span class="fa fa-star star unchecked"></span>
                                                         {% endif %}
                                                     {% endfor %}
                                                     
