@@ -2,24 +2,15 @@
 .container {
   border: solid;
   border-width: 1px;
+  border-color: rgb(179, 167, 152);
   margin-left: 5em;
   margin-right: 5em;
   margin-top: 5em;
   margin-bottom: 5em;
-  border-color: rgb(179, 167, 152);
 }
 
 
 /* Quiz Selection Containers */
-
-#quizSelectionContainer{
-  border: solid;
-  border-width: 1px;
-  margin-left: 5em;
-  margin-right: 5em;
-  margin-top: 5em;
-  border-color: rgb(179, 167, 152);
-}
 #quizSelectionsDiv{
   margin-left: 5em;
   margin-right: 5em;
@@ -35,6 +26,7 @@
 /* Little Details */
 .account-header {
   margin-left: 1em;
+  margin-right: 1em;
 }
 
 span{
@@ -48,9 +40,8 @@ h4{
   color:black;
 }
 
-/* form container */
-form {
-  display: inline;
+/* Quiz preferences form */
+.quiz-selection-form {
   background-color: rgba(202, 194, 172, 0.173);
   padding-left: 3em;
   padding-right: 3em;
@@ -59,42 +50,6 @@ form {
   border-radius: 1em;
   margin-bottom: 1em;
   margin-top: 1em;
-}
-
-/* Buttons to delete and modify reviews  */
-
-#icons{
-  width: 20px;
-}
-
-button{
-  border: none;
-  background-color: transparent;
-}
-
-button:hover{
-  border: none;
-  background-color: rgba(168, 164, 152, 0.401);
-  border-radius: .4em;
-  height: 2em;
-  width: 2em;
-
-}
-
-#submit_edit_btn{
-  border: solid;
-  border-width: 1px;
-  border-radius: .4em;
-  display: block;
-  margin-top: 1em;
-  border-color: rgba(173, 169, 159, 0.516);
-  color:rgb(128, 119, 111);
-}
-
-#submit_edit_btn:hover{
-  background-color: rgba(206, 199, 178, 0.261);
-  height: 1.5em;
-  width: 5em;
 }
 
 .editBtn{
@@ -112,11 +67,13 @@ button:hover{
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* background-color: blue; */
 }
 
 .review-entry-box {
-  margin: 2em;
+  /* margin: 2em; */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
 hr {
@@ -146,15 +103,11 @@ hr {
 
 .review-entry-box {
   display: flex;
-  width: 100%;
-  /* justify-content: center; */
-
 }
 
 .half-box-1 {
   /* background-color: red; */
-  width: 25%;
-  
+  /* width: 30%; */
   border: solid;
   border-width: 1px;
   border-radius: .4em;
@@ -170,7 +123,7 @@ hr {
   /* background-color: blue; */
   padding-left: 5em;
   padding-right: 5em;
-  width: 64%;
+  /* width: 64%; */
 
   border: solid;
   border-width: 1px;
@@ -179,4 +132,69 @@ hr {
   border-color: rgba(173, 169, 159, 0.516);
   margin: 2em;
   padding: 2em;
+}
+
+/* Make sure images aren't too big in review box */
+.limit-img-size {
+  max-width: 40vh;
+}
+
+
+.cancel-btn-div {
+  display: flex;
+  justify-content: right;
+}
+
+
+
+
+
+/* Account review CSS */
+.new-review {
+    padding: 2em;
+    display: flex;
+}
+
+.review-card {
+    display: flex;
+    justify-content: center;
+}
+
+.review-buttons {
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.submit-btn-container {
+    display: flex;
+    justify-content: center;
+}
+
+.submit-btn {
+    background-color: rgb(246, 246, 246);
+    border-radius: 0.5em;
+    width: 25%;
+    margin-top: 1em;
+}
+
+.button-txt {
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: center;
+}
+
+.review-entry-input{
+    width: 100%;
+    white-space: pre-wrap;
+}
+
+.requried-field-txt {
+  font-size: xx-small;
+  font-weight: lighter;
 }

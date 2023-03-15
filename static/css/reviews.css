@@ -30,15 +30,17 @@ h3 {
 
 /* Write Review Btn Stuff  */
 #writeReviewBtn {
- border-radius: 1em;
- border-width: 1px;
- border-color: rgb(212, 202, 191);
- color:rgb(146, 141, 135);
- height: 2em;
+  background-color: #cfcfcf;
+  border-radius: 0.3em;
+  border-width: 1px;
+  border-color: rgb(212, 202, 191);
+  color:rgb(97, 125, 97);
+  padding: 1em;
 }
 
 #writeReviewBtn:hover {
- background-color: rgba(143, 135, 125, 0.263);
+ background-color: rgba(79, 75, 71, 0.263);
+ color:white;
 }
 
 #addReviewDiv {
@@ -86,4 +88,21 @@ h4 {
 
 .review-img {
   max-width: 20%;
+}
+
+#review-list {
+  margin: 2em;
+}
+
+#review-stats-box {
+  background-color: rgb(245, 245, 245);
+  border-radius: 0.4em;
+  height: auto;
+  margin: 2em;
+  padding: 1em;
+}
+
+.statistic {
+  padding-left: 1em;
+  padding-right: 1em;
 }

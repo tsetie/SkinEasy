@@ -21,10 +21,13 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/static/css/home.css">
     <link rel="stylesheet" href="/static/css/account.css">
+    <link rel="stylesheet" href="/static/css/star.css">
+    <link rel="stylesheet" href="/static/css/buttons.css">
+
 
      <!-- JS -->
-     <script type="text/javascript" async defer src="/static/js/products.js"></script>
-     <script type="text/javascript" async defer src="/static/js/account.js"></script>
+     <script type="text/javascript" defer src="/static/js/products.js"></script>
+     <script type="text/javascript" defer src="/static/js/account.js"></script>
 
 {% endblock %}
 
@@ -35,7 +38,7 @@
         </div>
     
         <!-- Quiz Selection Container  -->
-        <div id="quizSelectionContainer">
+        <div class="container">
             <h2 class="account-header">Your Quiz Selections:</h2>
             <hr>
 
@@ -44,10 +47,10 @@
 
 
                 <div class="quizSelections pure-u-1">
-                    <button onclick="show_skin_type_form()" id="edit_skin_type_btn" class="editBtn"><img id="icons" src="/static/images/UI/editIcon.png" ></button>
+                    <button id="edit_skin_type_btn" class="editBtn"><img class="icons" src="/static/images/UI/editIcon.png" ></button>
                     <h3><span>Skin Type:</span> {{ user_skin_type }}</h3>
                         <!-- Skin type form -->
-                        <form action="/edit_user_preferences" style="display:none" id="skin_type_form" method="POST">
+                        <form action="/edit_user_preferences" style="display:none" id="skin_type_form" class="quiz-selection-form" method="POST">
                             <h4>Modify your skin type: </h4>
                             <!-- Option 1) Normal skin -->
                             <input type="radio" id="normal-skin" name="skin-type" value="normal-skin">
@@ -57,17 +60,17 @@
                             <label class="quiz-btn-label" for="dry-skin">Dry</label><br>
                             <!-- Option 3) Oily skin -->
                             <input type="radio" id="oily-skin" name="skin-type" value="oily-skin">
-                            <label class="quiz-btn-label" for="oily-skin">Oily</label>
-                            <button type="submit" id="submit_edit_btn">Modify</button>
+                            <label class="quiz-btn-label" for="oily-skin">Oily</label><br>
+                            <button type="submit" class="submit_edit_btn">Modify</button>
                         </form> 
                 </div>   
 
 
                 <div class="quizSelections pure-u-1">
-                    <button onclick="show_skin_target_form()"  id="edit_target_btn"><img id="icons" src="/static/images/UI/editIcon.png" ></button>
+                    <button id="edit_target_btn"><img class="icons" src="/static/images/UI/editIcon.png" ></button>
                     <h3><span>Target:</span> {{ user_target }}</h3>
                     <!-- Skin Targeting Form -->
-                    <form action="/edit_user_preferences" style="display:none" id="target_form" method="POST">
+                    <form action="/edit_user_preferences" style="display:none" id="target_form" class="quiz-selection-form" method="POST">
                         <h4>Modify your skin target: </h4>
                         <!-- Option 1) Sensitive -->
                         <input type="radio"id="sensitive-target" name="target-type" value="sensitive-target">
@@ -77,14 +80,14 @@
                         <label class="quiz-btn-label" for="mature-target">Mature</label><br>
                         <!-- Option 3) None -->
                         <input type="radio" id="none-target" name="target-type" value="none-target">
-                        <label class="quiz-btn-label" for="none-target">None</label>
-                        <button type="submit" id="submit_edit_btn">Modify</button>
+                        <label class="quiz-btn-label" for="none-target">None</label><br>
+                        <button type="submit" class="submit_edit_btn">Modify</button>
                     </form>
                 </div>
 
                 
                 <div class="quizSelections pure-u-1">
-                    <button onclick="show_num_of_steps_form()"  id="edit_num_of_steps_btn"><img id="icons" src="/static/images/UI/editIcon.png" ></button>
+                    <button id="edit_num_of_steps_btn"><img class="icons" src="/static/images/UI/editIcon.png" ></button>
                     <h3><span># of Steps:</span> 
                         {% if routine_steps == 2 or routine_steps == 3 %}
                             <span>{{ routine_steps }}</span>
@@ -95,18 +98,18 @@
                         {% endif %}
                     </h3>
                     <!-- Number of Steps Form -->
-                    <form action="/edit_user_preferences" style="display:none" id="num_of_steps_form" method="POST">
-                    <h4>Modify the number of steps in your routine:</h4>
-                    <!-- Option 1) Redness -->
-                    <input type="radio" id="two-steps" name="number-steps" value="2">
-                    <label class="quiz-btn-label" for="two-steps">2 Steps</label><br>
-                    <!-- Option 2) Acne -->
-                    <input type="radio" id="three-steps" name="number-steps" value="3">
-                    <label class="quiz-btn-label" for="three-steps">3 Steps</label><br>
-                    <!-- Option 3) None -->
-                    <input type="radio" id="three-plus-steps" name="number-steps" value="6">
-                    <label class="quiz-btn-label" for="three-plus-steps">4+ Steps</label>
-                        <button type="submit" id="submit_edit_btn">Modify</button>
+                    <form action="/edit_user_preferences" style="display:none" id="num_of_steps_form" class="quiz-selection-form" method="POST">
+                        <h4>Modify the number of steps in your routine:</h4>
+                        <!-- Option 1) Redness -->
+                        <input type="radio" id="two-steps" name="number-steps" value="2">
+                        <label class="quiz-btn-label" for="two-steps">2 Steps</label><br>
+                        <!-- Option 2) Acne -->
+                        <input type="radio" id="three-steps" name="number-steps" value="3">
+                        <label class="quiz-btn-label" for="three-steps">3 Steps</label><br>
+                        <!-- Option 3) None -->
+                        <input type="radio" id="three-plus-steps" name="number-steps" value="6">
+                        <label class="quiz-btn-label" for="three-plus-steps">4+ Steps</label><br>
+                        <button type="submit" class="submit_edit_btn">Modify</button>
                     </form>
                 </div>
 
@@ -118,47 +121,69 @@
 
         <!-- User reviews section -->
         <div class="container">
-            <h2 class="account-header">Your Reviews: {% if review_list %} {{review_list | count}} {% endif %}</h2>
+            <h2 class="account-header">Your Reviews: <span id="user-review-count">{% if review_list %} {{review_list | count}} {% endif %}</span></h2>
             <hr>
                 {% if review_list %}
                     <div id="review-list-container">
-                                <!-- Loop through each review and show review details -->
-                                <!-- Reference to get list length via jinja2: https://stackoverflow.com/questions/14702917/python-jinja2-template-how-to-count-a-list -->
-                                {% for i in range(0, review_list|count) %}
-                                    {% set review = review_list[i][0] %}
-                                    {% set product = product_list[i][0] %}
-                                        
-                                        <!-- User's review -->
-                                        <div class="review-entry-box">
-                                            
-                                            <!-- Product they reviewed -->
-                                            <div class="half-box-1 product-card">
-                                                <div class="product-header"><h3>Product</h3></div>
-                                                    <!-- Product referral link -->
-                                                    <a href="{{ product['product_url'] }}">                                                    
-                                                        <!-- Product image -->
-                                                        <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of product">
-                                                    </a>
+                        <!-- Loop through each review and show review details -->
+                        <!-- Reference to get list length via jinja2: https://stackoverflow.com/questions/14702917/python-jinja2-template-how-to-count-a-list -->
+                        {% for i in range(0, review_list|count) %}
+                            {% set review = review_list[i][0] %}
+                            {% set product = product_list[i][0] %}
+                                
+                                <!-------------------------------------------->
+                                <!-- Review entry: Product & Review Content -->
+                                <!-------------------------------------------->
+                                <div class="pure-g review-entry-box">
 
-                                                    <!-- Product name -->
-                                                    <div class="product-name">
-                                                        <p> {{ product['product_name'] }} </p>
-                                                    </div>
-
-                                                    <!-- Product price & review information -->
-                                                    <!-- Reference to format price in jinja2: https://documentation.bloomreach.com/engagement/docs/useful-jinja-snippets#:~:text=Display%20price%20with%202%20decimal%20places%20If%20your,%7B%20%22%250.2f%22%20%7C%20format%20%28item.price%20%7C%20float%29%20%7D%7D-->
-                                                    <div class="product-reviews-selector">
-                                                        <p> ${{  "%0.2f" | format(product['price'] | float) }} <a href="/reviews?product_id={{product['product_id']}}"> Reviews </a> </p>
-                                                    </div>
+                                    <!-------------------->
+                                    <!-- Review Product -->
+                                    <!-------------------->
+                                    <div class="pure-u-md-1-3 half-box-1 product-card">
+                                        <div class="product-header"><h3>Product</h3></div>
+                                            <!-- Product referral link -->
+                                            <a href="{{ product['product_url'] }}">                                                    
+                                                <!-- Product image -->
+                                                <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of product">
+                                            </a>
+                                            <!-- Product name -->
+                                            <div class="product-name">
+                                                <p> {{ product['product_name'] }} </p>
+                                            </div>
+                                            <!-- Product price & review information -->
+                                            <!-- Reference to format price in jinja2: https://documentation.bloomreach.com/engagement/docs/useful-jinja-snippets#:~:text=Display%20price%20with%202%20decimal%20places%20If%20your,%7B%20%22%250.2f%22%20%7C%20format%20%28item.price%20%7C%20float%29%20%7D%7D-->
+                                            <div class="product-reviews-selector">
+                                                <p> ${{  "%0.2f" | format(product['price'] | float) }} <a href="/reviews?product_id={{product['product_id']}}"> Reviews </a> </p>
                                             </div>
 
+                                            <!-- Product ID (hidden) -->
+                                        <div class="product-id" style="display: none;">
+                                            {{ product['product_id'] }}
+                                        </div>
+                                    </div>
 
-                                            <br>
 
-                                            <div class="half-box-2 review-card">
-                                                <!-- Review header -->
-                                                <div class="product-header"><h3>Your Review</h3></div>
+                                    <!-------------------->
+                                    <!-- Review Content -->
+                                    <!-------------------->
+                                    <div class="pure-u-md-2-3 half-box-2 review-card">
+                                        <!--------->
+                                        <!-- IDs -->
+                                        <!--------->
+                                        <!-- Hidden review ID -->
+                                        <div class="review-id" style="display: none;">{{ review['review_id'] }}</div>
+                                        <!-- Hidden product ID -->
+                                        <div class="product-id" style="display: none;">{{ product['product_id'] }}</div>
+
+                                        <!------------------------->
+                                        <!-- Existing review box -->
+                                        <!------------------------->
+                                        <div class="pure-u-md-7-8 review-main">
+                                            <div class="old-review">
+                                                    <!-- Review header -->
+                                                    <div class="product-header"><h3>Your Review</h3></div>
                                                     <!-- Review rating -->
+                                                    <div class="review-stars">
                                                     {% for i in range(0, 5)  %}
                                                         {% if review['rating'] > i %}
                                                             <span class="fa fa-star checked star"></span>
@@ -166,41 +191,92 @@
                                                             <span class="fa fa-star star unchecked"></span>
                                                         {% endif %}
                                                     {% endfor %}
+                                                    
+                                                    </div>
                                                     <!-- Review title -->
-                                                    <h4 id="content_title">
-                                                        {{ review['title'] }}
-                                                        <button class="edit-review-btn"><img id="icons" src="/static/images/UI/editIcon.png" ></button>
-                                                        <button class="remove-review-btn"><img id="icons" src="/static/images/UI/deleteIcon.png" ></button>
-                                                    </h4>
-                                                    <!-- Review date -->
-                                                    <h4>{{ review['to_char'] }}</h4>
+                                                    <div class="title">
+                                                        <h4>{{ review['title'] }}</h4>
+                                                    </div>
                                                     <!-- Review image -->
-                                                    {% if review['img_stream'] != None %}
-                                                        <div class="review-img">
-                                                            <img class="pure-img-responsive" src="/images/{{ review['review_id'] }}" alt="image of a product">
-                                                        </div>
+                                                    <div class="review-img">
+                                                    {% if review['img_filename'] != "" %}
+                                                            <img class="limit-img-size pure-img-responsive" src="/images/{{ review['review_id'] }}" alt="review image">
                                                     {% endif %}
+                                                    </div>
                                                     <!-- Review content -->
                                                     <div class="review-content">
-                                                        <p>
-                                                        {{ review['content'] }}
-                                                        </p>
-                                                    </div>
-
-                                                    <div class="review-id" style="display: none;">
-                                                        {{ review['review_id'] }}
+                                                        <p> {{ review['content'] }} </p>
                                                     </div>
                                             </div>
 
+                                            
+                                            <!--------------------->
+                                            <!-- Edit review box -->
+                                            <!--------------------->
+                                            <div class="new-review" style="display: none;" >
+                                                <form id="review-form" class="pure-form pure-form-stacked" action="/add_review" method="POST" enctype="multipart/form-data">
+                                                    <!-- Review header -->
+                                                    <div class="product-header"> <h3>Your Review</h3> </div>
+                                                    <!-- Review stars -->
+                                                    <div class="review-stars">
+                                                        <h4>Rating</h4>
+                                                        <span class="required-field-txt">(Required field)</span>
+                                                        <div class="rating">
+                                                            <input type="radio" name="rating" value="5" id="5" required><label for="5"><span class="fa fa-star unchecked star"></span></label>
+                                                            <input type="radio" name="rating" value="4" id="4"><label for="4"><span class="fa fa-star unchecked star"></span></label>
+                                                            <input type="radio" name="rating" value="3" id="3"><label for="3"><span class="fa fa-star unchecked star"></span></label>
+                                                            <input type="radio" name="rating" value="2" id="2"><label for="2"><span class="fa fa-star unchecked star"></span></label>
+                                                            <input type="radio" name="rating" value="1" id="1"><label for="1"><span class="fa fa-star unchecked star"></span></label>
+                                                        </div> 
+                                                        
+                                                    </div>
+                                                    <!-- Review title -->
+                                                    <div class="title">
+                                                        <label class="review-entry-label" for="review-title"><h4>Review Title</h4></label>
+                                                        <input class="review-entry-input" type="text" id="review-title" name="review-title" placeholder="Would you like to title your review?" maxlength="255" value="{{ review['title'] }}">
+                                                    </div>
+                                                    <!-- Review image -->
+                                                    <div class="review-img">
+                                                        <label for="review-media">Add a photo:</label>
+                                                        <input class="review-entry-input" type="file" name="review-media" accept="image/*">
+                                                    </div>
+                                                    <!-- Review content -->
+                                                    <div class="review-content">
+                                                        <label class="review-entry-label" for="review-content">Written review:</label>
+                                                        <textarea class="review-entry-input" id="review-content" name="review-content" rows="3" cols="75" placeholder="How was this product for you?">{{ review['content'] }}</textarea>
+                                                    </div>
+                                                    <!-- Send product ID -->
+                                                    <div class="empty_product_id_container" style="display: none;"></div>
+                                                    <!-- Submit button --->
+                                                    <div class="submit-btn-container">
+                                                        <button type="submit" class="submit-btn"><b>Submit</b></button>
+                                                    </div>
+                                                </form>
+                                            </div>
                                         </div>
 
-                                        <hr>
-                              
-                                    
-                                {% endfor %}
+                                        <!------------------------->
+                                        <!-- Edit/Remove Buttons -->
+                                        <!------------------------->
+                                        <div class="pure-g-u-md-1-8 review-buttons">
+                                            <div class="btn-container"> 
+                                                <span class="button-txt remove-txt">Delete</span>
+                                                <button type="button" class="remove-review-btn"><img class="pure-img-responsive icons" src="/static/images/UI/deleteIcon.png" ></img></button>
+                                            </div>
+                                            <div class="btn-container">
+                                                <span class="button-txt edit-txt">Edit</span>
+                                                <button type="button" class="review-btn edit-review-btn"><img class="pure-img-responsive icons" src="/static/images/UI/editIcon.png" ></img></button>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                        {% endfor %}
                         
                     </div>
-
+                
+                <!-- No reviews message -->
                 {% else %}
                     <div id="no-reviews-msg">
                         <h3>You have written no reviews at this time.</h3>
@@ -209,5 +285,13 @@
                 
         </div>
     </div>
+
+
+
+
+
+
+
+
 
 {% endblock %}
