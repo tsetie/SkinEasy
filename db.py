@@ -743,7 +743,61 @@ def add_review(reviewer_name, user_id, product_id, title, content, rating, img_f
         if (reviewer_name is None or user_id is None or product_id is None or rating is None):
             current_app.logger.info("Error: add_review - Function Input(s) invalid.")
             return
+        
+        
+        # --- Increment number of reviews ---
+        # Don't increment number of reviews if the user has already made a review for this product
+        user_review_does_not_exist = False
+        get_review_exists_sql = '''
+            SELECT user_id, product_id
+            FROM skineasy_reviews
+            WHERE user_id = %s AND product_id = %s
+        '''
+        cur.execute(get_review_exists_sql, (user_id, product_id))
+        # Check if user review exists based on this query's results
+        user_review = cur.fetchone()
+        if (user_review is None):
+            user_review_does_not_exist = True
 
+
+        # Increment number of reviews if user does not have a review for this product yet
+        if (user_review_does_not_exist):
+
+            # --- Number of reviews ---
+            # Get current number of reviews from product
+            product_details = get_product_details_from_id(product_id)
+            num_reviews = product_details[0][0]['num_reviews']
+            # Set & increment number of product reviews
+            if (num_reviews is None or num_reviews <= 0):
+                num_reviews = 0
+            num_reviews += 1
+            # Update number of reviews
+            update_num_reviews_sql = '''
+                UPDATE skineasy_skincare_products
+                SET num_reviews = %s
+                WHERE product_id = %s;
+            '''
+            cur.execute(update_num_reviews_sql, (num_reviews, product_id))
+            
+            # # --- Rating ---
+            # # Also, update average rating column
+            # avg_rating = product_details[0][0]['average_rating']
+            # # Set & increment number of product reviews
+            # if (avg_rating is None or avg_rating <= 0):
+            #     new_avg = rating
+            # else:
+            #     # Formula: new_avg = old_avg + ((new rating - old_avg) / num_vals)
+            #     new_avg = avg_rating + ((rating - avg_rating) / (num_reviews))  # number of reviews already incremented from before
+            # # Update number of reviews
+            # update_avg_rating_sql = '''
+            #     UPDATE skineasy_skincare_products
+            #     SET average_rating = %s
+            #     WHERE product_id = %s;
+            # '''
+            # cur.execute(update_avg_rating_sql, (new_avg, product_id))
+        
+
+        # --- Insert review data to table ----
         # Build SQL statement for inserting new review
         insert_sql = '''
             INSERT INTO skineasy_reviews (
@@ -763,13 +817,12 @@ def add_review(reviewer_name, user_id, product_id, title, content, rating, img_f
                 rating = %s,
                 img_filename = %s,
                 img_stream = %s
-            WHERE skineasy_reviews.user_id = %s AND skineasy_reviews.product_id = %s;
+            WHERE skineasy_reviews.user_id = %s AND skineasy_reviews.product_id = %s; 
             '''
-
         # Execute sql statement with default data
         cur.execute(insert_sql, (reviewer_name, user_id, product_id, title, content, rating, img_filename, img_stream, title, content, rating, img_filename, img_stream, user_id, product_id))
-        current_app.logger.info('Attempted to add entry to skincare reviews table')
 
+        current_app.logger.info('Attempted to add entry to skincare reviews table')
         return
 
 
@@ -833,6 +886,7 @@ def get_all_reviews_by_user(user_id):
             SELECT row_to_json(skineasy_reviews)
             FROM skineasy_reviews 
             WHERE user_id = %s
+            ORDER BY review_id ASC
             '''
         # # Execute sql statement with default data
         cur.execute(sql, (user_id,))
@@ -850,15 +904,54 @@ def get_all_user_review_products_by_user(user_id):
             SELECT row_to_json(skineasy_skincare_products)
             FROM skineasy_skincare_products
             INNER JOIN skineasy_reviews ON skineasy_reviews.product_id = skineasy_skincare_products.product_id
-            WHERE skineasy_reviews.user_id = %s;
+            WHERE skineasy_reviews.user_id = %s
         ''' % (user_id)
         
-        cur.execute(sql)
+        print(cur.execute(sql))
 
         return cur.fetchall()
 
 
+# ******************************
+# Function to delete review
+# ******************************
+def delete_review(review_id):
+    with get_db_cursor(True) as cur:
 
+        # --- Decrement number of reviews for product associated with the review ID ---
+        # Get product ID from review ID
+        product_id_sql = '''
+            SELECT product_id 
+            FROM skineasy_reviews
+            WHERE review_id = %s;
+        '''
+        cur.execute(product_id_sql, (review_id,))
+        product_id = cur.fetchone()[0]
+        print('product id:', product_id)
+        # Get current number of reviews for that product
+        num_reviews_sql = '''
+            SELECT num_reviews
+            FROM skineasy_skincare_products
+            WHERE product_id = %s;
+        '''
+        cur.execute(num_reviews_sql, (product_id,))
+        num_reviews = cur.fetchone()[0] - 1
+
+        # Update product table
+        update_product_sql = '''
+            UPDATE skineasy_skincare_products
+            SET num_reviews = %s
+            WHERE product_id = %s
+        '''
+        cur.execute(update_product_sql, (num_reviews, product_id))      
+
+        # Build SQL statement to remove the review based on the input ID
+        sql = '''
+            DELETE FROM skineasy_reviews
+            WHERE review_id = %s
+        '''
+        cur.execute(sql, (review_id,))
+        return
 
 
 # ***********************************************************
@@ -879,7 +972,7 @@ def read_image_from_id(review_id):
         return send_file(stream, download_name=image_row["img_filename"], mimetype='image/png')
     
     
-
+# DELETE LATER 
 def remove_from_products_table(product_id):
     with get_db_cursor(True) as cur:
 
@@ -890,6 +983,9 @@ def remove_from_products_table(product_id):
             '''
         # Execute sql insertion
         cur.execute(sql, (product_id,))
+
+
+
 
 
 # ***********************************************************
@@ -928,20 +1024,3 @@ def get_table_item_from_id(table, id_type, id_value):
 #         sql = '''
 
 #         '''
-
-# ********************************************************
-#  Function to get all products that have multiple categories 
-# ********************************************************
-def get_all_user_review_products_by_user():
-    with get_db_cursor(True) as cur: 
-
-        # Build SQL statement to get all a user's review products with user ID
-        sql = '''
-            SELECT row_to_json(skineasy_skincare_products)
-            FROM skineasy_skincare_products
-            WHERE (cleanser = true AND exfoliant = true) OR ;
-        '''
-        
-        cur.execute(sql)
-
-        return cur.fetchall()

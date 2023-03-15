@@ -5,6 +5,11 @@
 const make_review_button = document.getElementById('writeReviewBtn');
 make_review_button.addEventListener('click', show_review_form);
 
+// Add click event for add review form cancel button
+const cancel_review_button = document.getElementById('cancel-btn');
+cancel_review_button.addEventListener('click', show_review_form);
+
+
 const add_form_container = document.getElementById('add-review-form-container');
 function show_review_form() {
   // If hidden, show add form

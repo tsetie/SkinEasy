@@ -1,0 +1,17 @@
+/* Buttons to delete and modify reviews  */
+.icons {
+    width: 20px;
+  }
+
+button {
+    border: none;
+    background-color: transparent;
+    padding: 0.5em;
+    margin: 0.2em;
+}
+
+button:hover {
+    border: none;
+    background-color: rgba(168, 164, 152, 0.401);
+    border-radius: 0.5em;
+}

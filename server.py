@@ -1,4 +1,3 @@
-# app.py
 # CSCI5117 Project 1
 # yang7182 
 
@@ -454,7 +453,11 @@ def add_to_routine():
 
   # Add to users' routine/wishlist (NOTE: Arguments stored in request.json)
   if (('username' in request.json) and ('productName' in request.json)):
-    db.add_to_routine(request.json)
+    try:
+      db.add_to_routine(request.json)
+    except: 
+      print('Error at route "/add_to_routine". Failed to add routine.')
+      return redirect('/products')
 
   return request.json
 
@@ -531,6 +534,7 @@ def add_review():
   # --- Review variables ---
   user_id     = None
   product_id  = None
+  title       = None
   content     = None
   rating      = None
 
@@ -568,13 +572,36 @@ def add_review():
     db.add_review(username, user_id, product_id, title, content, rating, img_filename, img_stream)
   except:
     print('Error at route "/add_review". DB function to add review failed.')
+    return redirect('/')
 
   try:  # Render back to product review page user was previously on
-    return redirect('/reviews?product_id=' + product_id )
+    return redirect('/reviews?product_id=' + product_id)
   except TemplateNotFound:
     abort(404)
 
 
+# *****************************************************
+# Function to remove a user review given a review ID
+# *****************************************************
+@app.route('/delete_review', methods=["POST"])
+def delete_review():
+  # Ensure only logged in users can delete their reviews
+  if (session is None):
+    print('Error at route "/delete_review". Session object empty.')
+    return redirect('/')
+  # Check for username
+  user_details = session
+  if ('nickname' not in user_details):
+    print('Error at route "/delete_review". User not logged in.')
+    return redirect('/')
+
+  try:  # Get review ID and send it to db function that will remove review from DB
+    if ('review_id' in request.json):
+      db.delete_review(request.json['review_id'])
+  except: 
+    print('Error at route "/delete_review". Failed to remove review.')
+
+  return redirect('/account')
 
 
 ######################################
@@ -588,7 +615,7 @@ def account():
     return redirect("/") 
 
   user_details = session  # Get users details from session object
-  
+    
   # Ensure username exists
   # * Reference to check if a key exists within a python dict: https://www.geeksforgeeks.org/python-check-whether-given-key-already-exists-in-a-dictionary/
   if ('nickname' not in user_details):
@@ -605,19 +632,23 @@ def account():
   skin_target   = quiz_selections_list[0][1]
   num_of_steps  = quiz_selections_list[0][2]
   
+  # Get user review list
+  review_list = db.get_all_reviews_by_user(user_id)
+
+  # Get user review products
+  # user_reviewed_products = db.
+  product_list = db.get_all_user_review_products_by_user(user_id)
+
   # Render account page
   try:
-    return render_template('account.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4),user_target=skin_target, user_skin_type=skin_type, routine_steps=num_of_steps)
+    return render_template('account.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4), user_target=skin_target, user_skin_type=skin_type, routine_steps=num_of_steps, review_list=review_list, product_list=product_list)
   except TemplateNotFound:
     abort(404)
 
 
-####################################
-# Account related - Editing Quiz Selection Routes
-####################################
-# ***************************************************************************************************
-# Edit user preferences route
-# ***************************************************************************************************
+# *************************************************
+# Editing User Preferences / Quiz Selection Routes
+# *************************************************
 @app.route('/edit_user_preferences', methods=['POST'])
 def edit_user_preferences():
 
@@ -625,7 +656,7 @@ def edit_user_preferences():
   user_details = session
   if ('nickname' not in user_details):
     print('Error at "/edit_user_preferences": User not logged in.')
-    return
+    return redirect('/')
   
   # Initialize values to pass into db function responsible for modifying user preferences
   preference_type     = None
@@ -651,6 +682,7 @@ def edit_user_preferences():
     db.edit_user_preferences(user_details, preference_type, preference_value)
   except:
     print('Error at: "/edit_user_preferences" route. DB function failed.')
+    return redirect('/')
 
   try:  # Redirect back to account page with new preferences
     return redirect('/account')
@@ -773,29 +805,6 @@ def quiz_results():
     db.edit_user_preferences(user_details, 'routine_steps', routine_value)
 
   return render_template('products.html', cleanser_list=cleanser_list, exfoliant_list=exfoliant_list, toner_list=toner_list, serum_list=serum_list, moisturizer_list=moisturizer_list, sunscreen_list=sunscreen_list, query_dict=query_dict ,session=session.get('user'), took_quiz=True)
-
-  
-#########################################################
-# TEST routes
-#########################################################
-
-# *********************************
-# Base page
-# *********************************
-@app.route('/base', methods=["GET"])
-def base():
-  return render_template('base.html')
-
-
-# *********************************
-# Child page (For testing)
-# *********************************
-@app.route('/child', methods=["GET"])
-def child():
-  return render_template('child.html')
-
-
-
 
 
 
@@ -983,6 +992,9 @@ def callback():
       # Email
       if ('email' in token['userinfo']):
         session['email'] = token['userinfo']['email']
+      else: # ensure login through github works
+        session['email'] = token['userinfo']['nickname']
+      
       # Picture
       if ('picture' in token['userinfo']):
         session['picture'] = token['userinfo']['picture']
@@ -1014,23 +1026,14 @@ def logout():
             quote_via=quote_plus,
         )
     )
-# *********************************
-# deletes a product from the db
-# *********************************
-@app.route('/delete', methods=["GET"])
-def delete():
-  return render_template('delete_products.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4))
- 
 
-# *********************************
-# deletes a product from the db
-# *********************************
-@app.route('/deleteproducts', methods=["GET"])
+@app.route('/delete', methods=["GET"])
 def delete_product():
-  if (request.args.get('product_id') != None):
-    db.remove_from_products_table(request.args['product_id'])
-  # Call database function to get skincare product
-  return redirect("/delete")
+
+  # Call database function to get skincare products
+  db.remove_from_products_table('2')
+  
+  return "Deleted"
 
 
 # *********************************

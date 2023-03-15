@@ -13,26 +13,112 @@
  
     <!-- Pure CSS -->
     <link rel="stylesheet" href="https://purecss.io/layouts/side-menu/styles.css">
-
-    <!-- javascipt -->
     <script src="https://purecss.io/js/ui.js"></script>
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/static/css/home.css">
+    <link rel="stylesheet" href="/static/css/quiz.css">
     <link rel="stylesheet" href="/static/css/reviews.css">
     <link rel="stylesheet" href="/static/css/review_form.css">
+    <link rel="stylesheet" href="/static/css/star.css">
+    <link rel="stylesheet" href="/static/css/buttons.css">
 
     <!-- External CSS libraries -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
-     <!-- JS -->
-     <script type="text/javascript" async defer src="/static/js/reviews.js"></script>
-     <script type="text/javascript" async defer src="/static/js/account.js"></script>
+    <!-- JS -->
+    <script type="text/javascript" defer src="/static/js/reviews.js"></script>
+    <script type="text/javascript" defer src="/static/js/account.js"></script>
+    <script type="text/javascript" defer src="/static/js/quiz.js"></script>
+
 
 {% endblock %}
 {% block content %}
 
+    <!-- Write review form -->
+    <div id="add-review-form-container" style="display: none;">
+            <!-- Review form box -->
+            <div id="main-container">
+                <!-- Review title box -->
+                <div id="header-container">
+                    <div class="header-title">
+                        <!-- Add review header -->
+                        <h2>Write a review:</h2>
+                    </div>
+                    <!-- Close form popup button -->
+                    <div class="" id="close-form-div">
+                        <div><button type="button" id="cancel-btn" class="close-btn"><img class="pure-img-responsive icons" src="/static/images/UI/deleteIcon.png" ></img></button></div>
+                    </div>
+                </div>
+                <hr>
+                <!-- Form -->
+                <form id="review-form" class="pure-form pure-form-stacked" action="/add_review" method="POST" enctype="multipart/form-data">
+                    <!------------->
+                    <!-- Rating --->
+                    <!------------->
+                    <!-- Reference: https://foolishdeveloper.com/5-star-rating-using-html-and-css-code-demo/#:~:text=The%20five%2Dstar%20rating%20HTML,give%20reviews%20about%20that%20product. -->
+                    <div id="review-title-container" class="review-form-entry"> 
+                        <label class="review-entry-label" for="review-title">Overall Rating</label><p class="required-field-txt">(Required field)</p>
+                        <div class="rating">
+                            <input type="radio" name="rating" value="5" id="5" required><label for="5"><span class="fa fa-star unchecked star"></span></label>
+                            <input type="radio" name="rating" value="4" id="4"><label for="4"><span class="fa fa-star unchecked star"></span></label>
+                            <input type="radio" name="rating" value="3" id="3"><label for="3"><span class="fa fa-star unchecked star"></span></label>
+                            <input type="radio" name="rating" value="2" id="2"><label for="2"><span class="fa fa-star unchecked star"></span></label>
+                            <input type="radio" name="rating" value="1" id="1"><label for="1"><span class="fa fa-star unchecked star"></span></label>
+                        </div>
+                    </div>
+
+                    <!-------------->
+                    <!--- Title ---->
+                    <!-------------->
+                    <div id="review-title-container" class="review-form-entry">
+                        <label class="review-entry-label" for="review-title">Review Title</label>
+                        <input class="review-entry-input" type="text" id="review-title" name="review-title" placeholder="Would you like to title your review?" maxlength="255">
+                    </div>
+
+                    <hr> <!-- Horizontal line-->
+
+                    <!-------------->
+                    <!--- Media ---->
+                    <!-------------->
+                    <!-- Reference to validate front-end file is image: https://stackoverflow.com/questions/3828554/how-to-allow-input-type-file-to-accept-only-image-files -->
+                    <div id="review-media" class="review-form-entry">
+                        <label for="review-media"><h4>Add a photo:</h4></label>
+                        <input class="review-entry-input" type="file" name="review-media" accept="image/*">
+                    </div>
+                    
+                    <hr> <!-- Horizontal line-->
+
+                    <!----------------------->
+                    <!--- Written review ---->
+                    <!----------------------->
+                    <div id="written-review-container" class="review-form-entry">
+                        <label class="review-entry-label" for="review-content"><h4>Written review:</h4></label>
+                        <textarea class="review-entry-input" id="review-content" name="review-content" rows="7" cols="75" placeholder="How was this product for you?"></textarea>
+                    </div>
+                    
+                    <hr> <!-- Horizontal line-->
+
+                    <!-- Make sure was pass in product ID as well -->
+                    {% if product_details and 'product_id' in product_details %}
+                        <div id="product-id-cotnainer" style="display: none">
+                            <input type="text" name="product-id" value={{ product_details['product_id'] }}>
+                        </div>
+                    {% endif %}
+
+                    <!-------------------->
+                    <!-- Submit button --->
+                    <!-------------------->
+                    <div id="submit-btn-container">
+                        <button type="submit" id="submit-btn"><b>Submit</b></button>
+                    </div>
+                </form>
+            </div>
+    </div>
+
+
+    <!-- Review list and other info -->
     <div id="main">
         <!-- Product displayed at top -->
         <div class="header">
@@ -43,32 +129,46 @@
             </div>
             <!-- Reference to format price in jinja2: https://documentation.bloomreach.com/engagement/docs/useful-jinja-snippets#:~:text=Display%20price%20with%202%20decimal%20places%20If%20your,%7B%20%22%250.2f%22%20%7C%20format%20%28item.price%20%7C%20float%29%20%7D%7D-->
             <div class="product-reviews-container">
-                <p> ${{  "%0.2f" | format(product_details['price'] | float) }} </p>
+                <p>Price: ${{  "%0.2f" | format(product_details['price'] | float) }} </p>
             </div>
             
         </div>
     <div>
-    <!-- Only let user write a review if logged in  -->
-    {% if session %}
-        <!-- Container for make review button -->
-        <div id="addReviewDiv">
-            <button id="writeReviewBtn" >Write a review</button>
-        </div>
 
-        <!-- Write review form -->
-        <div id="add-review-form-container">
-            {% include "add_review.html" %}
-        </div>
-    {% endif %}
-
-    {% if review_list %}
+        <!-- Pure grid separation -->
         <div class='pure-g'>
+            
+            <!-- 1) Aggregaed product results summary -->
+            <div id="review-summary" class="pure-u-md-1-4">
+            
+                <div id="review-stats-box">
+                    <h3>Review stats:</h3>
+                    <div>
+                        <p class="statistic">Total Ratings: {{ product_details['num_reviews'] }}</p>
+                    </div>
+
+
+                </div>
+
+                <!-- Only let user write a review if logged in  -->
+                {% if session %}
+                    <!-- Add review button -->
+                    <div id="addReviewDiv">
+                        <button id="writeReviewBtn" class="pure-button">Write a review</button>
+                    </div>
+                {% endif %}
+                
+            </div>
+
+            {% if review_list %}
+            <!-- 2) List of reviews in center -->
+            <div id="review-list" class="pure-u-md-1-2"> 
+                
                 <!-- Loop through each review from the database function and display -->
                 <!-- Reference to get list length via jinja2: https://stackoverflow.com/questions/14702917/python-jinja2-template-how-to-count-a-list -->
                 {% for i in range(0, review_list|count) %}
-                    <!-- NOTE: Each review is stored in a size '1' list for some reason, so just remove the list part by indexing first element -->
                     {% set review = review_list[i][0] %}
-                    <div class='pure-u-1' id="review_container">
+                    <div class='pure-u-md-1' id="review_container">
                         <div class="boxheader">
                             <h3>{{ review['reviewer_name'] }}</h3>
                             <br>
@@ -101,19 +201,25 @@
                                 {{ review['content'] }}
                                 </p>
                             </div>
+                        </div>
                     </div>
-                    <hr>
+                    <hr>  <!-- Horizontal line -->
                 {% endfor %}
-            </div>
-            <div pure-u-1>
 
             </div>
+
+
+            <!-- 3) Empty whitespace -->
+            <!-- <div id="empty" class="pure-u-1 pure-u-md-1-5"> ... </div> -->
+
+                
+
         </div>
     {% endif %}
 
     <!-- Only show this meesage if theres no reviews for the product yet  -->
     {% if review_list == false %}
-    <h2 id="no_review_msg"> No reviews yet.</h2>
+        <h2 id="no_review_msg"> No reviews yet.</h2>
     {% endif %}
 
 {% endblock %}

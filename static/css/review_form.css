@@ -1,48 +1,60 @@
 /* review_form.css */
 
-.review-header {
-    font-size: larger;
-    padding: 2%;
+/* Top header of review form */
+#header-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1em;
 }
 
-#add-review-form-container {
-    /* display: none; */
-    background-color: rgb(34, 34, 34);
+/* Box that has cancel add review button */
+#close-form-div {
+    display: flex;
+    justify-content: right;
+}
+
+/* Review form for review page */
+#main-container {
+    position: fixed;
+    margin-top: 3%;
+    margin-left: 7.5%;
+    height: auto;
+    width: 85%;
+    border: 2px solid #c0c0c0;
+    border-radius: 0.3em;
+    z-index: 1;
+    background-color: rgb(252, 252, 252);
+    font-size: 0.85em;
 }
 
 
-#add-review-form-container {
-    margin: 2%;
-    padding: 2%;
-
+/* Each for review table column */
+.review-form-entry {
+    margin: 1em;
 }
 
-.add-review-form-entry {
-    background-color: rgba(76, 64, 76, 0);
-    margin: 2%;
-    padding: 1%;
+/* Each input tag for add review form */
+.review-form-input {
+    width: 100%;
 }
 
 
-
-.review-entry-input {
-    margin-top: 1%;
-    margin-bottom: 1%;
+.requried-field-txt {
+    margin: 0.5em;
+    padding: 1em;
+    font-size: xx-small;
+    font-weight: lighter;
 }
 
-/* Submit button */
-#review-form .submit-btn {
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    margin: 2%;
+
+/* Submit buttons */
+#submit-btn-container {
+    display: flex;
+    justify-content: center;
+    margin: 0.25em;
 }
 
-/* Reference: https://stackoverflow.com/questions/4151743/how-can-i-change-the-thickness-of-my-hr-tag */
-hr {
-    border: none;
-    height: 2px;
-    /* Set the hr color */
-    color: #333; /* old IE */
-    background-color: #333; /* Modern Browsers */
+#submit-btn {
+    background-color: rgb(220, 220, 220);
 }
