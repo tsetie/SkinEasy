@@ -13,7 +13,6 @@ CSCI 5117, Spring 2023, [assignment description](https://canvas.umn.edu/courses/
 * Tenzin Tseten, tsete003@umn.edu
 * Joshua Yang, yang7182@umn.edu
 * Ishika Nimmagadda, nimma013@umn.edu
-* Rijul Mahajan, mahaj068@umn.edu 
 
 
 ## Key Features
