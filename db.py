@@ -879,7 +879,7 @@ def read_image_from_id(review_id):
         return send_file(stream, download_name=image_row["img_filename"], mimetype='image/png')
     
     
-    
+
 def remove_from_products_table(product_id):
     with get_db_cursor(True) as cur:
 
@@ -929,3 +929,19 @@ def get_table_item_from_id(table, id_type, id_value):
 
 #         '''
 
+# ********************************************************
+#  Function to get all products that have multiple categories 
+# ********************************************************
+def get_all_user_review_products_by_user():
+    with get_db_cursor(True) as cur: 
+
+        # Build SQL statement to get all a user's review products with user ID
+        sql = '''
+            SELECT row_to_json(skineasy_skincare_products)
+            FROM skineasy_skincare_products
+            WHERE (cleanser = true AND exfoliant = true) OR ;
+        '''
+        
+        cur.execute(sql)
+
+        return cur.fetchall()

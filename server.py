@@ -1018,12 +1018,19 @@ def logout():
 # deletes a product from the db
 # *********************************
 @app.route('/delete', methods=["GET"])
+def delete():
+  return render_template('delete_products.html', session=session.get('user'), userDetails=json.dumps(session.get('user'), indent=4))
+ 
+
+# *********************************
+# deletes a product from the db
+# *********************************
+@app.route('/deleteproducts', methods=["GET"])
 def delete_product():
-
-  # Call database function to get skincare products
-  db.remove_from_products_table('72')
-
-  return "Deleted"
+  if (request.args.get('product_id') != None):
+    db.remove_from_products_table(request.args['product_id'])
+  # Call database function to get skincare product
+  return redirect("/delete")
 
 
 # *********************************
