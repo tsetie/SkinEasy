@@ -29,7 +29,7 @@ CSCI 5117, Spring 2023, [assignment description](https://canvas.umn.edu/courses/
 
 **Is there anything special we need to know in order to effectively test your app? (optional):**
 
-* N/A 
+*When submitting the quiz form and you are redirected to the prodcuts page, if an internal server error pops up, refresh the page and the products page should work normally again. This occurs because we are loading so many products at once :( 
 
 
 
