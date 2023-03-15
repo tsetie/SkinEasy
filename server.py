@@ -251,6 +251,12 @@ def search_bar_filtering():
 # *******************************************************
 @app.route('/products/recommended', methods=["GET"])
 def personal_filter():
+  
+  # Check if user logged in
+  if (session is None or ('nickname' not in session)):
+    print('Error at route "/products/recommend".')
+    return redirect("/") 
+
 
   username = session['nickname']
   user_id = db.get_user_id_from_username(username)
@@ -376,6 +382,10 @@ def routine():
   # * Only have routine features for logged in users
   # * Get the users details from session object
   # ************************************************
+  if (session is None):
+    print('Error at route "/routine". Session is null.')
+    return redirect("/") 
+    
   user_details = session
 
   # Initialize user's routine products (for non-logged in users)
@@ -510,12 +520,12 @@ def add_review():
   user_details = session
   if ('nickname' not in user_details):
     print('Error at route "/add_review". User not logged in.')
-    return
+    return redirect("/") 
 
   # Check for required user rating
   if ('rating' not in request.form):
     print('Error at route "/add_review". Rating not provided.')
-    return
+    return redirect("/") 
 
   # Initialize passable review data to send to HTML and replace with any form data after
   # --- Review variables ---
@@ -573,13 +583,17 @@ def add_review():
 @app.route('/account', methods=["GET"])
 def account():
   
+  if (session is None):
+    print("User needs to be logged in to access account page.")
+    return redirect("/") 
+
   user_details = session  # Get users details from session object
   
   # Ensure username exists
   # * Reference to check if a key exists within a python dict: https://www.geeksforgeeks.org/python-check-whether-given-key-already-exists-in-a-dictionary/
   if ('nickname' not in user_details):
     print('Error at "/account" route. No suitable username provided.')
-    return
+    return redirect("/") 
 
   # Get user_ids from users table to add to the review table 
   username = user_details['nickname']  # Get username
