@@ -45,7 +45,11 @@ CSCI 5117, Spring 2023, [assignment description](https://canvas.umn.edu/courses/
 
 <img width="1415" alt="Screen Shot 2023-03-15 at 10 30 21 AM" src="https://user-images.githubusercontent.com/123126476/225362284-c833d839-47ae-441f-a0f4-66817f3497bd.png">
 
-**This is the routine page where users can add and delete products to their routine. **
+**This is the routine page where users can add and delete products to their routine. If a user clisk reviews they will be a popup to submit a review. **
+
+<img width="933" alt="Screen Shot 2023-03-15 at 12 24 19 PM" src="https://user-images.githubusercontent.com/123126476/225391144-4113872f-7f3b-474f-878d-7e9e31cb1814.png">
+ 
+** This is the pop-up which allows a user to write a review for each product. 
 
 <img width="991" alt="Screen Shot 2023-03-15 at 10 48 02 AM" src="https://user-images.githubusercontent.com/123126476/225364930-618ffda8-76b9-4a50-8372-7c139899a722.png">
 
