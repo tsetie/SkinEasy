@@ -41,7 +41,7 @@ CSCI 5117, Spring 2023, [assignment description](https://canvas.umn.edu/courses/
 
 <img width="1417" alt="Screen Shot 2023-03-15 at 10 29 48 AM" src="https://user-images.githubusercontent.com/123126476/225362004-2a6a7b2e-ba42-4f0f-83f2-68e0c91534f3.png">
 
-**This is the products page which the user will be routed to once they take the quiz. This page gives useres reccomneded products based on their quiz selections. They can add products with the plus to the routine page, shown below. If a user clicks on the image they will be redirected to the website to be able to purchase that product. **
+**This is the products page which the user will be routed to once they take the quiz. This page gives users reccomneded products based on their quiz selections. They can add products with the plus to the routine page, shown below. If a user clicks on the image they will be redirected to the website to be able to purchase that product. **
 
 <img width="1415" alt="Screen Shot 2023-03-15 at 10 30 21 AM" src="https://user-images.githubusercontent.com/123126476/225362284-c833d839-47ae-441f-a0f4-66817f3497bd.png">
 
