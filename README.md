@@ -47,8 +47,7 @@ CSCI 5117, Spring 2023, [assignment description](https://canvas.umn.edu/courses/
 
 **This is the routine page where users can add and delete products to their routine. **
 
-
-[image](https://user-images.githubusercontent.com/123126476/225360174-9131108d-969b-4f8b-9142-6bbd18d1c5ad.png)
+<img width="991" alt="Screen Shot 2023-03-15 at 10 48 02 AM" src="https://user-images.githubusercontent.com/123126476/225364930-618ffda8-76b9-4a50-8372-7c139899a722.png">
 
 **This is a view of our accounts page where tou can modify your quiz results and edit your reviews **
 
