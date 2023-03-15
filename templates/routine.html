@@ -98,7 +98,7 @@
                             <!-- Remove product button -->
                             <button class="remove-from-routine-btn"> x </button>
                             <!-- Product referral link -->
-                            <a href="{{ product['product_url'] }}">                                                    
+                            <a href="{{ product['product_url'] }}"target="_blank">                                                    
                                 <!-- Product image -->
                                 <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of cleanser">
                             </a>
@@ -143,7 +143,7 @@
                                 <!-- Remove product button -->
                                 <button class="remove-from-routine-btn"> x </button>
                                 <!-- Product referral link -->
-                                <a href="{{ product['product_url'] }}">                                                    
+                                <a href="{{ product['product_url'] }}"target="_blank">                                                    
                                     <!-- Product image -->
                                     <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of exfoliant">
                                 </a>
@@ -188,7 +188,7 @@
                                 <!-- Remove product button -->
                                 <button class="remove-from-routine-btn"> x </button>
                                 <!-- Product referral link -->
-                                <a href="{{ product['product_url'] }}">                                                    
+                                <a href="{{ product['product_url'] }}"target="_blank">                                                    
                                     <!-- Product image -->
                                     <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of toner">
                                 </a>
@@ -233,7 +233,7 @@
                                 <!-- Remove product button -->
                                 <button class="remove-from-routine-btn"> x </button>
                                 <!-- Product referral link -->
-                                <a href="{{ product['product_url'] }}">                                                    
+                                <a href="{{ product['product_url'] }}"target="_blank">                                                    
                                     <!-- Product image -->
                                     <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of serum">
                                 </a>
@@ -278,7 +278,7 @@
                                 <!-- Remove product button -->
                                 <button class="remove-from-routine-btn"> x </button>
                                 <!-- Product referral link -->
-                                <a href="{{ product['product_url'] }}">                                                    
+                                <a href="{{ product['product_url'] }}"target="_blank">                                                    
                                     <!-- Product image -->
                                     <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of moisturizer">
                                 </a>
@@ -323,7 +323,7 @@
                                 <!-- Remove product button -->
                                 <button class="remove-from-routine-btn"> x </button>
                                 <!-- Product referral link -->
-                                <a href="{{ product['product_url'] }}">                                                    
+                                <a href="{{ product['product_url'] }}"target="_blank">                                                    
                                     <!-- Product image -->
                                     <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of sunscreen">
                                 </a>
@@ -340,14 +340,12 @@
 
                             </div>
                             <!---------------------------------------------->
-                        </div>
                         {% endfor %}
                     </div>
                     
                 <hr>  <!-- Horizontal line -->
-            {% endif %}
-
-         </div>
+            {% endif %}     
         </div>
     </div>
+</div>
 {% endblock %}

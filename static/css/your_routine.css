@@ -31,3 +31,17 @@ h2 {
   color: rgb(254, 0, 0);
   background-color: transparent;
 }
+
+/* Scrolbar reference: https://gist.github.com/spemer/a0e218bbb45433bd611e68446523a00b */
+
+.stepContainers::-webkit-scrollbar {
+  background-color: #ffffff00;
+  width: 10px;
+  height: 10px;
+}
+
+/* scrollbar itself */
+.stepContainers::-webkit-scrollbar-thumb {
+  background-color: #d3d3c197;
+  border-radius: 16px;
+}
