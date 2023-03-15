@@ -9,21 +9,21 @@
 
 <!-- Head -->
 {% block head %}
-  {{ super() }}
- 
-  <!-- CSS -->
-  <link rel="stylesheet" href="/static/css/home.css">
-  <link rel="stylesheet" href="/static/css/quiz.css">
+{{ super() }}
 
-    <!-- JS -->
-    <script type="text/javascript" async defer src="/static/js/quiz.js"></script>
+<!-- CSS -->
+<link rel="stylesheet" href="/static/css/home.css">
+<link rel="stylesheet" href="/static/css/quiz.css">
+
+<!-- JS -->
+<script type="text/javascript" async defer src="/static/js/quiz.js"></script>
 
 {% endblock %}
 
 <!-- Page content -->
 {% block content %}
-    <!-- Home page immediate content -->
-    <div id="immediate-content">
+<!-- Home page immediate content -->
+<div id="immediate-content">
     <div class="splash-container">
         <div class="splash">
             <h1 class="splash-head">Skincare routine made easy.</h1>
@@ -40,17 +40,18 @@
             <!-- If user is not logged in, it will redirect them to the auth0 login -->
             {% if session == none %}
             <p>
-                <a href="/login"><button class="pure-button pure-button-primary" id="fake_take_quiz_btn">TAKE QUIZ</button></a>                
+                <a href="/login"><button class="pure-button pure-button-primary" id="fake_take_quiz_btn">TAKE
+                        QUIZ</button></a>
             </p>
             {% endif %}
         </div>
     </div>
-    </div>
+</div>
 
-    <!-- Hidden quiz form -->
-    <div class="form-popup" id="myForm">
+<!-- Hidden quiz form -->
+<div class="form-popup" id="myForm">
     <form action="/api/quiz" class="form-container">
-        
+
         <!-- Pure grid -->
         <div class="pure-g">
             <div class="pure-u-1 pure-u-md-1-1 y" id="quizdiv">
@@ -73,7 +74,7 @@
                 <h4 class="">Are you targeting any of these?</h4>
                 <div class="radio-container">
                     <!-- Option 1) Sensitive -->
-                    <input type="radio"id="sensitive-target" name="target-type" value="sensitive-target">
+                    <input type="radio" id="sensitive-target" name="target-type" value="sensitive-target">
                     <label class="quiz-btn-label" for="sensitive-target">Sensitive</label><br>
                     <!-- Option 2) Mature -->
                     <input type="radio" id="mature-target" name="target-type" value="mature-target">
@@ -82,7 +83,7 @@
                     <input type="radio" id="none-target" name="target-type" value="none-target">
                     <label class="quiz-btn-label" for="none-target">None</label>
                 </div>
-                
+
 
                 <!-- Question 3 -->
                 <h4 class="">How many steps would you like in your routine?</h4>
@@ -99,35 +100,29 @@
                 </div>
 
                 <br>
-                
                 <!-- Submit button -->
                 <button type="submit" class="btn">Submit</button>
-
                 <!-- Close form popup button -->
                 <button id="close-quiz-btn" type="button" class="btn cancel">Close</button>
             </div>
-
         </div>
-
     </form>
-    
-    </div>
+</div>
 
-    <!-- Bottom page contents -->
-    <div>
+<!-- Bottom page contents -->
+<div>
     <div class="content-wrapper">
         <div class="content">
             <h2 class="content-head is-center">What does each product do?</h2>
-
             <div class="pure-g">
                 <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-3">
-
                     <h3 class="content-subhead">
                         <i class="fa fa-rocket"></i>
                         Cleanser
                     </h3>
                     <p>
-                        Cleanser is a skincare product that removes dirt, oil, makeup, deadskin cells and other pollutants from the skin.
+                        Cleanser is a skincare product that removes dirt, oil, makeup, deadskin cells and other
+                        pollutants from the skin.
                     </p>
                 </div>
                 <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-3">
@@ -136,7 +131,8 @@
                         Exfoliant
                     </h3>
                     <p>
-                        Using an exfoliant will remove dead skin cells from the surface of your skin using a chemical or granular substance.   
+                        Using an exfoliant will remove dead skin cells from the surface of your skin using a chemical or
+                        granular substance.
                     </p>
                 </div>
                 <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-3">
@@ -145,7 +141,8 @@
                         Toner
                     </h3>
                     <p>
-                        Toner is used to refresh your skin without stripping it of its natural moisture. Toner also prepares the skin to absorb the next steps in your routine after cleansing. 
+                        Toner is used to refresh your skin without stripping it of its natural moisture. Toner also
+                        prepares the skin to absorb the next steps in your routine after cleansing.
                     </p>
                 </div>
                 <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-3">
@@ -154,7 +151,8 @@
                         Serum
                     </h3>
                     <p>
-                        There are a variety of serums for different purposes. Some help to brighten skin while others help to reduce blemishes, while others focus soley on boosting hydration or fighting aging.
+                        There are a variety of serums for different purposes. Some help to brighten skin while others
+                        help to reduce blemishes, while others focus soley on boosting hydration or fighting aging.
                     </p>
                 </div>
                 <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-3">
@@ -163,7 +161,8 @@
                         Moisturizer
                     </h3>
                     <p>
-                        The main purpose of a moisturizer is to prevent and hydrate dry skin. Beyond that, with continued use it can improve the skin barrier and improve skin tone and texture.
+                        The main purpose of a moisturizer is to prevent and hydrate dry skin. Beyond that, with
+                        continued use it can improve the skin barrier and improve skin tone and texture.
                     </p>
                 </div>
                 <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-3">
@@ -172,65 +171,61 @@
                         Sunscreen
                     </h3>
                     <p>
-                        Sunscreen will protect your skins appearance and health. Using regularly, sunscreen will help prevent sunburn, skin cancer and premature aging. 
+                        Sunscreen will protect your skins appearance and health. Using regularly, sunscreen will help
+                        prevent sunburn, skin cancer and premature aging.
                     </p>
                 </div>
-                
             </div>
         </div>
         <div class="ribbon l-box-lrg pure-g" id="quiz-info-div">
             <div class="content pure-u-1 pure-u-md-1 pure-u-lg-1">
                 <h2 class="content-head is-center" id="quiz-info-header">How does the quiz work?</h2>
-                    <div class="l-box pure-u-1 pure-u-md-1 pure-u-lg-1">
-                        <p class="quiz-info">
-                           Taking the quiz will help us curate a selection of the best products for your skin type and save those results. 
-                           <br>
-                            We know not everyone wants to have a multi-step skincare routine, therefore we ask for the number of steps you would
-                            like.
-                            <br>
-                            Based on the number of steps you chose, we recommend the most important category of skincare you should include in your routine.
-                            </p>
-                        <p class="quiz-info">
-                            2 Steps: Cleanser & Sunscreen
-                            <br><br>
-                            3 Steps: Cleanser, Moisturizer & Sunscreen
-                            <br><br>
-                            4+ Steps: Cleanser, Exfoliant, Toner, Serum, Moisturizer & Sunscreen
-                        </p>
-                        <p class="quiz-info">
-                            Regardless of the number of steps you choose during the quiz, you can always view all the other categories as well by modifying the filters on the products page.
-                            <br>
-                            Dont worry, you can always come back to your recommendations based on your quiz by clicking the personal filter button at the top of the products page.
-                        </p>
-                    </div>
-</div>
-           
+                <div class="l-box pure-u-1 pure-u-md-1 pure-u-lg-1">
+                    <p class="quiz-info">
+                        Taking the quiz will help us curate a selection of the best products for your skin type and save
+                        those results.
+                        <br>
+                        We know not everyone wants to have a multi-step skincare routine, therefore we ask for the
+                        number of steps you would
+                        like.
+                        <br>
+                        Based on the number of steps you chose, we recommend the most important category of skincare you
+                        should include in your routine.
+                    </p>
+                    <p class="quiz-info">
+                        2 Steps: Cleanser & Sunscreen
+                        <br><br>
+                        3 Steps: Cleanser, Moisturizer & Sunscreen
+                        <br><br>
+                        4+ Steps: Cleanser, Exfoliant, Toner, Serum, Moisturizer & Sunscreen
+                    </p>
+                    <p class="quiz-info">
+                        Regardless of the number of steps you choose during the quiz, you can always view all the other
+                        categories as well by modifying the filters on the products page.
+                        <br>
+                        Dont worry, you can always come back to your recommendations based on your quiz by clicking the
+                        personal filter button at the top of the products page.
+                    </p>
+                </div>
+            </div>
         </div>
-
         <div class="content">
             <h2 class="content-head is-center">Contact Us</h2>
-            <form action="mailto: skineasyhelp@gmail.com"
-            method="POST"
-            enctype="text/plain"
-            name="EmailForm">
+            <form action="mailto: skineasyhelp@gmail.com" method="POST" enctype="text/plain" name="EmailForm">
                 Name:<br>
                 <input type="text" size="19" name="Name" required><br><br>
                 Subject:<br>
-                <input type="subject" name="Subject" required><br><br> 
-                Message:<br> 
+                <input type="subject" name="Subject" required><br><br>
+                Message:<br>
                 <textarea name="Message">
-                </textarea><br><br> 
+                </textarea><br><br>
                 <button type="submit" value="Submit" id="contactMeBtn">Send</button>
-            </form>  
-
-                <div class="l-box-lrg pure-u-1 pure-u-md-1">
-                    <!-- <h4>Contact Us Directly</h4> -->
-                    <p name="Emailbot" >Email: skineasyhelp@gmail.com</p>
-                
-                </div>
+            </form>
+            <div class="l-box-lrg pure-u-1 pure-u-md-1">
+                <!-- <h4>Contact Us Directly</h4> -->
+                <p name="Emailbot">Email: skineasyhelp@gmail.com</p>
             </div>
-
         </div>
-
     </div>
+</div>
 {% endblock %}

@@ -879,7 +879,7 @@ def read_image_from_id(review_id):
         return send_file(stream, download_name=image_row["img_filename"], mimetype='image/png')
     
     
-# DELETE LATER 
+    
 def remove_from_products_table(product_id):
     with get_db_cursor(True) as cur:
 

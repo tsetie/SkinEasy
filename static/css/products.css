@@ -173,11 +173,14 @@ a span{
 }
 
 .pure-img-responsive{
-  max-height: 25vh;
+  /* max-height: 25vh;
   min-height: 15vh;
   width: auto;
-  height: auto;
+  height: auto; */
   display: block;
+  width: 25vh;
+  height: 30vh;
+  object-fit: scale-down;
 }
 
 /* Scrolbar reference: https://gist.github.com/spemer/a0e218bbb45433bd611e68446523a00b */

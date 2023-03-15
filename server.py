@@ -1000,13 +1000,15 @@ def logout():
             quote_via=quote_plus,
         )
     )
-
+# *********************************
+# deletes a product from the db
+# *********************************
 @app.route('/delete', methods=["GET"])
 def delete_product():
 
   # Call database function to get skincare products
-  db.remove_from_products_table('2')
-  
+  db.remove_from_products_table('72')
+
   return "Deleted"
 
 
