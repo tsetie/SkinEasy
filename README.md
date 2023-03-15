@@ -21,22 +21,28 @@ CSCI 5117, Spring 2023, [assignment description](https://canvas.umn.edu/courses/
 **Describe the most challenging features you implemented
 (one sentence per bullet, maximum 4 bullets):**
 
-* Allowing Users to Add and Edit Reviews for Each Product was pretty challenging. 
-* 
-*
-*
+* The Editing of the reviews was the most challenging feature. 
+* The faceted search bar was pretty challenging as well 
+* Allowing users to modify quiz results on the account page was also challenging 
+* Creating a responsive website and visually pleasing website for the popup forms and for products and routine page. 
 
 ## Testing Notes
 
 **Is there anything special we need to know in order to effectively test your app? (optional):**
 
-* ...
+* N/A 
 
 
-## Screenshots of Site
 
-**[Add a screenshot of each key page (around 4)](https://stackoverflow.com/questions/10189356/how-to-add-screenshot-to-readmes-in-github-repository)
-along with a very brief caption:**
+## Screenshots of Site![image](https://user-images.githubusercontent.com/123126476/225360174-9131108d-969b-4f8b-9142-6bbd18d1c5ad.png)
+
+**This is a view of our accounts page where tou can modify your quiz results and edit your reviews **
+
+<img width="1415" alt="Screen Shot 2023-03-15 at 10 29 15 AM" src="https://user-images.githubusercontent.com/123126476/225361275-ac464f3c-26ad-45a8-becb-b4be7130bb88.png">
+
+**This is the pop up quiz form that allows user to take a quiz based on their skin type to find products that fit their needs. **
+
+
 
 ![](https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif)
 
