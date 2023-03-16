@@ -288,5 +288,5 @@ DELETE FROM skineasy_reviews;
 -- Set all products num reviews to 0
 UPDATE skineasy_skincare_products
 SET average_rating = 0,
- total_score = 0,
- num_reviews = 0
+    total_score = 0,
+    num_reviews = 0
