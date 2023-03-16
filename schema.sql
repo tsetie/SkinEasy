@@ -27,7 +27,8 @@ CREATE TABLE skineasy_skincare_products (
 
     price            money,
     num_reviews      integer,
-    average_rating   numeric
+    average_rating   numeric,
+    total_score      integer
 );
 
 
@@ -48,9 +49,8 @@ WHERE product_id = '11';
 
 
 -- Add a new column to table
-ALTER TABLE skineasy_reviews 
-ADD COLUMN img_filename    varchar(255),
-ADD COLUMN img_stream      bytea
+ALTER TABLE skineasy_skincare_products 
+ADD COLUMN total_score    integer
 
 -- Delete a column from table
 ALTER TABLE skineasy_reviews 
@@ -277,3 +277,16 @@ FROM skineasy_skincare_products
 INNER JOIN skineasy_routines 
 ON skineasy_routines.user_id = 4
 -- ORDER BY payment_date;
+
+
+
+---- Reset reviews table ----
+-- Clearing all reviews
+TRUNCATE skineasy_reviews;
+DELETE FROM skineasy_reviews;
+
+-- Set all products num reviews to 0
+UPDATE skineasy_skincare_products
+SET average_rating = 0,
+ total_score = 0,
+ num_reviews = 0

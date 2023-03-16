@@ -63,12 +63,14 @@ function checkUserClicks(e) {
         // Get username and product name
         let username = document.getElementById("username").innerText;
         let product = searchSiblingNodes(areaClicked, 'product-name');
-        console.log(username)
+        console.log(product)
         let productName = product.innerText;
 
         // Use JS Fetch to make post request
         // Reference: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
         const data = { username: username, productName: productName };
+
+        console.log(data)
 
         // Make POST request to add the selected product to user's routine table
         fetch("/add_to_routine", {
@@ -123,7 +125,7 @@ function checkUserClicks(e) {
 
         // Remove product card from HTML as well
         // Reference: https://stackoverflow.com/questions/12287422/removing-element-dynamically
-        let productHTMLNode = areaClicked.parentElement;
+        let productHTMLNode = areaClicked.parentElement.parentElement;
         productHTMLNode.parentElement.removeChild(productHTMLNode);
     }
 }

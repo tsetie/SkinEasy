@@ -23,8 +23,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/static/css/home.css">
     <link rel="stylesheet" href="/static/css/products.css">
-    <link rel="stylesheet" href="/static/css/your_routine.css">
-
+    <link rel="stylesheet" href="/static/css/routine.css">
 
     <!-- Javascipt -->
     <script type="text/javascript" async defer src="https://purecss.io/js/ui.js"></script>
@@ -94,32 +93,66 @@
                                 
                            <!-- Card container ---------------------------->
                            <div class="pure-u-1-5 product-card">
+                                    
+                            <div class="products-box">
+                                {% if session %}
+                                    <!-- Remove product button -->
+                                    <button class="remove-from-routine-btn"> x </button>
+                                    <!-- Product name -->
+                                    <div class="product-name" style="display: none;">{{ product['product_name'] }}</div>
+                                {% endif %}
+                                    <!-- Product referral link -->
+                                    <a href="{{ product['product_url'] }}"target="_blank">                                                    
+                                        <!-- Product image -->
+                                        <img class="product-img pure-img-responsive" src="{{ product['image_path'] }}" alt="image of product">
+                                    </a>
+                                
+                                <!-- Product name, price, rating, reviews box -->
+                                <div class="product-info">
+                                    <div class="product-info-header">
+                                        <!-- Product name -->
+                                        <div class="product-name">
+                                            <p style="text-align: center;"> {{ product['product_name'] }} </p>
+                                        </div>
+                                    </div>
 
-                            <!-- Remove product button -->
-                            <button class="remove-from-routine-btn"> x </button>
-                            <!-- Product referral link -->
-                            <a href="{{ product['product_url'] }}"target="_blank">                                                    
-                                <!-- Product image -->
-                                <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of cleanser">
-                            </a>
+                                    <div class="product-number-info">
+                                        <!-- Product price -->
+                                        <div class="product-price">
+                                            <p>Price: ${{ product['display_price'] }}</p>
+                                        </div>
 
-                            <!-- Product name -->
-                            <div class="product-name">
-                                <p> {{ product['product_name'] }} </p>
+                                        <!-- Product ratings & rating info -->
+                                        <div class="product-reviews">
+                                            <a href="/reviews?product_id={{product['product_id']}}" target="_blank"> 
+                                                {% if product['average_rating'] == None or product['average_rating'] <= 0 %}
+                                                    <p>Ratings: (No ratings yet)</p>
+                                                {% else %}
+                                                    <p>Ratings: {{product['average_rating']}} out of 5.0</p>
+                                                {% endif %}
+                                            </a> 
+                                        </div>
+
+                                        <!-- Product reviews info -->
+                                        <div class="product-reviews">
+                                            <a href="/reviews?product_id={{product['product_id']}}" target="_blank"> 
+                                                {% if product['num_reviews'] == None or product['num_reviews'] <= 0 %}
+                                                    <p>Reviews (No reviews)</p>
+                                                {% else %}
+                                                    <p>Reviews ({{product['num_reviews']}})</p>
+                                                {% endif %}
+                                            </a> 
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-
-                            <!-- Product price & review information -->
-                            <div class="product-reviews-selector">
-                                <p> ${{ product['display_price'] }} <a href="/reviews?product_id={{product['product_id']}}"><span>Reviews</span> </a> </p>
-                            </div>
-
                         </div>
                         <!---------------------------------------------->
 
                         {% endfor %}
                     </div>
                 </div>
-                <hr>  <!-- Horizontal line -->
+                <hr class='line'>  <!-- Horizontal line -->
                 <hr>  <!-- Horizontal line -->
             {% endif %}
 
@@ -139,33 +172,66 @@
                             {% set product = product[0] %}
                                 
                             <!-- Card container ---------------------------->
-                            <div class="pure-u-1-5 product-card">
+                           <div class="pure-u-1-5 product-card">
+                                    
+                            <div class="products-box">
+                                {% if session %}
+                                    <!-- Remove product button -->
+                                    <button class="remove-from-routine-btn"> x </button>
+                                    <!-- Product name -->
+                                    <div class="product-name" style="display: none;">{{ product['product_name'] }}</div>
+                                {% endif %}
+                                    <!-- Product referral link -->
+                                    <a href="{{ product['product_url'] }}"target="_blank">                                                    
+                                        <!-- Product image -->
+                                        <img class="product-img pure-img-responsive" src="{{ product['image_path'] }}" alt="image of product">
+                                    </a>
+                                
+                                <!-- Product name, price, rating, reviews box -->
+                                <div class="product-info">
+                                    <div class="product-info-header">
+                                        <!-- Product name -->
+                                        <div class="product-name">
+                                            <p style="text-align: center;"> {{ product['product_name'] }} </p>
+                                        </div>
+                                    </div>
 
-                                <!-- Remove product button -->
-                                <button class="remove-from-routine-btn"> x </button>
-                                <!-- Product referral link -->
-                                <a href="{{ product['product_url'] }}"target="_blank">                                                    
-                                    <!-- Product image -->
-                                    <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of exfoliant">
-                                </a>
+                                    <div class="product-number-info">
+                                        <!-- Product price -->
+                                        <div class="product-price">
+                                            <p>Price: ${{ product['display_price'] }}</p>
+                                        </div>
 
-                                <!-- Product name -->
-                                <div class="product-name">
-                                    <p> {{ product['product_name'] }} </p>
+                                        <!-- Product ratings & rating info -->
+                                        <div class="product-reviews">
+                                            <a href="/reviews?product_id={{product['product_id']}}" target="_blank"> 
+                                                {% if product['average_rating'] == None or product['average_rating'] <= 0 %}
+                                                    <p>Ratings: (No ratings yet)</p>
+                                                {% else %}
+                                                    <p>Ratings: {{product['average_rating']}} out of 5.0</p>
+                                                {% endif %}
+                                            </a> 
+                                        </div>
+
+                                        <!-- Product reviews info -->
+                                        <div class="product-reviews">
+                                            <a href="/reviews?product_id={{product['product_id']}}" target="_blank"> 
+                                                {% if product['num_reviews'] == None or product['num_reviews'] <= 0 %}
+                                                    <p>Reviews (No reviews)</p>
+                                                {% else %}
+                                                    <p>Reviews ({{product['num_reviews']}})</p>
+                                                {% endif %}
+                                            </a> 
+                                        </div>
+                                    </div>
                                 </div>
-
-                                <!-- Product price & review information -->
-                                <div class="product-reviews-selector">
-                                    <p> ${{ product['display_price'] }} <a href="/reviews?product_id={{product['product_id']}}"> <span>Reviews</span> </a> </p>
-                                </div>
-
                             </div>
-                            <!---------------------------------------------->
-
+                        </div>
+                        <!---------------------------------------------->
                         {% endfor %}
                     </div>
                 </div>
-                <hr>  <!-- Horizontal line -->
+                <hr class='line'>  <!-- Horizontal line -->
                 <hr>  <!-- Horizontal line -->
             {% endif %}
 
@@ -185,33 +251,67 @@
                             {% set product = product[0] %}
                                 
                             <!-- Card container ---------------------------->
-                            <div class="pure-u-1-5 product-card">
+                           <div class="pure-u-1-5 product-card">
+                                    
+                            <div class="products-box">
+                                {% if session %}
+                                    <!-- Remove product button -->
+                                    <button class="remove-from-routine-btn"> x </button>
+                                    <!-- Product name -->
+                                    <div class="product-name" style="display: none;">{{ product['product_name'] }}</div>
+                                {% endif %}
+                                    <!-- Product referral link -->
+                                    <a href="{{ product['product_url'] }}"target="_blank">                                                    
+                                        <!-- Product image -->
+                                        <img class="product-img pure-img-responsive" src="{{ product['image_path'] }}" alt="image of product">
+                                    </a>
+                                
+                                <!-- Product name, price, rating, reviews box -->
+                                <div class="product-info">
+                                    <div class="product-info-header">
+                                        <!-- Product name -->
+                                        <div class="product-name">
+                                            <p style="text-align: center;"> {{ product['product_name'] }} </p>
+                                        </div>
+                                    </div>
 
-                                <!-- Remove product button -->
-                                <button class="remove-from-routine-btn"> x </button>
-                                <!-- Product referral link -->
-                                <a href="{{ product['product_url'] }}"target="_blank">                                                    
-                                    <!-- Product image -->
-                                    <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of toner">
-                                </a>
+                                    <div class="product-number-info">
+                                        <!-- Product price -->
+                                        <div class="product-price">
+                                            <p>Price: ${{ product['display_price'] }}</p>
+                                        </div>
 
-                                <!-- Product name -->
-                                <div class="product-name">
-                                    <p> {{ product['product_name'] }} </p>
+                                        <!-- Product ratings & rating info -->
+                                        <div class="product-reviews">
+                                            <a href="/reviews?product_id={{product['product_id']}}" target="_blank"> 
+                                                {% if product['average_rating'] == None or product['average_rating'] <= 0 %}
+                                                    <p>Ratings: (No ratings yet)</p>
+                                                {% else %}
+                                                    <p>Ratings: {{product['average_rating']}} out of 5.0</p>
+                                                {% endif %}
+                                            </a> 
+                                        </div>
+
+                                        <!-- Product reviews info -->
+                                        <div class="product-reviews">
+                                            <a href="/reviews?product_id={{product['product_id']}}" target="_blank"> 
+                                                {% if product['num_reviews'] == None or product['num_reviews'] <= 0 %}
+                                                    <p>Reviews (No reviews)</p>
+                                                {% else %}
+                                                    <p>Reviews ({{product['num_reviews']}})</p>
+                                                {% endif %}
+                                            </a> 
+                                        </div>
+                                    </div>
                                 </div>
-
-                                <!-- Product price & review information -->
-                                <div class="product-reviews-selector">
-                                    <p> ${{ product['display_price'] }} <a href="/reviews?product_id={{product['product_id']}}"> <span>Reviews</span> </a> </p>
-                                </div>
-
                             </div>
-                            <!---------------------------------------------->
+                        </div>
+                        <!---------------------------------------------->
 
                         {% endfor %}
                     </div>
                 </div>
-                <hr>  <!-- Horizontal line -->
+                <hr class='line'>  <!-- Horizontal line -->
                 <hr>  <!-- Horizontal line -->
             {% endif %}
             
@@ -231,33 +331,67 @@
                             {% set product = product[0] %}
                                 
                             <!-- Card container ---------------------------->
-                            <div class="pure-u-1-5 product-card">
+                           <div class="pure-u-1-5 product-card">
+                                    
+                            <div class="products-box">
+                                {% if session %}
+                                    <!-- Remove product button -->
+                                    <button class="remove-from-routine-btn"> x </button>
+                                    <!-- Product name -->
+                                    <div class="product-name" style="display: none;">{{ product['product_name'] }}</div>
+                                {% endif %}
+                                    <!-- Product referral link -->
+                                    <a href="{{ product['product_url'] }}"target="_blank">                                                    
+                                        <!-- Product image -->
+                                        <img class="product-img pure-img-responsive" src="{{ product['image_path'] }}" alt="image of product">
+                                    </a>
+                                
+                                <!-- Product name, price, rating, reviews box -->
+                                <div class="product-info">
+                                    <div class="product-info-header">
+                                        <!-- Product name -->
+                                        <div class="product-name">
+                                            <p style="text-align: center;"> {{ product['product_name'] }} </p>
+                                        </div>
+                                    </div>
 
-                                <!-- Remove product button -->
-                                <button class="remove-from-routine-btn"> x </button>
-                                <!-- Product referral link -->
-                                <a href="{{ product['product_url'] }}"target="_blank">                                                    
-                                    <!-- Product image -->
-                                    <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of serum">
-                                </a>
+                                    <div class="product-number-info">
+                                        <!-- Product price -->
+                                        <div class="product-price">
+                                            <p>Price: ${{ product['display_price'] }}</p>
+                                        </div>
 
-                                <!-- Product name -->
-                                <div class="product-name">
-                                    <p> {{ product['product_name'] }} </p>
+                                        <!-- Product ratings & rating info -->
+                                        <div class="product-reviews">
+                                            <a href="/reviews?product_id={{product['product_id']}}" target="_blank"> 
+                                                {% if product['average_rating'] == None or product['average_rating'] <= 0 %}
+                                                    <p>Ratings: (No ratings yet)</p>
+                                                {% else %}
+                                                    <p>Ratings: {{product['average_rating']}} out of 5.0</p>
+                                                {% endif %}
+                                            </a> 
+                                        </div>
+
+                                        <!-- Product reviews info -->
+                                        <div class="product-reviews">
+                                            <a href="/reviews?product_id={{product['product_id']}}" target="_blank"> 
+                                                {% if product['num_reviews'] == None or product['num_reviews'] <= 0 %}
+                                                    <p>Reviews (No reviews)</p>
+                                                {% else %}
+                                                    <p>Reviews ({{product['num_reviews']}})</p>
+                                                {% endif %}
+                                            </a> 
+                                        </div>
+                                    </div>
                                 </div>
-
-                                <!-- Product price & review information -->
-                                <div class="product-reviews-selector">
-                                    <p> ${{ product['display_price'] }} <a href="/reviews?product_id={{product['product_id']}}"> <span>Reviews</span> </a> </p>
-                                </div>
-
                             </div>
-                            <!---------------------------------------------->
+                        </div>
+                        <!---------------------------------------------->
 
                             {% endfor %}
                     </div>
                 </div>
-                <hr>  <!-- Horizontal line -->
+                <hr class='line'>  <!-- Horizontal line -->
                 <hr>  <!-- Horizontal line -->
             {% endif %}
 
@@ -277,33 +411,67 @@
                             {% set product = product[0] %}
                             
                             <!-- Card container ---------------------------->
-                            <div class="pure-u-1-5 product-card">
+                           <div class="pure-u-1-5 product-card">
+                                    
+                            <div class="products-box">
+                                {% if session %}
+                                    <!-- Remove product button -->
+                                    <button class="remove-from-routine-btn"> x </button>
+                                    <!-- Product name -->
+                                    <div class="product-name" style="display: none;">{{ product['product_name'] }}</div>
+                                {% endif %}
+                                    <!-- Product referral link -->
+                                    <a href="{{ product['product_url'] }}"target="_blank">                                                    
+                                        <!-- Product image -->
+                                        <img class="product-img pure-img-responsive" src="{{ product['image_path'] }}" alt="image of product">
+                                    </a>
+                                
+                                <!-- Product name, price, rating, reviews box -->
+                                <div class="product-info">
+                                    <div class="product-info-header">
+                                        <!-- Product name -->
+                                        <div class="product-name">
+                                            <p style="text-align: center;"> {{ product['product_name'] }} </p>
+                                        </div>
+                                    </div>
 
-                                <!-- Remove product button -->
-                                <button class="remove-from-routine-btn"> x </button>
-                                <!-- Product referral link -->
-                                <a href="{{ product['product_url'] }}"target="_blank">                                                    
-                                    <!-- Product image -->
-                                    <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of moisturizer">
-                                </a>
+                                    <div class="product-number-info">
+                                        <!-- Product price -->
+                                        <div class="product-price">
+                                            <p>Price: ${{ product['display_price'] }}</p>
+                                        </div>
 
-                                <!-- Product name -->
-                                <div class="product-name">
-                                    <p> {{ product['product_name'] }} </p>
+                                        <!-- Product ratings & rating info -->
+                                        <div class="product-reviews">
+                                            <a href="/reviews?product_id={{product['product_id']}}" target="_blank"> 
+                                                {% if product['average_rating'] == None or product['average_rating'] <= 0 %}
+                                                    <p>Ratings: (No ratings yet)</p>
+                                                {% else %}
+                                                    <p>Ratings: {{product['average_rating']}} out of 5.0</p>
+                                                {% endif %}
+                                            </a> 
+                                        </div>
+
+                                        <!-- Product reviews info -->
+                                        <div class="product-reviews">
+                                            <a href="/reviews?product_id={{product['product_id']}}" target="_blank"> 
+                                                {% if product['num_reviews'] == None or product['num_reviews'] <= 0 %}
+                                                    <p>Reviews (No reviews)</p>
+                                                {% else %}
+                                                    <p>Reviews ({{product['num_reviews']}})</p>
+                                                {% endif %}
+                                            </a> 
+                                        </div>
+                                    </div>
                                 </div>
-
-                                <!-- Product price & review information -->
-                                <div class="product-reviews-selector">
-                                    <p> ${{ product['display_price'] }} <a href="/reviews?product_id={{product['product_id']}}"> <span>Reviews</span> </a> </p>
-                                </div>
-
                             </div>
-                            <!---------------------------------------------->
+                        </div>
+                        <!---------------------------------------------->
 
                         {% endfor %}
                     </div>
                 </div>
-                <hr>  <!-- Horizontal line -->
+                <hr class='line'>  <!-- Horizontal line -->
                 <hr>  <!-- Horizontal line -->
             {% endif %}
             
@@ -323,31 +491,65 @@
                             {% set product = product[0] %}
 
                             <!-- Card container ---------------------------->
-                            <div class="pure-u-1-5 product-card">
+                           <div class="pure-u-1-5 product-card">
+                                    
+                            <div class="products-box">
+                                {% if session %}
+                                    <!-- Remove product button -->
+                                    <button class="remove-from-routine-btn"> x </button>
+                                    <!-- Product name -->
+                                    <div class="product-name" style="display: none;">{{ product['product_name'] }}</div>
+                                {% endif %}
+                                    <!-- Product referral link -->
+                                    <a href="{{ product['product_url'] }}"target="_blank">                                                    
+                                        <!-- Product image -->
+                                        <img class="product-img pure-img-responsive" src="{{ product['image_path'] }}" alt="image of product">
+                                    </a>
+                                
+                                <!-- Product name, price, rating, reviews box -->
+                                <div class="product-info">
+                                    <div class="product-info-header">
+                                        <!-- Product name -->
+                                        <div class="product-name">
+                                            <p style="text-align: center;"> {{ product['product_name'] }} </p>
+                                        </div>
+                                    </div>
 
-                                <!-- Remove product button -->
-                                <button class="remove-from-routine-btn"> x </button>
-                                <!-- Product referral link -->
-                                <a href="{{ product['product_url'] }}"target="_blank">                                                    
-                                    <!-- Product image -->
-                                    <img class="pure-img-responsive" src="{{ product['image_path'] }}" alt="image of sunscreen">
-                                </a>
+                                    <div class="product-number-info">
+                                        <!-- Product price -->
+                                        <div class="product-price">
+                                            <p>Price: ${{ product['display_price'] }}</p>
+                                        </div>
 
-                                <!-- Product name -->
-                                <div class="product-name">
-                                    <p> {{ product['product_name'] }} </p>
+                                        <!-- Product ratings & rating info -->
+                                        <div class="product-reviews">
+                                            <a href="/reviews?product_id={{product['product_id']}}" target="_blank"> 
+                                                {% if product['average_rating'] == None or product['average_rating'] <= 0 %}
+                                                    <p>Ratings: (No ratings yet)</p>
+                                                {% else %}
+                                                    <p>Ratings: {{product['average_rating']}} out of 5.0</p>
+                                                {% endif %}
+                                            </a> 
+                                        </div>
+
+                                        <!-- Product reviews info -->
+                                        <div class="product-reviews">
+                                            <a href="/reviews?product_id={{product['product_id']}}" target="_blank"> 
+                                                {% if product['num_reviews'] == None or product['num_reviews'] <= 0 %}
+                                                    <p>Reviews (No reviews)</p>
+                                                {% else %}
+                                                    <p>Reviews ({{product['num_reviews']}})</p>
+                                                {% endif %}
+                                            </a> 
+                                        </div>
+                                    </div>
                                 </div>
-
-                                <!-- Product price & review information -->
-                                <div class="product-reviews-selector">
-                                    <p> ${{ product['display_price'] }} <a href="/reviews?product_id={{product['product_id']}}"> <span>Reviews</span> </a> </p>
-                                </div>
-
                             </div>
-                            <!---------------------------------------------->
+                        </div>
+                        <!---------------------------------------------->
                         {% endfor %}
                     </div>
-                <hr>  <!-- Horizontal line --> 
+                <hr class='line'>  <!-- Horizontal line -->
                 <hr>  <!-- Horizontal line -->
             {% endif %}     
         </div>

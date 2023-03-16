@@ -90,6 +90,13 @@ document.addEventListener('DOMContentLoaded', function() {
   for (var i = 0; i < edit_buttons_list.length; i++) {
     edit_buttons_list[i].addEventListener('click', edit_review, false);
   };
+  // --- star buttons ---
+  // Add click event listeners to all edit buttons
+  let stars = document.getElementsByClassName("star");
+  for (var i = 0; i < stars.length; i++) {
+    stars[i].addEventListener('onmouseover', star_click, false);
+    stars[i].addEventListener('click', star_click, false);
+  };
 });
 
 

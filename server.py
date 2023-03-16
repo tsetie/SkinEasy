@@ -572,7 +572,7 @@ def add_review():
     db.add_review(username, user_id, product_id, title, content, rating, img_filename, img_stream)
   except:
     print('Error at route "/add_review". DB function to add review failed.')
-    return redirect('/')
+    return redirect('/reviews?product_id=' + product_id)
 
   try:  # Render back to product review page user was previously on
     return redirect('/reviews?product_id=' + product_id)

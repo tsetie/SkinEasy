@@ -31,6 +31,7 @@
     <script type="text/javascript" defer src="/static/js/reviews.js"></script>
     <script type="text/javascript" defer src="/static/js/account.js"></script>
     <script type="text/javascript" defer src="/static/js/quiz.js"></script>
+    <script type="text/javascript" defer src="/static/js/star.js"></script>
 
 
 {% endblock %}
@@ -60,12 +61,14 @@
                     <!-- Reference: https://foolishdeveloper.com/5-star-rating-using-html-and-css-code-demo/#:~:text=The%20five%2Dstar%20rating%20HTML,give%20reviews%20about%20that%20product. -->
                     <div id="review-title-container" class="review-form-entry"> 
                         <label class="review-entry-label" for="review-title">Overall Rating</label><p class="required-field-txt">(Required field)</p>
-                        <div class="rating">
-                            <input type="radio" name="rating" value="5" id="5" required><label for="5"><span class="fa fa-star unchecked star"></span></label>
-                            <input type="radio" name="rating" value="4" id="4"><label for="4"><span class="fa fa-star unchecked star"></span></label>
-                            <input type="radio" name="rating" value="3" id="3"><label for="3"><span class="fa fa-star unchecked star"></span></label>
-                            <input type="radio" name="rating" value="2" id="2"><label for="2"><span class="fa fa-star unchecked star"></span></label>
-                            <input type="radio" name="rating" value="1" id="1"><label for="1"><span class="fa fa-star unchecked star"></span></label>
+                        <div>
+                            <div class="rating">
+                                <label class="star"><input type="radio" name="rating" value="5" required><span class="fa fa-star unchecked star"></span></label>
+                                <label class="star"><input type="radio" name="rating" value="4"><span class="fa fa-star unchecked star"></span></label>
+                                <label class="star"><input type="radio" name="rating" value="3"><span class="fa fa-star unchecked star"></span></label>
+                                <label class="star"><input type="radio" name="rating" value="2"><span class="fa fa-star unchecked star"></span></label>
+                                <label class="star"><input type="radio" name="rating" value="1"><span class="fa fa-star unchecked star"></span></label> 
+                            </div> 
                         </div>
                     </div>
 
@@ -144,7 +147,21 @@
                 <div id="review-stats-box">
                     <h3>Review stats:</h3>
                     <div>
-                        <p class="statistic">Total Ratings: {{ product_details['num_reviews'] }}</p>
+                        <p class="statistic">
+                            {% if product_details['num_reviews'] == None or product_details['num_reviews'] <= 0 %}
+                                <span>Total ratings: (No reviews)</span>
+                            {% else %}
+                                <span>Total ratings: {{ product_details['num_reviews'] }} </span>
+                            {% endif %}
+                        </p>
+                        <p class="statistic">
+                            {% if product_details['average_rating'] == None or product_details['average_rating'] <= 0 %}
+                                <span>Average rating: (No reviews)</span>
+                            {% else %}
+                                <span>Average rating: {{ product_details['average_rating'] }}</span>
+                            {% endif %}
+                        </p>
+
                     </div>
 
 
