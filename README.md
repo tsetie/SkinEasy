@@ -86,11 +86,13 @@ After a user takes a quiz, this page will show all the reccommended products bas
 If the user is logged in they are able to add and remove stuff from their wishlist. 
 
 ![wishlist page](/readMeimages/wishlist.jpg)
+![routine](https://user-images.githubusercontent.com/114260632/225694501-c202a33e-5a0a-4526-8ab1-3c163155db83.PNG)
 
 This page will show all the products, not just the recommended products from the quiz and the user will be able to filter the products. From this page the user can add to their wishlist as well if they are logged in. 
 
 ![products page](/readMeimages/products.jpg)
 
+![products](https://user-images.githubusercontent.com/114260632/225693881-9f4eabf9-bd99-4c48-82e3-44a2ef5a100d.PNG)
 
 
 ## External Dependencies
