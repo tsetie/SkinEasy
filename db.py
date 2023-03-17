@@ -970,10 +970,11 @@ def get_all_reviews_by_user(user_id):
             SELECT row_to_json(skineasy_reviews)
             FROM skineasy_reviews 
             WHERE user_id = %s
-            ORDER BY review_id ASC
+            ORDER BY product_id ASC
             '''
         # # Execute sql statement with default data
-        cur.execute(sql, (user_id,))
+        x = cur.execute(sql, (user_id,))
+        print(x)
         return cur.fetchall()
 
 
@@ -989,6 +990,7 @@ def get_all_user_review_products_by_user(user_id):
             FROM skineasy_skincare_products
             INNER JOIN skineasy_reviews ON skineasy_reviews.product_id = skineasy_skincare_products.product_id
             WHERE skineasy_reviews.user_id = %s
+            ORDER BY skineasy_skincare_products.product_id ASC
         ''' % (user_id)
         
         print(cur.execute(sql))

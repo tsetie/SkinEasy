@@ -172,7 +172,7 @@
                                                             {% if product['average_rating'] == None or product['average_rating'] <= 0 %}
                                                                 <p>Ratings: (No ratings yet)</p>
                                                             {% else %}
-                                                                <p>Ratings: {{product['average_rating']}} out of 5.0</p>
+                                                                <p>Ratings: {{  "%0.1f" | format(product['average_rating'] | float) }} out of 5.0</p>
                                                             {% endif %}
                                                         </a> 
                                                     </div>
