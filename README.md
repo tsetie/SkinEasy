@@ -38,12 +38,12 @@ CSCI 5117, Spring 2023, [assignment description](https://canvas.umn.edu/courses/
 
 **This is the pop up quiz form that allows user to take a quiz based on their skin type to find products that fit their needs. **
 
-
-<img width="1417" alt="Screen Shot 2023-03-15 at 10 29 48 AM" src="https://user-images.githubusercontent.com/123126476/225362004-2a6a7b2e-ba42-4f0f-83f2-68e0c91534f3.png">
+![products](https://user-images.githubusercontent.com/114260632/225694714-ddbf0e9d-d7f8-4494-b789-ff9ee0a0cd4c.PNG)
 
 **This is the products page which the user will be routed to once they take the quiz. This page gives users recommended products based on their quiz selections. They can add products with the plus to the routine page, shown below. If a user clicks on the image they will be redirected to the website to be able to purchase that product. **
 
-<img width="1415" alt="Screen Shot 2023-03-15 at 10 30 21 AM" src="https://user-images.githubusercontent.com/123126476/225362284-c833d839-47ae-441f-a0f4-66817f3497bd.png">
+![routine](https://user-images.githubusercontent.com/114260632/225694770-5856643e-0251-4333-bad0-d5d12ffbd89f.PNG)
+
 
 **This is the routine page where users can add and delete products to their routine. If a user clisk reviews there will be a popup to submit a review. **
 
@@ -90,7 +90,6 @@ If the user is logged in they are able to add and remove stuff from their wishli
 This page will show all the products, not just the recommended products from the quiz and the user will be able to filter the products. From this page the user can add to their wishlist as well if they are logged in. 
 
 ![products page](/readMeimages/products.jpg)
-
 
 
 ## External Dependencies
